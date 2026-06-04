@@ -1,0 +1,21 @@
+# Build output
+dist/
+
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.local
+
+# IDE/Agent settings
+.agent/
+.vscode/
+.idea/
+
+# Testing
+coverage/
+
+# OS files
+.DS_Store
+Thumbs.db
