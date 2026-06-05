@@ -24,11 +24,9 @@ export function getMySQLPool(): mysql.Pool {
   return pool;
 }
 
-export async function executeMySQLQuery<T>(
-  query: string,
-  params?: (string | number | boolean | null | Date | Buffer)[],
-): Promise<T[]> {
+export async function executeMySQLQuery<T>(query: string, params?: unknown[]): Promise<T[]> {
   const connectionPool = getMySQLPool();
-  const [rows] = await connectionPool.execute(query, params);
+  const typedParams = params as (string | number | boolean | null | Date | Buffer)[] | undefined;
+  const [rows] = await connectionPool.execute(query, typedParams);
   return rows as T[];
 }
