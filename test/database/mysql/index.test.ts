@@ -85,7 +85,7 @@ describe('MySQL Database Tools', () => {
       },
     });
 
-    expect(mockExecuteMySQLQuery).toHaveBeenCalledWith('SELECT * FROM users WHERE id = ?', ['1']);
+    expect(mockExecuteMySQLQuery).toHaveBeenCalledWith('SELECT * FROM users WHERE id = ?', ['1'], undefined);
     expect(response).toEqual({
       content: [
         {

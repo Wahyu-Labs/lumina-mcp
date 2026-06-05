@@ -8,14 +8,21 @@ export const QueryArgumentsSchema = z.object({
     .array(z.union([z.string(), z.number(), z.boolean(), z.null()]))
     .optional()
     .describe('Parameters to bind to the query placeholders.'),
+  databaseName: z.string().optional().describe('Optional name of the database to use.'),
+});
+
+export const ListTablesSchema = z.object({
+  databaseName: z.string().optional().describe('Optional name of the database to list tables from.'),
 });
 
 export const InspectTableSchema = z.object({
   table: z.string().describe('The name of the table to inspect.'),
+  databaseName: z.string().optional().describe('Optional name of the database to use.'),
 });
 
 export const AnalyzeQuerySchema = z.object({
   query: z.string().describe('The SQL SELECT query to analyze using EXPLAIN.'),
+  databaseName: z.string().optional().describe('Optional name of the database to use.'),
 });
 
 export const SaveAuditReportSchema = z.object({

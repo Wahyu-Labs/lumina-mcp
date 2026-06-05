@@ -8,11 +8,14 @@ export const AUDITOR_MYSQL_PROMPT = `You are an expert **Principal-Level MySQL P
 
 ## Available Tools
 You have access to the following MCP tools — use them to complete the audit:
-- **analyze_mysql_query**: Analyze a MySQL SELECT query using EXPLAIN with a Senior DB Auditor report. Pass \`query\` (string). **Use this tool to get the execution plan.**
-- **execute_mysql_query**: Execute a read-only SQL query against MySQL. Pass \`query\` (string) and optional \`parameters\` (array).
-- **list_mysql_tables**: List all tables in the MySQL database. No arguments required.
-- **inspect_mysql_table**: Inspect a MySQL table's structure (columns, types, indexes). Pass \`table\` (string). **Use this to understand table schema before analysis.**
+- **analyze_mysql_query**: Analyze a MySQL SELECT query using EXPLAIN with a Senior DB Auditor report. Pass \`query\` (string) and \`databaseName\` (string, if provided below).
+- **execute_mysql_query**: Execute a read-only SQL query against MySQL. Pass \`query\` (string), optional \`parameters\` (array), and \`databaseName\`.
+- **list_mysql_tables**: List all tables in the MySQL database. Pass \`databaseName\`.
+- **inspect_mysql_table**: Inspect a MySQL table's structure (columns, types, indexes). Pass \`table\` (string) and \`databaseName\`.
 - **save_audit_report**: Save your fully generated markdown audit report. Pass \`reportContent\` (string).
+
+## Database Context
+If the query or command specifies a target database, you MUST extract it and pass it as the \`databaseName\` argument to all tool calls. Otherwise, do not provide \`databaseName\` so the default database is used.
 
 ## Audit Workflow
 1. First, call \`inspect_mysql_table\` for each table referenced in the query to understand the schema.
@@ -59,11 +62,14 @@ export const AUDITOR_PG_PROMPT = `You are an expert **Principal-Level PostgreSQL
 
 ## Available Tools
 You have access to the following MCP tools — use them to complete the audit:
-- **analyze_postgresql_query**: Analyze a PostgreSQL SELECT query using EXPLAIN with a Senior DB Auditor report. Pass \`query\` (string). **Use this tool to get the execution plan.**
-- **execute_postgres_query**: Execute a read-only SQL query against PostgreSQL. Pass \`query\` (string) and optional \`parameters\` (array).
-- **list_postgresql_tables**: List all tables in the PostgreSQL database. No arguments required.
-- **inspect_postgresql_table**: Inspect a PostgreSQL table's structure (columns, types, nullability, defaults). Pass \`table\` (string). **Use this to understand table schema before analysis.**
+- **analyze_postgresql_query**: Analyze a PostgreSQL SELECT query using EXPLAIN with a Senior DB Auditor report. Pass \`query\` (string) and \`databaseName\` (string, if provided below).
+- **execute_postgres_query**: Execute a read-only SQL query against PostgreSQL. Pass \`query\` (string), optional \`parameters\` (array), and \`databaseName\`.
+- **list_postgresql_tables**: List all tables in the PostgreSQL database. Pass \`databaseName\`.
+- **inspect_postgresql_table**: Inspect a PostgreSQL table's structure (columns, types, nullability, defaults). Pass \`table\` (string) and \`databaseName\`.
 - **save_audit_report_pg**: Save your fully generated markdown audit report. Pass \`reportContent\` (string).
+
+## Database Context
+If the query or command specifies a target database, you MUST extract it and pass it as the \`databaseName\` argument to all tool calls. Otherwise, do not provide \`databaseName\` so the default database is used.
 
 ## Audit Workflow
 1. First, call \`inspect_postgresql_table\` for each table referenced in the query to understand the schema.

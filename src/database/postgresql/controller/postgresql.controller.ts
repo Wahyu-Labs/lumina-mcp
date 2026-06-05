@@ -1,5 +1,4 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { z } from 'zod';
 import { runPostgresQuery, analyzePostgresQueryPlan } from '../service/postgresql.service.js';
 import { saveAuditReport } from '../../utils/report.js';
 import { RUNNING_PG_QUERY_PROMPT, AUDITOR_PG_PROMPT } from '../../prompts/index.js';
@@ -9,6 +8,7 @@ import {
   AnalyzeQuerySchema,
   PostgreSQLPromptSchema,
   SaveAuditReportSchema,
+  ListTablesSchema,
 } from '../../dto/database.dto.js';
 
 export function registerPostgresqlController(server: McpServer) {
@@ -20,9 +20,9 @@ export function registerPostgresqlController(server: McpServer) {
         'Execute an SQL query against the PostgreSQL database. Safe parameters binding is supported.',
       inputSchema: QueryArgumentsSchema,
     },
-    async ({ query, parameters }) => {
+    async ({ query, parameters, databaseName }) => {
       try {
-        const rows = await runPostgresQuery(query, parameters);
+        const rows = await runPostgresQuery(query, parameters, databaseName);
         return {
           content: [
             {
@@ -50,12 +50,14 @@ export function registerPostgresqlController(server: McpServer) {
     'list_postgresql_tables',
     {
       description: 'Show list of tables in the PostgreSQL database.',
-      inputSchema: z.object({}),
+      inputSchema: ListTablesSchema,
     },
-    async () => {
+    async ({ databaseName }) => {
       try {
         const rows = await runPostgresQuery(
           "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';",
+          [],
+          databaseName
         );
         return {
           content: [
@@ -86,11 +88,12 @@ export function registerPostgresqlController(server: McpServer) {
       description: 'Inspect PostgreSQL table structure (columns, types, nullability, defaults).',
       inputSchema: InspectTableSchema,
     },
-    async ({ table }) => {
+    async ({ table, databaseName }) => {
       try {
         const rows = await runPostgresQuery(
           "SELECT column_name, data_type, is_nullable, column_default FROM information_schema.columns WHERE table_name = $1 AND table_schema = 'public';",
           [table],
+          databaseName
         );
         return {
           content: [
@@ -121,13 +124,13 @@ export function registerPostgresqlController(server: McpServer) {
       description: 'Analyze a PostgreSQL SELECT query using EXPLAIN with Senior DB Auditor report.',
       inputSchema: AnalyzeQuerySchema,
     },
-    async ({ query }) => {
+    async ({ query, databaseName }) => {
       try {
         const cleanQuery = query.trim().toLowerCase();
         if (!cleanQuery.startsWith('select') && !cleanQuery.startsWith('with')) {
           throw new Error('Only SELECT or WITH queries can be analyzed using EXPLAIN.');
         }
-        const analysisResult = await analyzePostgresQueryPlan(query);
+        const analysisResult = await analyzePostgresQueryPlan(query, databaseName);
         return {
           content: [
             {
@@ -214,7 +217,7 @@ export function registerPostgresqlController(server: McpServer) {
           try {
             const columns = await runPostgresQuery<unknown>(
               "SELECT column_name, data_type, is_nullable, column_default FROM information_schema.columns WHERE table_name = $1 AND table_schema = 'public';",
-              [table],
+              [table]
             );
             matchedSchemas.push(
               `PostgreSQL Table: ${table}\nColumns:\n${JSON.stringify(columns, null, 2)}`,

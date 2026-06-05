@@ -40,14 +40,14 @@ export function validateReadOnlyMySQLQuery(query: string): void {
   }
 }
 
-export async function runMySQLQuery<T>(query: string, params?: unknown[]): Promise<T[]> {
+export async function runMySQLQuery<T>(query: string, params?: unknown[], databaseName?: string): Promise<T[]> {
   validateReadOnlyMySQLQuery(query);
-  const rows = await executeMySQLQuery<T>(query, params);
+  const rows = await executeMySQLQuery<T>(query, params, databaseName);
   return filterSensitiveColumns(rows);
 }
 
-export async function analyzeMySQLQueryPlan(sql: string): Promise<QueryAnalysisResult> {
-  const pool = getMySQLPool();
+export async function analyzeMySQLQueryPlan(sql: string, databaseName?: string): Promise<QueryAnalysisResult> {
+  const pool = getMySQLPool(databaseName);
   const connection = await pool.getConnection();
 
   try {

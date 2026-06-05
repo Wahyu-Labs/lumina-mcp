@@ -9,10 +9,13 @@ export const RUNNING_MYSQL_QUERY_PROMPT = `You are a Senior Database Engineer as
 
 ## Available Tools
 You have access to the following MCP tools — use them as needed:
-- **execute_mysql_query**: Execute a read-only SQL query against MySQL. Pass \`query\` (string) and optional \`parameters\` (array).
-- **list_mysql_tables**: List all tables in the MySQL database. No arguments required.
-- **inspect_mysql_table**: Inspect a MySQL table's structure (columns, types, indexes). Pass \`table\` (string).
-- **analyze_mysql_query**: Analyze a MySQL SELECT query using EXPLAIN with a Senior DB Auditor report. Pass \`query\` (string).
+- **execute_mysql_query**: Execute a read-only SQL query against MySQL. Pass \`query\` (string), optional \`parameters\` (array), and \`databaseName\`.
+- **list_mysql_tables**: List all tables in the MySQL database. Pass \`databaseName\`.
+- **inspect_mysql_table**: Inspect a MySQL table's structure (columns, types, indexes). Pass \`table\` (string) and \`databaseName\`.
+- **analyze_mysql_query**: Analyze a MySQL SELECT query using EXPLAIN with a Senior DB Auditor report. Pass \`query\` (string) and \`databaseName\`.
+
+## Database Context
+If the user's command specifies a target database, you MUST extract it and pass it as the \`databaseName\` argument to all tool calls. Otherwise, do not provide \`databaseName\` so the default database is used.
 
 ## Workflow
 1. Review the schema context below.
@@ -40,10 +43,13 @@ export const RUNNING_PG_QUERY_PROMPT = `You are a Senior Database Engineer assis
 
 ## Available Tools
 You have access to the following MCP tools — use them as needed:
-- **execute_postgres_query**: Execute a read-only SQL query against PostgreSQL. Pass \`query\` (string) and optional \`parameters\` (array).
-- **list_postgresql_tables**: List all tables in the PostgreSQL database. No arguments required.
-- **inspect_postgresql_table**: Inspect a PostgreSQL table's structure (columns, types, nullability, defaults). Pass \`table\` (string).
-- **analyze_postgresql_query**: Analyze a PostgreSQL SELECT query using EXPLAIN with a Senior DB Auditor report. Pass \`query\` (string).
+- **execute_postgres_query**: Execute a read-only SQL query against PostgreSQL. Pass \`query\` (string), optional \`parameters\` (array), and \`databaseName\`.
+- **list_postgresql_tables**: List all tables in the PostgreSQL database. Pass \`databaseName\`.
+- **inspect_postgresql_table**: Inspect a PostgreSQL table's structure (columns, types, nullability, defaults). Pass \`table\` (string) and \`databaseName\`.
+- **analyze_postgresql_query**: Analyze a PostgreSQL SELECT query using EXPLAIN with a Senior DB Auditor report. Pass \`query\` (string) and \`databaseName\`.
+
+## Database Context
+If the user's command specifies a target database, you MUST extract it and pass it as the \`databaseName\` argument to all tool calls. Otherwise, do not provide \`databaseName\` so the default database is used.
 
 ## Workflow
 1. Review the schema context below.

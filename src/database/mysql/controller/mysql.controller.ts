@@ -1,5 +1,4 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { z } from 'zod';
 import { runMySQLQuery, analyzeMySQLQueryPlan } from '../service/mysql.service.js';
 import { saveAuditReport } from '../../utils/report.js';
 import { RUNNING_MYSQL_QUERY_PROMPT, AUDITOR_MYSQL_PROMPT } from '../../prompts/index.js';
@@ -9,6 +8,7 @@ import {
   AnalyzeQuerySchema,
   MySQLPromptSchema,
   SaveAuditReportSchema,
+  ListTablesSchema,
 } from '../../dto/database.dto.js';
 
 export function registerMysqlController(server: McpServer) {
@@ -20,9 +20,9 @@ export function registerMysqlController(server: McpServer) {
         'Execute an SQL query against the MySQL database. Safe parameters binding is supported.',
       inputSchema: QueryArgumentsSchema,
     },
-    async ({ query, parameters }) => {
+    async ({ query, parameters, databaseName }) => {
       try {
-        const rows = await runMySQLQuery(query, parameters);
+        const rows = await runMySQLQuery(query, parameters, databaseName);
         return {
           content: [
             {
@@ -50,11 +50,11 @@ export function registerMysqlController(server: McpServer) {
     'list_mysql_tables',
     {
       description: 'Show list of tables in the MySQL database.',
-      inputSchema: z.object({}),
+      inputSchema: ListTablesSchema,
     },
-    async () => {
+    async ({ databaseName }) => {
       try {
-        const rows = await runMySQLQuery('SHOW TABLES;');
+        const rows = await runMySQLQuery('SHOW TABLES', [], databaseName);
         return {
           content: [
             {
@@ -81,17 +81,12 @@ export function registerMysqlController(server: McpServer) {
   server.registerTool(
     'inspect_mysql_table',
     {
-      description: 'Inspect MySQL table structure (columns, types, indexes).',
+      description: 'Inspect MySQL table structure (columns, types, keys).',
       inputSchema: InspectTableSchema,
     },
-    async ({ table }) => {
+    async ({ table, databaseName }) => {
       try {
-        if (!/^[a-zA-Z0-9_]+$/.test(table)) {
-          throw new Error(
-            'Invalid table name. Only alphanumeric characters and underscores are allowed.',
-          );
-        }
-        const rows = await runMySQLQuery(`DESCRIBE \`${table}\``);
+        const rows = await runMySQLQuery('SHOW COLUMNS FROM ??', [table], databaseName);
         return {
           content: [
             {
@@ -121,13 +116,13 @@ export function registerMysqlController(server: McpServer) {
       description: 'Analyze a MySQL SELECT query using EXPLAIN with Senior DB Auditor report.',
       inputSchema: AnalyzeQuerySchema,
     },
-    async ({ query }) => {
+    async ({ query, databaseName }) => {
       try {
         const cleanQuery = query.trim().toLowerCase();
         if (!cleanQuery.startsWith('select') && !cleanQuery.startsWith('with')) {
           throw new Error('Only SELECT or WITH queries can be analyzed using EXPLAIN.');
         }
-        const analysisResult = await analyzeMySQLQueryPlan(query);
+        const analysisResult = await analyzeMySQLQueryPlan(query, databaseName);
         return {
           content: [
             {
@@ -184,27 +179,24 @@ export function registerMysqlController(server: McpServer) {
   );
 
   server.registerPrompt(
-    'running_mysql_query',
+    'running_query',
     {
       title: 'MySQL Query Generator',
       description:
-        'Generate and execute a read-only MySQL query based on natural language commands.',
+        'Generate and execute a read-only SQL query based on natural language. Uses tools: execute_mysql_query, list_mysql_tables, inspect_mysql_table, analyze_mysql_query.',
       argsSchema: MySQLPromptSchema,
     },
     async ({ command }) => {
       const cmdLower = (command || '').toLowerCase();
       let schemaContext = '';
 
+      // 1. Fetch all tables
       let tables: string[] = [];
       try {
-        const rows = await runMySQLQuery<Record<string, string>>('SHOW TABLES;');
-        if (rows.length > 0) {
-          const firstKey = Object.keys(rows[0])[0];
-          tables = rows.map((row) => row[firstKey]);
-        }
+        const rows = await runMySQLQuery<{ [key: string]: string }>('SHOW TABLES');
+        tables = rows.map((row) => Object.values(row)[0]);
       } catch {
-        console.error("MySQL connection not configured or not active")
-        // MySQL connection not configured or not active
+        console.error('MySQL connection not configured or not active');
       }
 
       // 2. Match mentioned tables and inspect their schemas
@@ -213,12 +205,10 @@ export function registerMysqlController(server: McpServer) {
         const regex = new RegExp(`\\b${table}\\b`, 'i');
         if (regex.test(cmdLower)) {
           try {
-            const columns = await runMySQLQuery<unknown>(`DESCRIBE \`${table}\``);
-            matchedSchemas.push(
-              `MySQL Table: ${table}\nColumns:\n${JSON.stringify(columns, null, 2)}`,
-            );
+            const columns = await runMySQLQuery<unknown>('SHOW COLUMNS FROM ??', [table]);
+            matchedSchemas.push(`Table: ${table}\nColumns:\n${JSON.stringify(columns, null, 2)}`);
           } catch {
-            console.error("Failed to inspect mysql table")
+            console.error('Failed to inspect table');
           }
         }
       }
@@ -231,8 +221,8 @@ export function registerMysqlController(server: McpServer) {
       } else {
         schemaContext =
           tables.length > 0
-            ? `Available MySQL tables:\n- ${tables.join(', ')}\n\n`
-            : 'No MySQL tables found.\n\n';
+            ? `Available tables:\n- ${tables.join(', ')}\n\n`
+            : 'No tables found.\n\n';
       }
 
       const promptText = RUNNING_MYSQL_QUERY_PROMPT.replace(
@@ -255,11 +245,11 @@ export function registerMysqlController(server: McpServer) {
   );
 
   server.registerPrompt(
-    'auditor_mysql_query',
+    'auditor_query',
     {
-      title: 'MySQL Query Auditor',
+      title: 'Database Query Auditor',
       description:
-        'Audit a MySQL query for performance and security. Uses tools: analyze_mysql_query, inspect_mysql_table, list_mysql_tables, execute_mysql_query, save_audit_report.',
+        'Audit an SQL query for performance and security. Uses tools: analyze_mysql_query, inspect_mysql_table, list_mysql_tables, execute_mysql_query, save_audit_report.',
       argsSchema: MySQLPromptSchema,
     },
     async ({ command }) => {
