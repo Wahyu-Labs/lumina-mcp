@@ -15,17 +15,17 @@ const { mockExecuteMySQLQuery } = vi.hoisted(() => ({
   mockExecuteMySQLQuery: vi.fn(),
 }));
 
-vi.mock('../../../src/database/mysql/service/mysql.service.js', () => ({
+vi.mock('../../../src/tools/database/mysql/service/mysql.service.js', () => ({
   runMySQLQuery: mockExecuteMySQLQuery,
 }));
 
 // Mock postgresql service to avoid unexpected calls or side effects
-vi.mock('../../../src/database/postgresql/service/postgresql.service.js', () => ({
+vi.mock('../../../src/tools/database/postgresql/service/postgresql.service.js', () => ({
   runPostgresQuery: vi.fn(),
 }));
 
 // Mock mysql repository for actual database call simulations during service testing
-vi.mock('../../../src/database/mysql/repository/mysql.repository.js', () => ({
+vi.mock('../../../src/tools/database/mysql/repository/mysql.repository.js', () => ({
   getMySQLPool: () => ({
     getConnection: vi.fn().mockResolvedValue({
       execute: vi.fn().mockImplementation(async (sql: string) => {
@@ -118,8 +118,8 @@ describe('MySQL Database Tools', () => {
 
   it('should validate read-only queries correctly', async () => {
     const { validateReadOnlyMySQLQuery } = await vi.importActual<
-      typeof import('../../../src/database/mysql/service/mysql.service.js')
-    >('../../../src/database/mysql/service/mysql.service.js');
+      typeof import('../../../src/tools/database/mysql/service/mysql.service.js')
+    >('../../../src/tools/database/mysql/service/mysql.service.js');
 
     // Valid queries
     expect(() => validateReadOnlyMySQLQuery('SELECT * FROM users')).not.toThrow();
@@ -156,8 +156,8 @@ describe('MySQL Database Tools', () => {
 
   it('should filter sensitive columns correctly', async () => {
     const { filterSensitiveColumns, clearRestrictedColumnsCache } = await vi.importActual<
-      typeof import('../../../src/database/utils/security.js')
-    >('../../../src/database/utils/security.js');
+      typeof import('../../../src/tools/database/utils/security.js')
+    >('../../../src/tools/database/utils/security.js');
 
     // Default filters
     clearRestrictedColumnsCache();
@@ -207,8 +207,8 @@ describe('MySQL Database Tools', () => {
 
   it('should analyze MySQL query plan correctly', async () => {
     const { analyzeMySQLQueryPlan } = await vi.importActual<
-      typeof import('../../../src/database/mysql/service/mysql.service.js')
-    >('../../../src/database/mysql/service/mysql.service.js');
+      typeof import('../../../src/tools/database/mysql/service/mysql.service.js')
+    >('../../../src/tools/database/mysql/service/mysql.service.js');
 
     const result = await analyzeMySQLQueryPlan('SELECT * FROM users ORDER BY created_at');
     expect(result.explainRows).toBeDefined();

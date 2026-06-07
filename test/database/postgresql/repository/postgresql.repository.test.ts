@@ -11,7 +11,7 @@ vi.mock('pg', () => {
 });
 
 describe('PostgreSQL Repository', () => {
-  let getPostgresPool: any;
+  let getPostgresPool: (databaseName?: string) => pg.Pool;
   let originalEnv: NodeJS.ProcessEnv;
 
   beforeEach(async () => {
@@ -21,7 +21,7 @@ describe('PostgreSQL Repository', () => {
     delete process.env.POSTGRES_URL;
     delete process.env.PG_DATABASE;
 
-    const repo = await import('../../../../src/database/postgresql/repository/postgresql.repository.js');
+    const repo = await import('../../../../src/tools/database/postgresql/repository/postgresql.repository.js');
     getPostgresPool = repo.getPostgresPool;
   });
 

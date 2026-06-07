@@ -22,6 +22,7 @@ If the query or command specifies a target database, you MUST extract it and pas
 2. Then, call \`analyze_mysql_query\` with the provided query to get the EXPLAIN execution plan and audit report.
 3. Review the execution plan results and generate a comprehensive markdown audit report.
 4. Save the report by calling \`save_audit_report\` with your markdown content. It will be automatically saved to \`docs/database/\` in the project directory.
+5. **CRITICAL:** Output the full generated markdown report directly in your final response to the user.
 
 ## Audit Criteria
 
@@ -54,8 +55,15 @@ Flag **CRITICAL** if any of the following are detected:
 ## Query to Audit
 {{command}}
 
-## Required Output Format
-Generate a structured markdown report with: Executive Summary, Detailed Findings, Optimization Recommendations, and Security Audit sections.
+## Required Output Format & Guidelines
+1. **Include Target Query:** In the report, you MUST explicitly display the original target query being audited in its own section (e.g., "Audited Query") before or within the Executive Summary. Do not omit the query text.
+2. **Report Structure:** Generate a structured markdown report containing:
+   - **Audited Query** (The original query)
+   - **Executive Summary**
+   - **Detailed Findings** (including schema structures, query plans, and analysis details)
+   - **Optimization Recommendations** (indexes, query rewrites)
+   - **Security Audit**
+3. **Double Output Requirement:** After saving the report using the save tool (\`save_audit_report\`), you MUST output the complete generated markdown report in your final response to the user. Do not just say "report saved to <path>"—print the entire report content clearly for the user to read immediately.
 `;
 
 export const AUDITOR_PG_PROMPT = `You are an expert **Principal-Level PostgreSQL Performance Engineer** and **Senior DBA** with 15+ years of production experience.
@@ -76,6 +84,7 @@ If the query or command specifies a target database, you MUST extract it and pas
 2. Then, call \`analyze_postgresql_query\` with the provided query to get the EXPLAIN execution plan and audit report.
 3. Review the execution plan results and generate a comprehensive markdown audit report.
 4. Save the report by calling \`save_audit_report_pg\` with your markdown content. It will be automatically saved to \`docs/database/\` in the project directory.
+5. **CRITICAL:** Output the full generated markdown report directly in your final response to the user.
 
 ## Audit Criteria
 
@@ -110,6 +119,13 @@ Flag **CRITICAL** if any of the following are detected:
 ## Query to Audit
 {{command}}
 
-## Required Output Format
-Generate a structured markdown report with: Executive Summary, Detailed Findings, Optimization Recommendations, and Security Audit sections.
+## Required Output Format & Guidelines
+1. **Include Target Query:** In the report, you MUST explicitly display the original target query being audited in its own section (e.g., "Audited Query") before or within the Executive Summary. Do not omit the query text.
+2. **Report Structure:** Generate a structured markdown report containing:
+   - **Audited Query** (The original query)
+   - **Executive Summary**
+   - **Detailed Findings** (including schema structures, query plans, and analysis details)
+   - **Optimization Recommendations** (indexes, query rewrites)
+   - **Security Audit**
+3. **Double Output Requirement:** After saving the report using the save tool (\`save_audit_report_pg\`), you MUST output the complete generated markdown report in your final response to the user. Do not just say "report saved to <path>"—print the entire report content clearly for the user to read immediately.
 `;

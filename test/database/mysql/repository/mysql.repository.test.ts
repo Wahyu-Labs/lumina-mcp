@@ -8,7 +8,7 @@ vi.mock('mysql2/promise', () => ({
 }));
 
 describe('MySQL Repository', () => {
-  let getMySQLPool: any;
+  let getMySQLPool: (databaseName?: string) => mysql.Pool;
   let originalEnv: NodeJS.ProcessEnv;
 
   beforeEach(async () => {
@@ -19,7 +19,7 @@ describe('MySQL Repository', () => {
     delete process.env.MYSQL_DATABASE;
     delete process.env.MYSQL_HOST;
 
-    const repo = await import('../../../../src/database/mysql/repository/mysql.repository.js');
+    const repo = await import('../../../../src/tools/database/mysql/repository/mysql.repository.js');
     getMySQLPool = repo.getMySQLPool;
   });
 

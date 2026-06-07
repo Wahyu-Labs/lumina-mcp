@@ -12,11 +12,11 @@ interface ServerWithHandlers {
 }
 
 // Mock database services to prevent actual calls/connections during imports
-vi.mock('../src/database/mysql/service/mysql.service.js', () => ({
+vi.mock('../src/tools/database/mysql/service/mysql.service.js', () => ({
   runMySQLQuery: vi.fn(),
 }));
 
-vi.mock('../src/database/postgresql/service/postgresql.service.js', () => ({
+vi.mock('../src/tools/database/postgresql/service/postgresql.service.js', () => ({
   runPostgresQuery: vi.fn(),
 }));
 

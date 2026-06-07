@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 /**
  * Saves an AI-generated audit report to the caller's project directory.
@@ -12,7 +13,15 @@ import path from 'path';
  * @returns The absolute path where the report was saved.
  */
 export function saveAuditReport(reportContent: string): string {
-  const cwd = process.cwd();
+  let cwd = process.cwd();
+
+  // Fallback if cwd is root (common in daemon/MCP environments) or not existing
+  if (cwd === '/' || !fs.existsSync(cwd)) {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    cwd = path.resolve(__dirname, '..', '..', '..', '..');
+  }
+
   const docsDir = path.join(cwd, 'docs', 'database');
 
   if (!fs.existsSync(docsDir)) {

@@ -15,17 +15,17 @@ const { mockExecutePostgresQuery } = vi.hoisted(() => ({
   mockExecutePostgresQuery: vi.fn(),
 }));
 
-vi.mock('../../../src/database/postgresql/service/postgresql.service.js', () => ({
+vi.mock('../../../src/tools/database/postgresql/service/postgresql.service.js', () => ({
   runPostgresQuery: mockExecutePostgresQuery,
 }));
 
 // Mock mysql service to avoid unexpected calls or side effects
-vi.mock('../../../src/database/mysql/service/mysql.service.js', () => ({
+vi.mock('../../../src/tools/database/mysql/service/mysql.service.js', () => ({
   runMySQLQuery: vi.fn(),
 }));
 
 // Mock postgres repository for actual database call simulations during service testing
-vi.mock('../../../src/database/postgresql/repository/postgresql.repository.js', () => ({
+vi.mock('../../../src/tools/database/postgresql/repository/postgresql.repository.js', () => ({
   executePostgresQuery: vi.fn().mockImplementation(async (sql: string) => {
     if (sql.includes('EXPLAIN ANALYZE')) {
       return [
@@ -102,8 +102,8 @@ describe('PostgreSQL Database Tools', () => {
 
   it('should validate read-only queries correctly', async () => {
     const { validateReadOnlyPostgresQuery } = await vi.importActual<
-      typeof import('../../../src/database/postgresql/service/postgresql.service.js')
-    >('../../../src/database/postgresql/service/postgresql.service.js');
+      typeof import('../../../src/tools/database/postgresql/service/postgresql.service.js')
+    >('../../../src/tools/database/postgresql/service/postgresql.service.js');
 
     // Valid queries
     expect(() => validateReadOnlyPostgresQuery('SELECT * FROM users')).not.toThrow();
@@ -142,8 +142,8 @@ describe('PostgreSQL Database Tools', () => {
 
   it('should filter sensitive columns correctly', async () => {
     const { filterSensitiveColumns, clearRestrictedColumnsCache } = await vi.importActual<
-      typeof import('../../../src/database/utils/security.js')
-    >('../../../src/database/utils/security.js');
+      typeof import('../../../src/tools/database/utils/security.js')
+    >('../../../src/tools/database/utils/security.js');
 
     // Default filters
     clearRestrictedColumnsCache();
@@ -193,8 +193,8 @@ describe('PostgreSQL Database Tools', () => {
 
   it('should analyze PostgreSQL query plan correctly', async () => {
     const { analyzePostgresQueryPlan } = await vi.importActual<
-      typeof import('../../../src/database/postgresql/service/postgresql.service.js')
-    >('../../../src/database/postgresql/service/postgresql.service.js');
+      typeof import('../../../src/tools/database/postgresql/service/postgresql.service.js')
+    >('../../../src/tools/database/postgresql/service/postgresql.service.js');
 
     const result = await analyzePostgresQueryPlan('SELECT * FROM users ORDER BY created_at');
     expect(result.explainPlan).toBeDefined();

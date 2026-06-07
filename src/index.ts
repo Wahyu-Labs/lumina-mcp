@@ -1,16 +1,19 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { registerMysqlController } from './database/mysql/index.js';
-import { registerPostgresqlController } from './database/postgresql/index.js';
+import { registerMysqlController } from './tools/database/mysql/index.js';
+import { registerPostgresqlController } from './tools/database/postgresql/index.js';
+import { applyPromptArgsPatch } from './utils/prompt-args.utils.js';
 
 export const server = new McpServer({
   name: 'lumina-mcp',
-  version: '1.0.3',
+  version: '1.0.0',
 });
 
 // Register feature controllers (tools + prompts)
 registerMysqlController(server);
 registerPostgresqlController(server);
+
+applyPromptArgsPatch(server);
 
 async function main() {
   const transport = new StdioServerTransport();
