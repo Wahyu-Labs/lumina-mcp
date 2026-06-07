@@ -50,8 +50,9 @@ export async function analyzePostgresQueryPlan(sql: string, databaseName?: strin
   try {
     const analyzeRows = await executePostgresQuery<Record<string, string>>(`EXPLAIN ANALYZE ${sql}`, [], databaseName);
     explainAnalyzePlan = analyzeRows.map((r) => Object.values(r)[0] as string);
-  } catch {
+  } catch (error) {
     // Ignore if fails or not permitted
+    console.error('EXPLAIN ANALYZE failed or not permitted:', error);
   }
 
   // Parse plan for senior auditor logic

@@ -66,8 +66,9 @@ export async function analyzeMySQLQueryPlan(sql: string, databaseName?: string):
       if (firstAnalyzeRow) {
         explainAnalyzeResult = Object.values(firstAnalyzeRow)[0] as string;
       }
-    } catch {
+    } catch (error) {
       // Ignore EXPLAIN ANALYZE if not supported or fails
+      console.error('EXPLAIN ANALYZE failed or not supported:', error);
     }
 
     const analysis: TableAnalysis[] = [];

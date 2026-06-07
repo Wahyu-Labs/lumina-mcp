@@ -14,8 +14,9 @@ export function getPostgresPool(databaseName?: string): pg.Pool {
       if (url.pathname && url.pathname !== '/') {
         defaultDbName = url.pathname.substring(1);
       }
-    } catch {
+    } catch (error) {
       // Ignore URL parsing errors
+      console.error('Failed to parse POSTGRES_URL:', error);
     }
   }
   const dbName = databaseName || defaultDbName;
