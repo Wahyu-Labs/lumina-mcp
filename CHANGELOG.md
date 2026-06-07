@@ -1,0 +1,54 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [1.0.0] — 2026-06-07
+
+### Added
+
+#### MySQL Tools
+- `execute_mysql_query` — Execute read-only SQL queries with safe parameter binding
+- `list_mysql_tables` — List all tables in a MySQL database
+- `inspect_mysql_table` — Inspect table structure (columns, types, keys)
+- `analyze_mysql_query` — Run `EXPLAIN` / `EXPLAIN ANALYZE` with Senior DB Auditor report
+- `save_audit_report` — Persist AI-generated audit reports to `docs/database/`
+
+#### PostgreSQL Tools
+- `execute_postgres_query` — Execute read-only SQL queries with safe parameter binding (`$1`, `$2`)
+- `list_postgresql_tables` — List all public-schema tables in a PostgreSQL database
+- `inspect_postgresql_table` — Inspect table structure (columns, types, nullability, defaults)
+- `analyze_postgresql_query` — Run `EXPLAIN` / `EXPLAIN ANALYZE` with Senior DB Auditor report
+- `save_audit_report_pg` — Persist AI-generated audit reports to `docs/database/`
+
+#### MCP Prompts
+- `running_query` — Natural-language MySQL query generator with auto schema detection
+- `auditor_query` — MySQL query performance & security auditor (Principal DBA level)
+- `running_pg_query` — Natural-language PostgreSQL query generator with auto schema detection
+- `auditor_pg_query` — PostgreSQL query performance & security auditor (Principal DBA level)
+
+#### Security
+- Read-only query enforcement (only `SELECT`, `SHOW`, `DESCRIBE`, `EXPLAIN`, `WITH`)
+- SQL injection detection (comments, tautologies, `UNION SELECT`)
+- Sensitive column auto-filtering (`password`, `token`, `secret`, `credential`, etc.)
+- Configurable restricted columns via `.lumina/database/restricColumn.json`
+
+#### Architecture
+- Layered architecture: Controller → Service → Repository
+- Zod-based DTO validation for all tool inputs
+- Shared types and interfaces for query analysis results
+- MCP prompt argument compatibility patch for IDE hosts (Antigravity, Claude Code, Cursor)
+- Docker Compose setup for local MySQL 8.0 and PostgreSQL 15
+- Optional `databaseName` parameter for multi-database environments
+
+#### Developer Experience
+- TypeScript strict mode with ESM modules
+- ESLint + Prettier code formatting
+- Vitest test suite with coverage reporting
+- Hot-reload development via `tsx watch`
+
+[1.0.0]: https://github.com/Wahyu-Labs/lumina-mcp/releases/tag/v1.0.0
