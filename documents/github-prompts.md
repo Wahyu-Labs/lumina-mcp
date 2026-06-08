@@ -15,7 +15,8 @@ Generate a commit message based on local changes, commit the files, and push the
 | `repository` | `string` | ✅ | Repository name in format `owner/repo` |
 | `branch` | `string` | ✅ | Branch name to commit and push to |
 | `files` | `array` | ✅ | List of specific files to add and commit |
-| `diff` | `string` | ❌ | Git diff content (optional) |
+| `commitMessage` | `string` | ❌ | The commit message to use (optional) |
+| `diff` | `string` | ❌ | Git diff content or fallback message (optional) |
 
 **Example:**
 ```
@@ -24,7 +25,7 @@ Generate a commit message based on local changes, commit the files, and push the
 repository: owner/repo
 branch: main
 files: ["src/index.ts", "package.json"]
-diff: "Update versions"
+commitMessage: "feat: implement JWT token rotation"
 ```
 
 ---

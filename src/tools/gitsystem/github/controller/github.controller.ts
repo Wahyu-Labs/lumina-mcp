@@ -1,10 +1,26 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { generateAndPushCommit, createPullRequest, createCodeReview, getPRReviewComments, getLocalGitChanges } from '../service/github.service.js';
-import { GenerateCommitSchema, CreatePRSchema, ReviewPRSchema, FixPRSchema, GithubPromptSchema } from '../../dto/gitsystem.dto.js';
-import { SENIOR_COMMIT_PROMPT, TECH_COMPANY_PR_PROMPT, AI_CODE_REVIEWER_PROMPT, PR_REVIEW_FIX_PROMPT } from '../../prompts/index.js';
+import {
+  generateAndPushCommit,
+  createPullRequest,
+  createCodeReview,
+  getPRReviewComments,
+  getLocalGitChanges,
+} from '../service/github.service.js';
+import {
+  GenerateCommitSchema,
+  CreatePRSchema,
+  ReviewPRSchema,
+  FixPRSchema,
+  GithubPromptSchema,
+} from '../../dto/gitsystem.dto.js';
+import {
+  SENIOR_COMMIT_PROMPT,
+  TECH_COMPANY_PR_PROMPT,
+  AI_CODE_REVIEWER_PROMPT,
+  PR_REVIEW_FIX_PROMPT,
+} from '../../prompts/index.js';
 
 export function registerGithubController(server: McpServer) {
-
   // Tools
   server.registerTool(
     'generate_commit_and_push',
@@ -12,9 +28,9 @@ export function registerGithubController(server: McpServer) {
       description: 'Generate a commit message based on local changes, commit, and push to GitHub.',
       inputSchema: GenerateCommitSchema,
     },
-    async ({ repository, branch, diff, files }) => {
+    async ({ repository, branch, commitMessage, diff, files }) => {
       try {
-        const message = diff || 'Update repository'; 
+        const message = commitMessage || diff || 'Update repository';
         const result = await generateAndPushCommit(repository, branch, message, files, diff);
         return {
           content: [
@@ -112,7 +128,7 @@ export function registerGithubController(server: McpServer) {
     async ({ repository, pullRequestNumber, branch: _branch }) => {
       try {
         const comments = await getPRReviewComments(repository, pullRequestNumber);
-      
+
         return {
           content: [
             {
@@ -146,8 +162,8 @@ export function registerGithubController(server: McpServer) {
     },
     async ({ command }) => {
       const localChanges = await getLocalGitChanges();
-      const finalContext = command 
-        ? `${command}\n\n[Auto-detected Local Changes]:\n${localChanges}` 
+      const finalContext = command
+        ? `${command}\n\n[Auto-detected Local Changes]:\n${localChanges}`
         : `[Auto-detected Local Changes]:\n${localChanges}`;
 
       const promptText = SENIOR_COMMIT_PROMPT.replace('{{context}}', finalContext);
@@ -173,7 +189,10 @@ export function registerGithubController(server: McpServer) {
       argsSchema: GithubPromptSchema,
     },
     async ({ command }) => {
-      const promptText = TECH_COMPANY_PR_PROMPT.replace('{{context}}', command || 'No context provided.');
+      const promptText = TECH_COMPANY_PR_PROMPT.replace(
+        '{{context}}',
+        command || 'No context provided.',
+      );
       return {
         messages: [
           {
@@ -196,7 +215,10 @@ export function registerGithubController(server: McpServer) {
       argsSchema: GithubPromptSchema,
     },
     async ({ command }) => {
-      const promptText = AI_CODE_REVIEWER_PROMPT.replace('{{context}}', command || 'No context provided.');
+      const promptText = AI_CODE_REVIEWER_PROMPT.replace(
+        '{{context}}',
+        command || 'No context provided.',
+      );
       return {
         messages: [
           {
@@ -215,11 +237,15 @@ export function registerGithubController(server: McpServer) {
     'fix_pr_review_message',
     {
       title: 'Fix PR Review Message',
-      description: 'Fetch review comments and provide instructions to automatically fix them, commit/push, and submit a review approval or comment on GitHub.',
+      description:
+        'Fetch review comments and provide instructions to automatically fix them, commit/push, and submit a review approval or comment on GitHub.',
       argsSchema: GithubPromptSchema,
     },
     async ({ command }) => {
-      const promptText = PR_REVIEW_FIX_PROMPT.replace('{{context}}', command || 'No context provided.');
+      const promptText = PR_REVIEW_FIX_PROMPT.replace(
+        '{{context}}',
+        command || 'No context provided.',
+      );
       return {
         messages: [
           {
@@ -233,5 +259,4 @@ export function registerGithubController(server: McpServer) {
       };
     },
   );
-
 }

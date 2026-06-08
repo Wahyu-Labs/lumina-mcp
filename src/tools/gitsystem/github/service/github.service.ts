@@ -1,20 +1,48 @@
 import { GitHubPRResponse, GitHubReviewResponse } from '../../types/github.types.js';
 import { githubRepository } from '../repository/github.repository.js';
 
-import { exec } from 'child_process';
+import { exec, execFile } from 'child_process';
 import { promisify } from 'util';
 
 const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
 
-export async function generateAndPushCommit(repository: string, branch: string, message: string, files: string[], _diffContent?: string): Promise<{ success: boolean; stdout: string; stderr: string }> {
+export async function generateAndPushCommit(
+  repository: string,
+  branch: string,
+  message: string,
+  files: string[],
+  _diffContent?: string,
+): Promise<{ success: boolean; stdout: string; stderr: string }> {
   try {
     if (!files || files.length === 0) {
-      throw new Error('No files specified to commit. AI must specify explicitly which files to add.');
+      throw new Error(
+        'No files specified to commit. AI must specify explicitly which files to add.',
+      );
     }
-    const escapedMessage = message.replace(/"/g, '\\"');
-    const filesString = files.map(f => `"${f.replace(/"/g, '\\"')}"`).join(' ');
-    const { stdout, stderr } = await execAsync(`git add ${filesString} && git commit -m "${escapedMessage}" && git push origin ${branch}`);
-    return { success: true, stdout, stderr };
+
+    // Securely add files
+    await execFileAsync('git', ['add', ...files]);
+
+    // Securely commit with message
+    const { stdout: commitOut, stderr: commitErr } = await execFileAsync('git', [
+      'commit',
+      '-m',
+      message,
+    ]);
+
+    // Securely push to branch
+    const { stdout: pushOut, stderr: pushErr } = await execFileAsync('git', [
+      'push',
+      'origin',
+      branch,
+    ]);
+
+    return {
+      success: true,
+      stdout: `${commitOut}\n${pushOut}`.trim(),
+      stderr: `${commitErr}\n${pushErr}`.trim(),
+    };
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     throw new Error(`Failed to commit and push: ${errorMessage}`);
@@ -34,20 +62,35 @@ export async function getLocalGitChanges(): Promise<string> {
   }
 }
 
-export async function createPullRequest(repository: string, title: string, head: string, base: string, body: string): Promise<GitHubPRResponse> {
+export async function createPullRequest(
+  repository: string,
+  title: string,
+  head: string,
+  base: string,
+  body: string,
+): Promise<GitHubPRResponse> {
   return await githubRepository.createPullRequest(repository, title, head, base, body);
 }
 
 export async function createCodeReview(
-  repository: string, 
-  pullRequestNumber: number, 
-  event: 'APPROVE' | 'REQUEST_CHANGES' | 'COMMENT', 
-  body: string, 
-  comments?: Array<{path: string, position: number, body: string}>
+  repository: string,
+  pullRequestNumber: number,
+  event: 'APPROVE' | 'REQUEST_CHANGES' | 'COMMENT',
+  body: string,
+  comments?: Array<{ path: string; position: number; body: string }>,
 ): Promise<GitHubReviewResponse> {
-  return await githubRepository.createCodeReview(repository, pullRequestNumber, event, body, comments);
+  return await githubRepository.createCodeReview(
+    repository,
+    pullRequestNumber,
+    event,
+    body,
+    comments,
+  );
 }
 
-export async function getPRReviewComments(repository: string, pullRequestNumber: number): Promise<unknown> {
+export async function getPRReviewComments(
+  repository: string,
+  pullRequestNumber: number,
+): Promise<unknown> {
   return await githubRepository.getPRReviewComments(repository, pullRequestNumber);
 }

@@ -4,7 +4,11 @@ export const GenerateCommitSchema = z.object({
   repository: z.string().describe('Repository name in format owner/repo (e.g. facebook/react)'),
   branch: z.string().describe('Branch name to commit and push to'),
   files: z.array(z.string()).describe('List of specific files to add and commit'),
-  diff: z.string().optional().describe('Git diff content. If not provided, it might generate based on local staged changes if applicable.'),
+  commitMessage: z
+    .string()
+    .optional()
+    .describe('The commit message to use. If not provided, diff is used as message.'),
+  diff: z.string().optional().describe('Git diff content or fallback commit message.'),
 });
 
 export const CreatePRSchema = z.object({
@@ -20,11 +24,16 @@ export const ReviewPRSchema = z.object({
   pullRequestNumber: z.number().describe('The number of the pull request to review'),
   event: z.enum(['APPROVE', 'REQUEST_CHANGES', 'COMMENT']).describe('The review action to perform'),
   body: z.string().describe('The body text of the pull request review'),
-  comments: z.array(z.object({
-    path: z.string(),
-    position: z.number(),
-    body: z.string()
-  })).optional().describe('Optional inline comments'),
+  comments: z
+    .array(
+      z.object({
+        path: z.string(),
+        position: z.number(),
+        body: z.string(),
+      }),
+    )
+    .optional()
+    .describe('Optional inline comments'),
 });
 
 export const FixPRSchema = z.object({
@@ -38,6 +47,6 @@ export const GithubPromptSchema = {
     .string()
     .optional()
     .describe(
-      "Natural language command or context for the GitHub prompt (e.g., details about the commit, PR context, or review instructions)",
+      'Natural language command or context for the GitHub prompt (e.g., details about the commit, PR context, or review instructions)',
     ),
 };

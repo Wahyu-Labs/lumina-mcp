@@ -22,9 +22,22 @@ const {
 }));
 
 vi.mock('../../src/tools/gitsystem/github/service/github.service.js', () => ({
-  generateAndPushCommit: (repo: string, branch: string, msg: string, files: string[], diff?: string) => mockGenerateAndPushCommit(repo, branch, msg, files, diff),
-  createPullRequest: (repo: string, title: string, head: string, base: string, body: string) => mockCreatePullRequest(repo, title, head, base, body),
-  createCodeReview: (repo: string, prNumber: number, event: 'APPROVE' | 'REQUEST_CHANGES' | 'COMMENT', body: string, comments?: Array<{ path: string; position: number; body: string }>) => mockCreateCodeReview(repo, prNumber, event, body, comments),
+  generateAndPushCommit: (
+    repo: string,
+    branch: string,
+    msg: string,
+    files: string[],
+    diff?: string,
+  ) => mockGenerateAndPushCommit(repo, branch, msg, files, diff),
+  createPullRequest: (repo: string, title: string, head: string, base: string, body: string) =>
+    mockCreatePullRequest(repo, title, head, base, body),
+  createCodeReview: (
+    repo: string,
+    prNumber: number,
+    event: 'APPROVE' | 'REQUEST_CHANGES' | 'COMMENT',
+    body: string,
+    comments?: Array<{ path: string; position: number; body: string }>,
+  ) => mockCreateCodeReview(repo, prNumber, event, body, comments),
   getPRReviewComments: (repo: string, prNumber: number) => mockGetPRReviewComments(repo, prNumber),
   getLocalGitChanges: () => mockGetLocalGitChanges(),
 }));
@@ -49,7 +62,9 @@ describe('Git System MCP Tools and Prompts', () => {
 
   describe('Tools', () => {
     it('should list all registered gitsystem tools', async () => {
-      const listHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get('tools/list');
+      const listHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get(
+        'tools/list',
+      );
       expect(listHandler).toBeDefined();
 
       const response = (await listHandler!({ method: 'tools/list' })) as { tools: unknown[] };
@@ -60,13 +75,19 @@ describe('Git System MCP Tools and Prompts', () => {
           expect.objectContaining({ name: 'create_github_pr' }),
           expect.objectContaining({ name: 'review_github_pr' }),
           expect.objectContaining({ name: 'fix_github_pr_review' }),
-        ])
+        ]),
       );
     });
 
     it('should call generate_commit_and_push tool correctly', async () => {
-      mockGenerateAndPushCommit.mockResolvedValueOnce({ success: true, stdout: 'Pushed', stderr: '' });
-      const callHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get('tools/call');
+      mockGenerateAndPushCommit.mockResolvedValueOnce({
+        success: true,
+        stdout: 'Pushed',
+        stderr: '',
+      });
+      const callHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get(
+        'tools/call',
+      );
 
       const response = (await callHandler!({
         method: 'tools/call',
@@ -81,7 +102,13 @@ describe('Git System MCP Tools and Prompts', () => {
         },
       })) as { content: Array<{ type: string; text: string }> };
 
-      expect(mockGenerateAndPushCommit).toHaveBeenCalledWith('owner/repo', 'main', 'feat: changes', ['src/file.ts'], 'feat: changes');
+      expect(mockGenerateAndPushCommit).toHaveBeenCalledWith(
+        'owner/repo',
+        'main',
+        'feat: changes',
+        ['src/file.ts'],
+        'feat: changes',
+      );
       expect(response).toEqual({
         content: [
           {
@@ -92,9 +119,59 @@ describe('Git System MCP Tools and Prompts', () => {
       });
     });
 
+    it('should call generate_commit_and_push tool correctly with commitMessage', async () => {
+      mockGenerateAndPushCommit.mockResolvedValueOnce({
+        success: true,
+        stdout: 'Pushed with commitMessage',
+        stderr: '',
+      });
+      const callHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get(
+        'tools/call',
+      );
+
+      const response = (await callHandler!({
+        method: 'tools/call',
+        params: {
+          name: 'generate_commit_and_push',
+          arguments: {
+            repository: 'owner/repo',
+            branch: 'main',
+            files: ['src/file.ts'],
+            commitMessage: 'feat: new message',
+            diff: 'diff-content',
+          },
+        },
+      })) as { content: Array<{ type: string; text: string }> };
+
+      expect(mockGenerateAndPushCommit).toHaveBeenCalledWith(
+        'owner/repo',
+        'main',
+        'feat: new message',
+        ['src/file.ts'],
+        'diff-content',
+      );
+      expect(response).toEqual({
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(
+              { success: true, stdout: 'Pushed with commitMessage', stderr: '' },
+              null,
+              2,
+            ),
+          },
+        ],
+      });
+    });
+
     it('should call create_github_pr tool correctly', async () => {
-      mockCreatePullRequest.mockResolvedValueOnce({ html_url: 'https://github.com/pr/1', state: 'open' });
-      const callHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get('tools/call');
+      mockCreatePullRequest.mockResolvedValueOnce({
+        html_url: 'https://github.com/pr/1',
+        state: 'open',
+      });
+      const callHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get(
+        'tools/call',
+      );
 
       const response = (await callHandler!({
         method: 'tools/call',
@@ -110,7 +187,13 @@ describe('Git System MCP Tools and Prompts', () => {
         },
       })) as { content: Array<{ type: string; text: string }> };
 
-      expect(mockCreatePullRequest).toHaveBeenCalledWith('owner/repo', 'feat: add stuff', 'feature', 'main', 'PR body description');
+      expect(mockCreatePullRequest).toHaveBeenCalledWith(
+        'owner/repo',
+        'feat: add stuff',
+        'feature',
+        'main',
+        'PR body description',
+      );
       expect(response).toEqual({
         content: [
           {
@@ -122,8 +205,13 @@ describe('Git System MCP Tools and Prompts', () => {
     });
 
     it('should call review_github_pr tool correctly', async () => {
-      mockCreateCodeReview.mockResolvedValueOnce({ html_url: 'https://github.com/review/1', state: 'APPROVED' });
-      const callHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get('tools/call');
+      mockCreateCodeReview.mockResolvedValueOnce({
+        html_url: 'https://github.com/review/1',
+        state: 'APPROVED',
+      });
+      const callHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get(
+        'tools/call',
+      );
 
       const response = (await callHandler!({
         method: 'tools/call',
@@ -138,7 +226,13 @@ describe('Git System MCP Tools and Prompts', () => {
         },
       })) as { content: Array<{ type: string; text: string }> };
 
-      expect(mockCreateCodeReview).toHaveBeenCalledWith('owner/repo', 42, 'APPROVE', 'Good job!', undefined);
+      expect(mockCreateCodeReview).toHaveBeenCalledWith(
+        'owner/repo',
+        42,
+        'APPROVE',
+        'Good job!',
+        undefined,
+      );
       expect(response).toEqual({
         content: [
           {
@@ -151,7 +245,9 @@ describe('Git System MCP Tools and Prompts', () => {
 
     it('should call fix_github_pr_review tool correctly', async () => {
       mockGetPRReviewComments.mockResolvedValueOnce({ comments: [{ id: 1, body: 'fix this' }] });
-      const callHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get('tools/call');
+      const callHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get(
+        'tools/call',
+      );
 
       const response = (await callHandler!({
         method: 'tools/call',
@@ -172,7 +268,9 @@ describe('Git System MCP Tools and Prompts', () => {
 
   describe('Prompts', () => {
     it('should list all registered gitsystem prompts', async () => {
-      const listHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get('prompts/list');
+      const listHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get(
+        'prompts/list',
+      );
       expect(listHandler).toBeDefined();
 
       const response = (await listHandler!({ method: 'prompts/list' })) as { prompts: unknown[] };
@@ -183,13 +281,15 @@ describe('Git System MCP Tools and Prompts', () => {
           expect.objectContaining({ name: 'tech_company_pr_creator' }),
           expect.objectContaining({ name: 'ai_code_reviewer' }),
           expect.objectContaining({ name: 'fix_pr_review_message' }),
-        ])
+        ]),
       );
     });
 
     it('should call commit_generator_message prompt correctly', async () => {
       mockGetLocalGitChanges.mockResolvedValueOnce('staged file changes diff');
-      const getHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get('prompts/get');
+      const getHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get(
+        'prompts/get',
+      );
       expect(getHandler).toBeDefined();
 
       const response = (await getHandler!({
@@ -208,7 +308,9 @@ describe('Git System MCP Tools and Prompts', () => {
     });
 
     it('should call tech_company_pr_creator prompt correctly', async () => {
-      const getHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get('prompts/get');
+      const getHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get(
+        'prompts/get',
+      );
       expect(getHandler).toBeDefined();
 
       const response = (await getHandler!({
@@ -225,7 +327,9 @@ describe('Git System MCP Tools and Prompts', () => {
     });
 
     it('should call ai_code_reviewer prompt correctly', async () => {
-      const getHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get('prompts/get');
+      const getHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get(
+        'prompts/get',
+      );
       expect(getHandler).toBeDefined();
 
       const response = (await getHandler!({
@@ -242,7 +346,9 @@ describe('Git System MCP Tools and Prompts', () => {
     });
 
     it('should call fix_pr_review_message prompt correctly', async () => {
-      const getHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get('prompts/get');
+      const getHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get(
+        'prompts/get',
+      );
       expect(getHandler).toBeDefined();
 
       const response = (await getHandler!({
