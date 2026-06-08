@@ -13,67 +13,48 @@ You MUST act as a strict senior engineer writing a professional commit message t
 - **Staging Rules**:
   - Stage ONLY the files that you have created or modified for this specific feature. Do NOT blindly use \`git add .\`.
   - Exclude unrelated files, build artifacts, \`.env\`, secrets, and IDE config files.
-  - If lock files (e.g., \`package-lock.json\`, \`yarn.lock\`) changed, include them ONLY if dependencies were intentionally added/updated.
 
 - **Ticket / Branch Name Detection**:
-  - Attempt to detect the Ticket ID (Jira, Trello, OpenProject, etc.) from the current branch name (e.g., \`feature/YYY-3766-xxx\` → \`YYY-3766\`) or the user's request.
-  - If a Ticket ID is found, use it. If no Ticket ID is found, it is completely optional. In that case, just use the current branch name.
+  - Detect Ticket ID from the branch name (e.g. \`feature/YYY-3766-xxx\` → \`YYY-3766\`). Otherwise use the current branch name.
 
 - **Commit Message Format** (MANDATORY structure):
   \`\`\`text
-  [AI created by <model_name>] <TICKET_ID_OR_BRANCH_NAME> : <type>: <short imperative subject in <= 72 chars>
+  [AI created by <model_name>] <TICKET_ID_OR_BRANCH_NAME> : <type>: <short subject in <= 72 chars>
 
-  <Summary>
-  A concise paragraph (2-4 sentences) explaining WHAT changed and WHY.
-  Focus on business/technical value, not how. Avoid restating the diff.
-
-  <Changes>
-  - <file/module>: <what was added/changed/removed and why>
-  - <file/module>: <what was added/changed/removed and why>
-  - <file/module>: <what was added/changed/removed and why>
-
-  <Impact / Notes>
-  - Breaking changes (if any), migration steps, feature flags, or rollout caveats.
-  - Known issues / tech debt introduced (if any).
+  - <Summary>: Concise description of what changed and why (business/technical value).
+  - Changes:
+    - <file/path>: <short description of change>
+  - <Impact / Notes>: Breaking changes, rollout caveat, or feature flag (if any).
 
   Refs: <TICKET_ID_OR_BRANCH_NAME>
-  Co-authored-by: AI provider
+  Co-authored-by: <model_name> <email_or_url>
   \`\`\`
 
-- **Rules for the Subject Line** (first line):
-  - Replace \`<model_name>\` with the actual model name you are running as (e.g., \`Gemini 2.5 Pro\`, \`Claude 3.5 Sonnet\`). Do NOT leave it as a placeholder.
-  - \`<type>\` MUST be one of: \`feat\`, \`fix\`, \`refactor\`, \`perf\`, \`docs\`, \`test\`, \`chore\`, \`build\`, \`ci\`, \`style\`, \`revert\`.
-  - Use **imperative mood** ("Fix", "Add", "Refactor") — NOT past tense ("Fixed", "Added").
-  - Do NOT end the subject line with a period.
-  - Keep the entire subject line (including the prefix) under ~100 characters when possible.
+- **Rules for the Subject Line and Body Trailers**:
+  - Replace \`<model_name>\` with the actual model name running (e.g. \`Gemini 3.5 Flash\`, \`Claude 3.5 Sonnet\`).
+  - \`<type>\` MUST be: \`feat\`, \`fix\`, \`refactor\`, \`perf\`, \`docs\`, \`test\`, \`chore\`, \`build\`, \`ci\`, \`style\`, \`revert\`.
+  - Use **imperative mood** ("Fix", "Add", "Refactor"). No trailing period. Keep under ~100 characters.
+  - In the \`Co-authored-by:\` trailer, specify the actual model/AI provider running (e.g. \`Gemini 3.5 Flash <gemini@google.com>\`).
 
 - **Example** (good):
   \`\`\`text
   [AI created by Gemini 2.5 Pro] PROJECT-3766 : fix: resolve attach-from-archive permission inconsistencies
 
-  <Summary>
-  Archive attachments inherited stale ACLs from the source folder, causing
-  403 errors for collaborators with valid project access. This change
-  re-evaluates permissions at attach time using the current project ACL
-  instead of the archived snapshot, restoring expected access.
-
-  <Changes>
-  - src/attachments/service/attachment.service.ts: recompute ACL on attach using project context.
-  - src/archive/service/archive.service.ts: pass project context when restoring archived files.
-
-  <Impact / Notes>
-  - No breaking API changes. Existing callers without \`projectId\` fall back to the archive's project.
+  - Resolve 403 authorization errors for collaborators by re-evaluating ACL permissions at attach time using the active project context instead of the archived snapshot.
+  - Changes:
+    - src/attachments/service/attachment.service.ts: Recompute ACLs on attach.
+    - src/archive/service/archive.service.ts: Pass project context when restoring files.
+  - Notes: No breaking API changes. Existing callers without projectId fall back to the archive's project.
 
   Refs: PROJECT-3766
-  Co-authored-by: AI provider
+  Co-authored-by: Gemini 2.5 Pro <gemini@google.com>
   \`\`\`
 
-- **Anti-patterns to AVOID** (DO NOT DO):
-  - Vague subjects like "update code", "fix bug", "WIP", "minor changes".
-  - Missing Ticket ID (or branch name) or missing \`Co-authored-by\` trailer.
-  - Past tense or sentence case ("Fixed the bug.").
-  - Summarizing the diff line-by-line instead of explaining intent.
-  - Mentioning "AI", "LLM", or the model inside the body — model attribution belongs ONLY in the subject prefix and the \`Co-authored-by\` trailer.
+- **Anti-patterns to AVOID**:
+  - Vague subjects (e.g. "fix bug", "WIP").
+  - Missing Ticket ID, branch name, or missing \`Co-authored-by\` trailer.
+  - Past tense ("Fixed the bug.").
+  - Summarizing the diff line-by-line without explaining intent.
 
 - **Execution (CRITICAL)**: 
   After generating this message, you MUST commit and push the code using the exact message you just created and the files from the local changes. Follow the **GitHub / Git Tool Execution & Fallback Rules** below to perform the commit and push operation.
