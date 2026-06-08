@@ -1,0 +1,53 @@
+import { GitHubPRResponse, GitHubReviewResponse } from '../../types/github.types.js';
+import { githubRepository } from '../repository/github.repository.js';
+
+import { exec } from 'child_process';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
+
+export async function generateAndPushCommit(repository: string, branch: string, message: string, files: string[], _diffContent?: string): Promise<{ success: boolean; stdout: string; stderr: string }> {
+  try {
+    if (!files || files.length === 0) {
+      throw new Error('No files specified to commit. AI must specify explicitly which files to add.');
+    }
+    const escapedMessage = message.replace(/"/g, '\\"');
+    const filesString = files.map(f => `"${f.replace(/"/g, '\\"')}"`).join(' ');
+    const { stdout, stderr } = await execAsync(`git add ${filesString} && git commit -m "${escapedMessage}" && git push origin ${branch}`);
+    return { success: true, stdout, stderr };
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to commit and push: ${errorMessage}`);
+  }
+}
+
+export async function getLocalGitChanges(): Promise<string> {
+  try {
+    const { stdout: staged } = await execAsync('git diff --staged');
+    const { stdout: unstaged } = await execAsync('git diff');
+    let output = '';
+    if (staged) output += `Staged Changes:\n${staged}\n\n`;
+    if (unstaged) output += `Unstaged Changes:\n${unstaged}\n\n`;
+    return output || 'No local changes detected.';
+  } catch {
+    return 'Failed to read local git changes.';
+  }
+}
+
+export async function createPullRequest(repository: string, title: string, head: string, base: string, body: string): Promise<GitHubPRResponse> {
+  return await githubRepository.createPullRequest(repository, title, head, base, body);
+}
+
+export async function createCodeReview(
+  repository: string, 
+  pullRequestNumber: number, 
+  event: 'APPROVE' | 'REQUEST_CHANGES' | 'COMMENT', 
+  body: string, 
+  comments?: Array<{path: string, position: number, body: string}>
+): Promise<GitHubReviewResponse> {
+  return await githubRepository.createCodeReview(repository, pullRequestNumber, event, body, comments);
+}
+
+export async function getPRReviewComments(repository: string, pullRequestNumber: number): Promise<unknown> {
+  return await githubRepository.getPRReviewComments(repository, pullRequestNumber);
+}

@@ -39,6 +39,15 @@ You (natural language) → MCP Client → Lumina MCP → MySQL / PostgreSQL
 | **Analyze Query** | ✅ | ✅ | `EXPLAIN` / `EXPLAIN ANALYZE` with Senior DBA verdicts |
 | **Save Audit Report** | ✅ | ✅ | Persist AI-generated audit reports as Markdown |
 
+### 🐙 GitHub Source Control Tools
+
+| Tool | Description |
+|------|-------------|
+| **Generate Commit & Push** | Staging granularity commit generation, staging only created/modified files, Conventional Commit with JIRA/Ticket auto-detection, and push |
+| **Create PR** | Create a pull request on GitHub with custom head/base branches and body |
+| **Review PR** | Submit a rigorous, Big Tech-style code review directly to a GitHub Pull Request |
+| **Fix PR Review** | Fetch review comments and code review threads concurrently to guide code fixes |
+
 ### 💬 AI Prompts
 
 | Prompt | Engine | Description |
@@ -47,6 +56,10 @@ You (natural language) → MCP Client → Lumina MCP → MySQL / PostgreSQL
 | `auditor_query` | MySQL | Full performance & security audit by a Principal DBA |
 | `running_pg_query` | PostgreSQL | Natural-language → SQL with auto schema detection |
 | `auditor_pg_query` | PostgreSQL | Full performance & security audit by a Principal DBA |
+| `commit_generator_message` | GitHub/Git | Conventional commit message generator with ticket/branch detection |
+| `tech_company_pr_creator` | GitHub/Git | Tech Company PR description generator (Netflix/Meta/Google style) |
+| `ai_code_reviewer` | GitHub/Git | Senior Staff level PR reviewer checking correctness, security, performance |
+| `fix_pr_review_message` | GitHub/Git | Automatically analyze PR review comments, guide fixes, and push updates |
 
 ### 🔒 Security
 
@@ -71,18 +84,20 @@ Add this configuration to your MCP client settings (e.g. `mcp.json` or your Curs
       "args": ["-y", "lumina-mcp"],
       "env": {
         "MYSQL_URL": "mysql://root:root@localhost:3306/db_name",
-        "POSTGRES_URL": "postgres://postgres:lumina@localhost:5432/db_name"
+        "POSTGRES_URL": "postgres://postgres:lumina@localhost:5432/db_name",
+        "GITHUB_TOKEN": "your-github-personal-access-token"
       }
     }
   }
 }
 ```
 
-> ℹ️ **Connection URL format:**
+> ℹ️ **Connection Configuration:**
 > - **MySQL:** `mysql://{username}:{password}@{host}:{port}/{database_name}`
 > - **PostgreSQL:** `postgres://{username}:{password}@{host}:{port}/{database_name}`
+> - **GitHub:** Personal Access Token (PAT) with `repo` scopes.
 >
-> If you only want to use one database provider, you can safely omit the other environment variable.
+> You can omit any environment variables that you do not use.
 
 ---
 
@@ -94,6 +109,7 @@ Detailed guides with every tool parameter, prompt workflow, usage examples, and 
 |-------|-------------|
 | **[MySQL Prompts & Tools](documents/mysql-prompts.md)** | All 5 MySQL tools, 2 prompts, security features, and usage examples |
 | **[PostgreSQL Prompts & Tools](documents/postgresql-prompts.md)** | All 5 PostgreSQL tools, 2 prompts, security features, and usage examples |
+| **[GitHub Source Control Prompts & Tools](documents/github-prompts.md)** | All 4 Git/GitHub tools, 4 prompts, rollout guardrails, and usage examples |
 
 ---
 
