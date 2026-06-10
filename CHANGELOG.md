@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.1] — 2026-06-08
+
+### Added
+- GitHub/Git Source Control MCP integration (under the `gitsystem` module).
+- Tools: `generate_commit_and_push` (granularity staging), `create_github_pr`, `review_github_pr`, `fix_github_pr_review` (fetches reviews and inline comments concurrently).
+- Prompts: `commit_generator_message` (Conventional Commit and JIRA trace), `tech_company_pr_creator` (Netflix/Meta-style description template), `ai_code_reviewer` (strict Senior Staff level review), `fix_pr_review_message` (guided AI fix and commit/push workflow).
+- Prompt-Based GitHub Fallback Rules: Native instruction-based fallbacks embedded in all Git/GitHub prompts. The executing AI agent dynamically tries calling `lumina-mcp` tools primary, falls back to the official GitHub MCP server (`github`) secondary, and falls back to executing local CLI commands (`gh` CLI or `git`) tertiary if tokens or environment variables are missing.
+- Strict validation test suite with 40 passing tests using Vitest covering database repositories, services, and MCP integrations.
+
 ## [1.0.0] — 2026-06-07
 
 ### Added

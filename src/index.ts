@@ -2,6 +2,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { registerMysqlController } from './tools/database/mysql/index.js';
 import { registerPostgresqlController } from './tools/database/postgresql/index.js';
+import { registerGithubController } from './tools/gitsystem/index.js';
 import { applyPromptArgsPatch } from './utils/prompt-args.utils.js';
 
 export const server = new McpServer({
@@ -12,6 +13,7 @@ export const server = new McpServer({
 // Register feature controllers (tools + prompts)
 registerMysqlController(server);
 registerPostgresqlController(server);
+registerGithubController(server);
 
 applyPromptArgsPatch(server);
 
