@@ -27,9 +27,10 @@ export const ReviewPRSchema = z.object({
   comments: z
     .array(
       z.object({
-        path: z.string(),
-        position: z.number(),
-        body: z.string(),
+        path: z.string().describe('The path to the file being reviewed'),
+        line: z.number().describe('The line number in the file to comment on'),
+        side: z.enum(['LEFT', 'RIGHT']).optional().describe('The side of the diff (LEFT or RIGHT)'),
+        body: z.string().describe('The text of the comment'),
       }),
     )
     .optional()
@@ -39,7 +40,11 @@ export const ReviewPRSchema = z.object({
 export const FixPRSchema = z.object({
   repository: z.string().describe('Repository name in format owner/repo'),
   pullRequestNumber: z.number().describe('The number of the pull request'),
-  branch: z.string().describe('The branch of the pull request to commit fixes to'),
+});
+
+export const GetPRDiffSchema = z.object({
+  repository: z.string().describe('Repository name in format owner/repo'),
+  pullRequestNumber: z.number().describe('The number of the pull request to get the diff for'),
 });
 
 export const GithubPromptSchema = {

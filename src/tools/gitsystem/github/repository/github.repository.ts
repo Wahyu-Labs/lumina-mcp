@@ -8,9 +8,9 @@ export class GithubRepository {
       "User-Agent": "MCP-Github-Server"
     };
     if (token) {
-      headers["Authorization"] = `token ${token}`;
+      headers["Authorization"] = `Bearer ${token}`;
     } else if (process.env.GITHUB_TOKEN) {
-      headers["Authorization"] = `token ${process.env.GITHUB_TOKEN}`;
+      headers["Authorization"] = `Bearer ${process.env.GITHUB_TOKEN}`;
     }
     return headers;
   }
@@ -55,7 +55,7 @@ export class GithubRepository {
     pullRequestNumber: number, 
     event: 'APPROVE' | 'REQUEST_CHANGES' | 'COMMENT', 
     body: string, 
-    comments?: Array<{path: string, position: number, body: string}>
+    comments?: Array<{path: string, line: number, side?: 'LEFT' | 'RIGHT', body: string}>
   ): Promise<GitHubReviewResponse> {
     return this.fetchFromGithub<GitHubReviewResponse>(GITHUB_ENDPOINTS.PR_REVIEWS(repository, pullRequestNumber), {
       method: 'POST',
@@ -65,10 +65,41 @@ export class GithubRepository {
 
   public async getPRReviewComments(repository: string, pullRequestNumber: number): Promise<unknown> {
     const [reviews, comments] = await Promise.all([
-      this.fetchFromGithub<unknown>(GITHUB_ENDPOINTS.PR_REVIEWS(repository, pullRequestNumber)),
-      this.fetchFromGithub<unknown>(GITHUB_ENDPOINTS.PR_COMMENTS(repository, pullRequestNumber)),
+      this.fetchFromGithub<unknown>(`${GITHUB_ENDPOINTS.PR_REVIEWS(repository, pullRequestNumber)}?per_page=100`),
+      this.fetchFromGithub<unknown>(`${GITHUB_ENDPOINTS.PR_COMMENTS(repository, pullRequestNumber)}?per_page=100`),
     ]);
     return { reviews, comments };
+  }
+
+  public async fetchTextFromGithub(endpoint: string, options: RequestInit = {}): Promise<string> {
+    const url = endpoint.startsWith('http') ? endpoint : `${GITHUB_ENDPOINTS.BASE_URL}${endpoint}`;
+    
+    const headers = {
+      ...this.getHeaders(),
+      ...options.headers,
+    };
+
+    const response = await fetch(url, { ...options, headers });
+
+    if (!response.ok) {
+      let errorData;
+      try {
+        errorData = await response.json();
+      } catch {
+        errorData = response.statusText;
+      }
+      throw new Error(`GitHub API Error (${response.status}): ${JSON.stringify(errorData)}`);
+    }
+
+    return response.text();
+  }
+
+  public async getPullRequestDiff(repository: string, pullRequestNumber: number): Promise<string> {
+    return this.fetchTextFromGithub(GITHUB_ENDPOINTS.PULL_REQUEST(repository, pullRequestNumber), {
+      headers: {
+        'Accept': 'application/vnd.github.v3.diff'
+      }
+    });
   }
 }
 

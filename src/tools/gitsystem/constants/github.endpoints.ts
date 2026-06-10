@@ -3,4 +3,5 @@ export const GITHUB_ENDPOINTS = {
   CREATE_PR: (repository: string) => `/repos/${repository}/pulls`,
   PR_REVIEWS: (repository: string, prNumber: number) => `/repos/${repository}/pulls/${prNumber}/reviews`,
   PR_COMMENTS: (repository: string, prNumber: number) => `/repos/${repository}/pulls/${prNumber}/comments`,
+  PULL_REQUEST: (repository: string, prNumber: number) => `/repos/${repository}/pulls/${prNumber}`,
 };

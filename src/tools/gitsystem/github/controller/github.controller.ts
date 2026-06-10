@@ -5,6 +5,7 @@ import {
   createCodeReview,
   getPRReviewComments,
   getLocalGitChanges,
+  getPullRequestDiff,
 } from '../service/github.service.js';
 import {
   GenerateCommitSchema,
@@ -12,6 +13,7 @@ import {
   ReviewPRSchema,
   FixPRSchema,
   GithubPromptSchema,
+  GetPRDiffSchema,
 } from '../../dto/gitsystem.dto.js';
 import {
   SENIOR_COMMIT_PROMPT,
@@ -122,10 +124,10 @@ export function registerGithubController(server: McpServer) {
   server.registerTool(
     'fix_github_pr_review',
     {
-      description: 'Read a PR review comments and automatically apply fixes.',
+      description: 'Fetch PR review comments to help the AI apply fixes locally.',
       inputSchema: FixPRSchema,
     },
-    async ({ repository, pullRequestNumber, branch: _branch }) => {
+    async ({ repository, pullRequestNumber }) => {
       try {
         const comments = await getPRReviewComments(repository, pullRequestNumber);
 
@@ -134,6 +136,38 @@ export function registerGithubController(server: McpServer) {
             {
               type: 'text',
               text: `Review comments fetched successfully. Please analyze these comments and apply code changes:\n${JSON.stringify(comments, null, 2)}`,
+            },
+          ],
+        };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: `GitHub Tool Error: ${errorMessage}`,
+            },
+          ],
+        };
+      }
+    },
+  );
+
+  server.registerTool(
+    'get_github_pr_diff',
+    {
+      description: 'Fetch the diff of a GitHub Pull Request.',
+      inputSchema: GetPRDiffSchema,
+    },
+    async ({ repository, pullRequestNumber }) => {
+      try {
+        const diff = await getPullRequestDiff(repository, pullRequestNumber);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: diff,
             },
           ],
         };

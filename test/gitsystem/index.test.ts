@@ -36,7 +36,13 @@ vi.mock('../../src/tools/gitsystem/github/service/github.service.js', () => ({
     prNumber: number,
     event: 'APPROVE' | 'REQUEST_CHANGES' | 'COMMENT',
     body: string,
-    comments?: Array<{ path: string; position: number; body: string }>,
+    comments?: Array<{
+      path: string;
+      position?: number;
+      line?: number;
+      side?: 'LEFT' | 'RIGHT';
+      body: string;
+    }>,
   ) => mockCreateCodeReview(repo, prNumber, event, body, comments),
   getPRReviewComments: (repo: string, prNumber: number) => mockGetPRReviewComments(repo, prNumber),
   getLocalGitChanges: () => mockGetLocalGitChanges(),
@@ -232,6 +238,60 @@ describe('Git System MCP Tools and Prompts', () => {
         'APPROVE',
         'Good job!',
         undefined,
+      );
+      expect(response).toEqual({
+        content: [
+          {
+            type: 'text',
+            text: 'Successfully submitted review: https://github.com/review/1\nState: APPROVED',
+          },
+        ],
+      });
+    });
+
+    it('should call review_github_pr tool with inline comments correctly', async () => {
+      mockCreateCodeReview.mockResolvedValueOnce({
+        html_url: 'https://github.com/review/1',
+        state: 'APPROVED',
+      });
+      const callHandler = (server.server as unknown as ServerWithHandlers)._requestHandlers.get(
+        'tools/call',
+      );
+
+      const response = (await callHandler!({
+        method: 'tools/call',
+        params: {
+          name: 'review_github_pr',
+          arguments: {
+            repository: 'owner/repo',
+            pullRequestNumber: 42,
+            event: 'APPROVE',
+            body: 'Good job!',
+            comments: [
+              {
+                path: 'src/file.ts',
+                line: 10,
+                side: 'RIGHT',
+                body: 'Fix this line please',
+              },
+            ],
+          },
+        },
+      })) as { content: Array<{ type: string; text: string }> };
+
+      expect(mockCreateCodeReview).toHaveBeenCalledWith(
+        'owner/repo',
+        42,
+        'APPROVE',
+        'Good job!',
+        [
+          {
+            path: 'src/file.ts',
+            line: 10,
+            side: 'RIGHT',
+            body: 'Fix this line please',
+          },
+        ],
       );
       expect(response).toEqual({
         content: [

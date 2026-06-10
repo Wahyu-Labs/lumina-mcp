@@ -77,7 +77,12 @@ export async function createCodeReview(
   pullRequestNumber: number,
   event: 'APPROVE' | 'REQUEST_CHANGES' | 'COMMENT',
   body: string,
-  comments?: Array<{ path: string; position: number; body: string }>,
+  comments?: Array<{
+    path: string;
+    line: number;
+    side?: 'LEFT' | 'RIGHT';
+    body: string;
+  }>,
 ): Promise<GitHubReviewResponse> {
   return await githubRepository.createCodeReview(
     repository,
@@ -93,4 +98,11 @@ export async function getPRReviewComments(
   pullRequestNumber: number,
 ): Promise<unknown> {
   return await githubRepository.getPRReviewComments(repository, pullRequestNumber);
+}
+
+export async function getPullRequestDiff(
+  repository: string,
+  pullRequestNumber: number,
+): Promise<string> {
+  return await githubRepository.getPullRequestDiff(repository, pullRequestNumber);
 }

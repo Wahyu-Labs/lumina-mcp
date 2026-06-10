@@ -31,7 +31,7 @@ describe('GitHub Repository', () => {
         'https://api.github.com/endpoint',
         expect.objectContaining({
           headers: expect.objectContaining({
-            Authorization: 'token test-token',
+            Authorization: 'Bearer test-token',
             'Content-Type': 'application/json',
             Accept: 'application/vnd.github.v3+json',
             'User-Agent': 'MCP-Github-Server',

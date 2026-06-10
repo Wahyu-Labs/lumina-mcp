@@ -181,7 +181,15 @@ Your goal is to provide constructive, deep, and highly actionable feedback that 
      - **COMMENT**: Need clarification on design decisions before finalizing.
 
 - **Execution (CRITICAL)**:
-  After generating this review, you MUST submit the review on GitHub using the generated body, pull request number, and your final recommendation (event: 'APPROVE', 'REQUEST_CHANGES', or 'COMMENT'). Follow the **GitHub / Git Tool Execution & Fallback Rules** below to perform this operation.
+  After conducting the code review, you MUST submit the review on GitHub using the 'review_github_pr' tool.
+  To perform a high-quality review, do NOT just put all your comments in the main 'body' of the review. For EVERY specific issue or suggestion that targets a particular line or block of code, you MUST create an inline comment inside the 'comments' parameter.
+  Each inline comment MUST have:
+    - \`path\`: The relative path of the file (e.g. "src/index.ts").
+    - \`line\`: The exact absolute line number in the modified file (derived from the diff or code context).
+    - \`side\`: "RIGHT" (which represents the newly modified code).
+    - \`body\`: The specific suggestion, priority label (e.g. [CRITICAL], [MAJOR], [MINOR], [NIT]), and code fix block if applicable.
+  The main 'body' parameter of the 'review_github_pr' tool should only contain the general Executive Summary and the Final Recommendation.
+  Follow the **GitHub / Git Tool Execution & Fallback Rules** below to perform this operation.
 
 ${GITHUB_FALLBACK_RULES}
 
@@ -196,13 +204,13 @@ Review Comments & Context:
 {{context}}
 
 Instructions:
-1. **Understand and Fix**: Carefully analyze the fetched review comments and apply the necessary fixes directly to the local codebase. If the review comments are not provided in the context, you MUST first fetch the comments. Follow the **GitHub / Git Tool Execution & Fallback Rules** below (e.g. call 'fix_github_pr_review' tool primary, official 'github' MCP secondary, or local 'gh' CLI tertiary).
+1. **Understand and Fix**: Carefully analyze the fetched review comments (including both general comments and inline line-by-line comments) and apply the necessary fixes directly to the local codebase. If the review comments are not provided in the context, you MUST first fetch the comments. Follow the **GitHub / Git Tool Execution & Fallback Rules** below (e.g. call 'fix_github_pr_review' tool primary, official 'github' MCP secondary, or local 'gh' CLI tertiary).
 2. **Verify**: Run the linter and tests to ensure your changes are correct and do not introduce regressions.
 3. **Commit & Push**: Commit your changes using Conventional Commits. You MUST commit and push the modified files following the **GitHub / Git Tool Execution & Fallback Rules** below.
-4. **Respond on GitHub**: 
-   - Post a review comment/reply on GitHub following the **GitHub / Git Tool Execution & Fallback Rules** below.
-   - Set the review event to 'COMMENT' (or 'APPROVE' if you have reviewer permissions and are approving the PR).
-   - In the review body, write a clear list of what has been fixed, matching the issues raised in the review comments, and state that the changes have been adjusted.
+4. **Respond and Approve on GitHub**: 
+   - Post a reply to each specific inline comment thread you have resolved (if the API/tool supports it, e.g. replying to comment IDs, or using Github CLI).
+   - Submit a final PR review with event 'APPROVE' (or 'COMMENT' if you do not have permissions to approve) to confirm all fixes are implemented.
+   - In the review body, write a clear, structured list of all the fixed items, matching the comments raised, and state that all issues have been successfully resolved.
 
 ${GITHUB_FALLBACK_RULES}
 `;
