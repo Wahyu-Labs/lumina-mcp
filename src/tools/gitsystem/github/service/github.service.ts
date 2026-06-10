@@ -8,7 +8,6 @@ const execAsync = promisify(exec);
 const execFileAsync = promisify(execFile);
 
 export async function generateAndPushCommit(
-  repository: string,
   branch: string,
   message: string,
   files: string[],

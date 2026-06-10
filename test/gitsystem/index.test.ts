@@ -23,12 +23,11 @@ const {
 
 vi.mock('../../src/tools/gitsystem/github/service/github.service.js', () => ({
   generateAndPushCommit: (
-    repo: string,
     branch: string,
     msg: string,
     files: string[],
     diff?: string,
-  ) => mockGenerateAndPushCommit(repo, branch, msg, files, diff),
+  ) => mockGenerateAndPushCommit(branch, msg, files, diff),
   createPullRequest: (repo: string, title: string, head: string, base: string, body: string) =>
     mockCreatePullRequest(repo, title, head, base, body),
   createCodeReview: (
@@ -109,7 +108,6 @@ describe('Git System MCP Tools and Prompts', () => {
       })) as { content: Array<{ type: string; text: string }> };
 
       expect(mockGenerateAndPushCommit).toHaveBeenCalledWith(
-        'owner/repo',
         'main',
         'feat: changes',
         ['src/file.ts'],
@@ -150,7 +148,6 @@ describe('Git System MCP Tools and Prompts', () => {
       })) as { content: Array<{ type: string; text: string }> };
 
       expect(mockGenerateAndPushCommit).toHaveBeenCalledWith(
-        'owner/repo',
         'main',
         'feat: new message',
         ['src/file.ts'],

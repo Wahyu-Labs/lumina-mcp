@@ -132,13 +132,37 @@ export class GithubRepository {
       }
     `;
 
-    const response = await this.fetchFromGithub<any>('/graphql', {
+    interface GraphQLComment {
+      id: string;
+    }
+    
+    interface GraphQLThread {
+      id: string;
+      isResolved: boolean;
+      comments: {
+        nodes: GraphQLComment[];
+      };
+    }
+
+    interface GraphQLResponse {
+      data?: {
+        repository?: {
+          pullRequest?: {
+            reviewThreads?: {
+              nodes: GraphQLThread[];
+            };
+          };
+        };
+      };
+    }
+
+    const response = await this.fetchFromGithub<GraphQLResponse>('/graphql', {
       method: 'POST',
       body: JSON.stringify({ query, variables: { owner, repo, prNumber: pullRequestNumber } })
     });
 
     const threads = response.data?.repository?.pullRequest?.reviewThreads?.nodes || [];
-    const thread = threads.find((t: any) => t.comments.nodes.some((c: any) => c.id === commentNodeId));
+    const thread = threads.find((t: GraphQLThread) => t.comments.nodes.some((c: GraphQLComment) => c.id === commentNodeId));
 
     if (!thread) {
       throw new Error(`Could not find a review thread containing comment with node_id ${commentNodeId}`);

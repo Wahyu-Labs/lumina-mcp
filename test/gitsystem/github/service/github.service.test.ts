@@ -56,7 +56,7 @@ describe('GitHub Service', () => {
 
   describe('generateAndPushCommit', () => {
     it('should throw error if no files provided', async () => {
-      await expect(generateAndPushCommit('owner/repo', 'main', 'msg', [])).rejects.toThrow(
+      await expect(generateAndPushCommit('main', 'msg', [])).rejects.toThrow(
         'No files specified to commit',
       );
     });
@@ -66,7 +66,7 @@ describe('GitHub Service', () => {
         callback(null, 'Success output', '');
       });
 
-      const result = await generateAndPushCommit('owner/repo', 'main', 'feat: initial commit', [
+      const result = await generateAndPushCommit('main', 'feat: initial commit', [
         'file1.ts',
         'file2.ts',
       ]);
@@ -103,7 +103,7 @@ describe('GitHub Service', () => {
       });
 
       await expect(
-        generateAndPushCommit('owner/repo', 'main', 'feat: initial commit', ['file1.ts']),
+        generateAndPushCommit('main', 'feat: initial commit', ['file1.ts']),
       ).rejects.toThrow('Failed to commit and push: Git command failed');
     });
   });

@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 export const GenerateCommitSchema = z.object({
-  repository: z.string().describe('Repository name in format owner/repo (e.g. facebook/react)'),
   branch: z.string().describe('Branch name to commit and push to'),
   files: z.array(z.string()).describe('List of specific files to add and commit'),
   commitMessage: z

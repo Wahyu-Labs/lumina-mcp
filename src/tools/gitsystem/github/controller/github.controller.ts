@@ -34,10 +34,10 @@ export function registerGithubController(server: McpServer) {
       description: 'Generate a commit message based on local changes, commit, and push to GitHub.',
       inputSchema: GenerateCommitSchema,
     },
-    async ({ repository, branch, commitMessage, diff, files }) => {
+    async ({ branch, commitMessage, diff, files }) => {
       try {
         const message = commitMessage || diff || 'Update repository';
-        const result = await generateAndPushCommit(repository, branch, message, files, diff);
+        const result = await generateAndPushCommit(branch, message, files, diff);
         return {
           content: [
             {
