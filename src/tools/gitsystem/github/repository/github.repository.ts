@@ -101,6 +101,68 @@ export class GithubRepository {
       }
     });
   }
+
+  public async replyToPRComment(repository: string, pullRequestNumber: number, commentId: number, body: string): Promise<unknown> {
+    return this.fetchFromGithub<unknown>(GITHUB_ENDPOINTS.PR_COMMENT_REPLY(repository, pullRequestNumber, commentId), {
+      method: 'POST',
+      body: JSON.stringify({ body })
+    });
+  }
+
+  public async resolvePRReviewThread(repository: string, pullRequestNumber: number, commentNodeId: string): Promise<unknown> {
+    const [owner, repo] = repository.split('/');
+    
+    const query = `
+      query($owner: String!, $repo: String!, $prNumber: Int!) {
+        repository(owner: $owner, name: $repo) {
+          pullRequest(number: $prNumber) {
+            reviewThreads(first: 100) {
+              nodes {
+                id
+                isResolved
+                comments(first: 50) {
+                  nodes {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `;
+
+    const response = await this.fetchFromGithub<any>('/graphql', {
+      method: 'POST',
+      body: JSON.stringify({ query, variables: { owner, repo, prNumber: pullRequestNumber } })
+    });
+
+    const threads = response.data?.repository?.pullRequest?.reviewThreads?.nodes || [];
+    const thread = threads.find((t: any) => t.comments.nodes.some((c: any) => c.id === commentNodeId));
+
+    if (!thread) {
+      throw new Error(`Could not find a review thread containing comment with node_id ${commentNodeId}`);
+    }
+
+    if (thread.isResolved) {
+      return { success: true, message: 'Thread is already resolved' };
+    }
+
+    const mutation = `
+      mutation($threadId: ID!) {
+        resolveReviewThread(input: { threadId: $threadId }) {
+          thread {
+            isResolved
+          }
+        }
+      }
+    `;
+
+    return this.fetchFromGithub<unknown>('/graphql', {
+      method: 'POST',
+      body: JSON.stringify({ query: mutation, variables: { threadId: thread.id } })
+    });
+  }
 }
 
 export const githubRepository = new GithubRepository();

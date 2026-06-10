@@ -47,6 +47,19 @@ export const GetPRDiffSchema = z.object({
   pullRequestNumber: z.number().describe('The number of the pull request to get the diff for'),
 });
 
+export const ReplyToPRCommentSchema = z.object({
+  repository: z.string().describe('Repository name in format owner/repo'),
+  pullRequestNumber: z.number().describe('The number of the pull request'),
+  commentId: z.number().describe('The numeric ID of the comment to reply to'),
+  body: z.string().describe('The reply text'),
+});
+
+export const ResolvePRThreadSchema = z.object({
+  repository: z.string().describe('Repository name in format owner/repo'),
+  pullRequestNumber: z.number().describe('The number of the pull request'),
+  commentNodeId: z.string().describe('The GraphQL node_id of the comment thread to resolve (e.g. PRRC_...)'),
+});
+
 export const GithubPromptSchema = {
   command: z
     .string()

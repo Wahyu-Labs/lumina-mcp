@@ -6,6 +6,8 @@ import {
   getPRReviewComments,
   getLocalGitChanges,
   getPullRequestDiff,
+  replyToPRComment,
+  resolvePRReviewThread,
 } from '../service/github.service.js';
 import {
   GenerateCommitSchema,
@@ -14,6 +16,8 @@ import {
   FixPRSchema,
   GithubPromptSchema,
   GetPRDiffSchema,
+  ReplyToPRCommentSchema,
+  ResolvePRThreadSchema,
 } from '../../dto/gitsystem.dto.js';
 import {
   SENIOR_COMMIT_PROMPT,
@@ -168,6 +172,70 @@ export function registerGithubController(server: McpServer) {
             {
               type: 'text',
               text: diff,
+            },
+          ],
+        };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: `GitHub Tool Error: ${errorMessage}`,
+            },
+          ],
+        };
+      }
+    },
+  );
+
+  server.registerTool(
+    'reply_to_pr_comment',
+    {
+      description: 'Reply to an inline comment in a GitHub pull request review.',
+      inputSchema: ReplyToPRCommentSchema,
+    },
+    async ({ repository, pullRequestNumber, commentId, body }) => {
+      try {
+        const result = await replyToPRComment(repository, pullRequestNumber, commentId, body);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Successfully replied to comment ${commentId}: ${JSON.stringify(result)}`,
+            },
+          ],
+        };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: `GitHub Tool Error: ${errorMessage}`,
+            },
+          ],
+        };
+      }
+    },
+  );
+
+  server.registerTool(
+    'resolve_pr_review_thread',
+    {
+      description: 'Resolve a GitHub pull request review thread using its comment node_id.',
+      inputSchema: ResolvePRThreadSchema,
+    },
+    async ({ repository, pullRequestNumber, commentNodeId }) => {
+      try {
+        const result = await resolvePRReviewThread(repository, pullRequestNumber, commentNodeId);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Successfully resolved thread containing comment ${commentNodeId}: ${JSON.stringify(result)}`,
             },
           ],
         };

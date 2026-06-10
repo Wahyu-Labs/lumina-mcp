@@ -208,7 +208,8 @@ Instructions:
 2. **Verify**: Run the linter and tests to ensure your changes are correct and do not introduce regressions.
 3. **Commit & Push**: Commit your changes using Conventional Commits. You MUST commit and push the modified files following the **GitHub / Git Tool Execution & Fallback Rules** below.
 4. **Respond and Approve on GitHub**: 
-   - Post a reply to each specific inline comment thread you have resolved (if the API/tool supports it, e.g. replying to comment IDs, or using Github CLI).
+   - Post a reply to each specific inline comment thread you have resolved by using the 'reply_to_pr_comment' tool.
+   - Resolve the comment thread using the 'resolve_pr_review_thread' tool.
    - Submit a final PR review with event 'APPROVE' (or 'COMMENT' if you do not have permissions to approve) to confirm all fixes are implemented.
    - In the review body, write a clear, structured list of all the fixed items, matching the comments raised, and state that all issues have been successfully resolved.
 

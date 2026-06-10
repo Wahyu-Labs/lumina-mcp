@@ -106,3 +106,20 @@ export async function getPullRequestDiff(
 ): Promise<string> {
   return await githubRepository.getPullRequestDiff(repository, pullRequestNumber);
 }
+
+export async function replyToPRComment(
+  repository: string,
+  pullRequestNumber: number,
+  commentId: number,
+  body: string,
+): Promise<unknown> {
+  return await githubRepository.replyToPRComment(repository, pullRequestNumber, commentId, body);
+}
+
+export async function resolvePRReviewThread(
+  repository: string,
+  pullRequestNumber: number,
+  commentNodeId: string,
+): Promise<unknown> {
+  return await githubRepository.resolvePRReviewThread(repository, pullRequestNumber, commentNodeId);
+}
