@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.2] — 2026-06-14
+
+### Added
+- **Project Management MCP integrations** for Jira, Trello, and OpenProject.
+- Tools: `get_jira_ticket`, `get_trello_card`, `get_openproject_work_package` for automated ticket retrieval.
+- Prompts: `pm_summarize_ticket` (Senior PM Ticket Summarization), `pm_brainstorm_plan` (Staff Engineer Brainstorm & Plan), and `pm_test_catalog` (Strict QA Test Catalog Generator).
+- Stronger security practices: Domain sanitization for Jira endpoints and OAuth headers instead of query parameters for Trello API calls.
+
 ## [1.0.1] — 2026-06-08
 
 ### Added

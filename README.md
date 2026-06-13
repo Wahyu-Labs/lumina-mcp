@@ -48,6 +48,14 @@ You (natural language) → MCP Client → Lumina MCP → MySQL / PostgreSQL
 | **Review PR** | Submit a rigorous, Big Tech-style code review directly to a GitHub Pull Request |
 | **Fix PR Review** | Fetch review comments and code review threads concurrently to guide code fixes |
 
+### 📋 Project Management Tools
+
+| Tool | Description |
+|------|-------------|
+| **Get Jira Ticket** | Fetch a Jira ticket/issue by its ID or Key via Jira REST API |
+| **Get Trello Card** | Fetch a Trello card by its ID or shortlink via Trello REST API |
+| **Get OpenProject WP** | Fetch an OpenProject work package by its ID via OpenProject REST API |
+
 ### 💬 AI Prompts
 
 | Prompt | Engine | Description |
@@ -60,6 +68,9 @@ You (natural language) → MCP Client → Lumina MCP → MySQL / PostgreSQL
 | `tech_company_pr_creator` | GitHub/Git | Tech Company PR description generator (Netflix/Meta/Google style) |
 | `ai_code_reviewer` | GitHub/Git | Senior Staff level PR reviewer checking correctness, security, performance |
 | `fix_pr_review_message` | GitHub/Git | Automatically analyze PR review comments, guide fixes, and push updates |
+| `pm_summarize_ticket` | Project Management | Summarize a raw Jira or Trello ticket as a Senior Product Manager |
+| `pm_brainstorm_plan` | Project Management | Brainstorm technical approach and create a step-by-step plan |
+| `pm_test_catalog` | Project Management | Generate a comprehensive test catalog based on ticket and plan |
 
 ### 🔒 Security
 
@@ -110,6 +121,7 @@ Detailed guides with every tool parameter, prompt workflow, usage examples, and 
 | **[MySQL Prompts & Tools](documents/mysql-prompts.md)** | All 5 MySQL tools, 2 prompts, security features, and usage examples |
 | **[PostgreSQL Prompts & Tools](documents/postgresql-prompts.md)** | All 5 PostgreSQL tools, 2 prompts, security features, and usage examples |
 | **[GitHub Source Control Prompts & Tools](documents/github-prompts.md)** | All 4 Git/GitHub tools, 4 prompts, rollout guardrails, and usage examples |
+| **[Project Management Prompts & Tools](documents/projectmanagement-prompts.md)** | 3 Project Management tools (Jira, Trello, OpenProject), 3 AI prompts |
 
 ---
 
