@@ -1,11 +1,12 @@
 export class TrelloRepository {
   async getCard(cardId: string, apiKey: string, apiToken: string): Promise<unknown> {
-    const url = `https://api.trello.com/1/cards/${cardId}?key=${apiKey}&token=${apiToken}`;
+    const url = `https://api.trello.com/1/cards/${cardId}`;
 
     const response = await fetch(url, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
+        Authorization: `OAuth oauth_consumer_key="${apiKey}", oauth_token="${apiToken}"`,
       },
     });
 

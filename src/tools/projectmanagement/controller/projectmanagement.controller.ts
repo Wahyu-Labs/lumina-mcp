@@ -123,7 +123,7 @@ export function registerProjectManagementController(server: McpServer) {
     async ({ command }) => {
       const promptText = PM_SUMMARIZE_TICKET_PROMPT.replace(
         '{{context}}',
-        command || 'No context provided. Please paste the raw ticket content here.',
+        () => command || 'No context provided. Please paste the raw ticket content here.',
       );
       return {
         messages: [
@@ -149,7 +149,7 @@ export function registerProjectManagementController(server: McpServer) {
     async ({ command }) => {
       const promptText = PM_BRAINSTORM_PLAN_PROMPT.replace(
         '{{context}}',
-        command || 'No context provided.',
+        () => command || 'No context provided.',
       );
       return {
         messages: [
@@ -175,7 +175,7 @@ export function registerProjectManagementController(server: McpServer) {
     async ({ command }) => {
       const promptText = PM_TEST_CATALOG_PROMPT.replace(
         '{{context}}',
-        command || 'No context provided.',
+        () => command || 'No context provided.',
       );
       return {
         messages: [

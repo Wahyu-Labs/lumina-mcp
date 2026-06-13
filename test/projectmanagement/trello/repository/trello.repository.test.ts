@@ -19,11 +19,12 @@ describe('TrelloRepository', () => {
     const result = await repository.getCard('abc1234', 'testkey', 'testtoken');
     
     expect(global.fetch).toHaveBeenCalledWith(
-      'https://api.trello.com/1/cards/abc1234?key=testkey&token=testtoken',
+      'https://api.trello.com/1/cards/abc1234',
       expect.objectContaining({
         method: 'GET',
         headers: {
           Accept: 'application/json',
+          Authorization: 'OAuth oauth_consumer_key="testkey", oauth_token="testtoken"',
         },
       }),
     );

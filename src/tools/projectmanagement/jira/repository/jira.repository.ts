@@ -5,7 +5,8 @@ export class JiraRepository {
     email: string,
     apiToken: string,
   ): Promise<unknown> {
-    const url = `https://${domain}.atlassian.net/rest/api/3/issue/${issueIdOrKey}`;
+    const cleanDomain = domain.replace(/^https?:\/\//, '').replace(/\.atlassian\.net\/?$/, '').replace(/\/$/, '');
+    const url = `https://${cleanDomain}.atlassian.net/rest/api/3/issue/${issueIdOrKey}`;
     const credentials = Buffer.from(`${email}:${apiToken}`).toString('base64');
 
     const response = await fetch(url, {
