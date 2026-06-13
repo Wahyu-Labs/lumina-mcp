@@ -11,10 +11,10 @@ describe('OpenProjectRepository', () => {
 
   it('should fetch OpenProject work package successfully', async () => {
     const mockResponse = { id: 1234, subject: 'My WP' };
-    (global.fetch as any).mockResolvedValue({
+    vi.mocked(global.fetch).mockResolvedValue({
       ok: true,
       json: async () => mockResponse,
-    });
+    } as Response);
 
     const result = await repository.getWorkPackage('1234', 'test.domain.com', 'testapikey');
     
@@ -32,11 +32,11 @@ describe('OpenProjectRepository', () => {
   });
 
   it('should throw an error if fetch fails', async () => {
-    (global.fetch as any).mockResolvedValue({
+    vi.mocked(global.fetch).mockResolvedValue({
       ok: false,
       statusText: 'Unauthorized',
       text: async () => 'Invalid token',
-    });
+    } as Response);
 
     await expect(repository.getWorkPackage('999', 'test.domain.com', 'testapikey')).rejects.toThrow(
       'Failed to fetch OpenProject work package 999: Unauthorized - Invalid token',

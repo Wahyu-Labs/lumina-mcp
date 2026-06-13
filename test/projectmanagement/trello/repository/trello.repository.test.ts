@@ -11,10 +11,10 @@ describe('TrelloRepository', () => {
 
   it('should fetch Trello card successfully', async () => {
     const mockResponse = { id: 'abc1234', name: 'My Card' };
-    (global.fetch as any).mockResolvedValue({
+    vi.mocked(global.fetch).mockResolvedValue({
       ok: true,
       json: async () => mockResponse,
-    });
+    } as Response);
 
     const result = await repository.getCard('abc1234', 'testkey', 'testtoken');
     
@@ -31,11 +31,11 @@ describe('TrelloRepository', () => {
   });
 
   it('should throw an error if fetch fails', async () => {
-    (global.fetch as any).mockResolvedValue({
+    vi.mocked(global.fetch).mockResolvedValue({
       ok: false,
       statusText: 'Unauthorized',
       text: async () => 'Invalid token',
-    });
+    } as Response);
 
     await expect(repository.getCard('xyz999', 'testkey', 'testtoken')).rejects.toThrow(
       'Failed to fetch Trello card xyz999: Unauthorized - Invalid token',

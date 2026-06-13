@@ -11,10 +11,10 @@ describe('JiraRepository', () => {
 
   it('should fetch Jira ticket successfully', async () => {
     const mockResponse = { id: '123', key: 'PRJ-123' };
-    (global.fetch as any).mockResolvedValue({
+    vi.mocked(global.fetch).mockResolvedValue({
       ok: true,
       json: async () => mockResponse,
-    });
+    } as Response);
 
     const result = await repository.getTicket('PRJ-123', 'testdomain', 'test@test.com', 'token123');
     
@@ -32,11 +32,11 @@ describe('JiraRepository', () => {
   });
 
   it('should throw an error if fetch fails', async () => {
-    (global.fetch as any).mockResolvedValue({
+    vi.mocked(global.fetch).mockResolvedValue({
       ok: false,
       statusText: 'Not Found',
       text: async () => 'Issue does not exist',
-    });
+    } as Response);
 
     await expect(repository.getTicket('PRJ-999', 'testdomain', 'test@test.com', 'token123')).rejects.toThrow(
       'Failed to fetch Jira ticket PRJ-999: Not Found - Issue does not exist',
