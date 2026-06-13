@@ -179,7 +179,8 @@ describe('MySQL Database Tools', () => {
     const fs = await import('fs');
     const path = await import('path');
     const dirPath = path.join(process.cwd(), '.lumina/database');
-    const filePath = path.join(dirPath, 'restricColumn.json');
+    const filePath = path.join(dirPath, 'restricColumn_mysql.json');
+    process.env.LUMINA_RESTRICTED_COLUMNS_PATH = filePath;
 
     try {
       if (!fs.existsSync(dirPath)) {
@@ -196,11 +197,10 @@ describe('MySQL Database Tools', () => {
       expect(customFiltered[0]).not.toHaveProperty('email');
       expect(customFiltered[0]).not.toHaveProperty('username');
     } finally {
-      // Clean up config directory and files safely
-      const parentDir = path.join(process.cwd(), '.lumina');
-      if (fs.existsSync(parentDir)) {
-        fs.rmSync(parentDir, { recursive: true, force: true });
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
       }
+      delete process.env.LUMINA_RESTRICTED_COLUMNS_PATH;
       clearRestrictedColumnsCache();
     }
   });
