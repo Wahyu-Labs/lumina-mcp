@@ -1,6 +1,7 @@
 export class OpenProjectRepository {
   async getWorkPackage(workPackageId: string, domain: string, apiKey: string): Promise<unknown> {
-    const url = `https://${domain}/api/v3/work_packages/${workPackageId}`;
+    const cleanDomain = domain.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    const url = `https://${cleanDomain}/api/v3/work_packages/${workPackageId}`;
     
     // OpenProject uses Basic Auth where username is 'apikey'
     const authHeader = 'Basic ' + Buffer.from(`apikey:${apiKey}`).toString('base64');
