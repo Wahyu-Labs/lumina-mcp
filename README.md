@@ -56,6 +56,12 @@ You (natural language) → MCP Client → Lumina MCP → MySQL / PostgreSQL
 | **Get Trello Card** | Fetch a Trello card by its ID or shortlink via Trello REST API |
 | **Get OpenProject WP** | Fetch an OpenProject work package by its ID via OpenProject REST API |
 
+### 🤖 Orchestration Tools
+
+| Tool | Description |
+|------|-------------|
+| **Get Orchestration Phase** | Retrieve instructions for a specific orchestration phase (1-6) with dynamic test skipping logic. |
+
 ### 💬 AI Prompts
 
 | Prompt | Engine | Description |
@@ -71,6 +77,7 @@ You (natural language) → MCP Client → Lumina MCP → MySQL / PostgreSQL
 | `pm_summarize_ticket` | Project Management | Summarize a raw Jira or Trello ticket as a Senior Product Manager |
 | `pm_brainstorm_plan` | Project Management | Brainstorm technical approach and create a step-by-step plan |
 | `pm_test_catalog` | Project Management | Generate a comprehensive test catalog based on ticket and plan |
+| `lumina-orchestrate` | Orchestration | Entry-point prompt that kicks off the 6-Phase Orchestration workflow (`includeTest=true/false`) |
 
 ### 🔒 Security
 
@@ -122,6 +129,7 @@ Detailed guides with every tool parameter, prompt workflow, usage examples, and 
 | **[PostgreSQL Prompts & Tools](documents/postgresql-prompts.md)** | All 5 PostgreSQL tools, 2 prompts, security features, and usage examples |
 | **[GitHub Source Control Prompts & Tools](documents/github-prompts.md)** | All 4 Git/GitHub tools, 4 prompts, rollout guardrails, and usage examples |
 | **[Project Management Prompts & Tools](documents/projectmanagement-prompts.md)** | 3 Project Management tools (Jira, Trello, OpenProject), 3 AI prompts |
+| **[Orchestration Prompts & Tools](documents/orchestration-prompts.md)** | The 6-Phase AI Orchestration Engine, dynamic phase shifting, and usage examples |
 
 ---
 
@@ -166,11 +174,15 @@ npm run dev
 
 ### 4. Build & Production Run
 
-To build and run the compiled production build locally:
+Lumina MCP uses **esbuild** to compile, minify, and mangle the TypeScript code into a single, highly optimized binary file (`dist/index.js`).
 
 ```bash
 npm run build
-npm start
+```
+
+You can then run the built executable directly:
+```bash
+npx .
 ```
 
 To connect your local build to your MCP client, configure it like this:

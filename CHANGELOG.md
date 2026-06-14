@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.3] — 2026-06-14
+
+### Added
+- **Orchestration Workflow Module** (`lumina-orchestrate` prompt and `get_orchestration_phase` tool).
+- 6-Phase AI Orchestration Engine: 
+  1. Planning & Brainstorming
+  2. Execution (ce-work)
+  3. Unit Testing
+  4. Code Review (ce-code-review)
+  5. Verification (Language specific tests + Database checks)
+  6. Git & GitHub Push
+- Dynamic test skipping logic (`includeTest` boolean) which shifts phases seamlessly.
+- **Production Build Pipeline**: Replaced standard TypeScript compiler output with an optimized `esbuild` configuration (`build.ts`).
+- Minification and mangling enabled to bundle the entire application into a fast, lightweight, and obfuscated single binary.
+- Added `bin` executable mapping and shebang (`#!/usr/bin/env node`) for perfect `npx` compatibility across all OS when executed by AI Clients (Cursor, Antigravity, Claude Code, Codex).
+
 ## [1.0.2] — 2026-06-14
 
 ### Added
