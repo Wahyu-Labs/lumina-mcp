@@ -15,8 +15,13 @@ export function registerOrchestrationController(server: McpServer) {
       description: 'Get instructions for a specific orchestration phase (1-6).',
       inputSchema: GetOrchestrationPhaseSchema,
     },
-    async ({ phase, includeTest }) => {
-      const { instructions, error } = orchestrationService.getOrchestrationPhase(phase, includeTest);
+    async ({ phase, includeTest, tokenBudget, previousPhaseSummary }) => {
+      const { instructions, error } = orchestrationService.getOrchestrationPhase(
+        phase,
+        includeTest,
+        tokenBudget,
+        previousPhaseSummary,
+      );
 
       if (error) {
         return {
@@ -44,8 +49,8 @@ export function registerOrchestrationController(server: McpServer) {
       description: 'Run an end-to-end AI workflow across 5 or 6 phases depending on test inclusion, like a Senior Software Engineer.',
       argsSchema: OrchestrationPromptSchema,
     },
-    async ({ command }) => {
-      const promptText = orchestrationService.getOrchestrationPrompt(command);
+    async ({ command, tokenBudget }) => {
+      const promptText = orchestrationService.getOrchestrationPrompt(command, tokenBudget);
       
       return {
         messages: [

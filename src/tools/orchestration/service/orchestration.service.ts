@@ -6,6 +6,7 @@ import {
   CODE_REVIEW_PROMPT,
   VERIFICATION_PROMPT,
   GIT_SYSTEM_PROMPT,
+  SAVE_TOKENS_MODE_RULES,
 } from '../prompts/index.js';
 
 export class OrchestrationService {
@@ -14,9 +15,16 @@ export class OrchestrationService {
    *
    * @param phase The phase number requested.
    * @param includeTest Whether tests are included in the workflow.
+   * @param tokenBudget Token usage mode: 'save-tokens' for compact output, 'full-detail' for verbose.
+   * @param previousPhaseSummary Optional compressed summary from the previous phase.
    * @returns An object containing either the instructions string or an error message.
    */
-  public getOrchestrationPhase(phase: number, includeTest: boolean): { instructions?: string; error?: string } {
+  public getOrchestrationPhase(
+    phase: number,
+    includeTest: boolean,
+    tokenBudget: 'save-tokens' | 'full-detail' = 'save-tokens',
+    previousPhaseSummary?: string,
+  ): { instructions?: string; error?: string } {
     let instructions = '';
 
     if (includeTest) {
@@ -69,6 +77,16 @@ export class OrchestrationService {
     // Dynamically replace the phase number placeholder
     instructions = instructions.replace(/\{\{phase\}\}/g, String(phase));
 
+    // Inject token mode rules
+    const tokenModeContent = tokenBudget === 'save-tokens' ? SAVE_TOKENS_MODE_RULES : '';
+    instructions = instructions.replace(/\{\{tokenMode\}\}/g, tokenModeContent);
+
+    // Inject previous phase summary
+    const summaryContent = previousPhaseSummary
+      ? `\n### Context from Previous Phase\n${previousPhaseSummary}\n`
+      : '';
+    instructions = instructions.replace(/\{\{previousSummary\}\}/g, summaryContent);
+
     return { instructions };
   }
 
@@ -76,10 +94,16 @@ export class OrchestrationService {
    * Returns the senior SWE orchestration base prompt injected with context.
    *
    * @param command The context or command provided by the user.
+   * @param tokenBudget The token usage mode selected by the user.
    * @returns The evaluated prompt text.
    */
-  public getOrchestrationPrompt(command?: string): string {
-    const context = command || 'No specific command provided.';
+  public getOrchestrationPrompt(command?: string, tokenBudget?: string): string {
+    let context = command || 'No specific command provided.';
+    
+    if (tokenBudget) {
+      context += `\n\n[SYSTEM DIRECTIVE]: You must use tokenBudget: "${tokenBudget}" when calling the \`get_orchestration_phase\` tool.`;
+    }
+    
     return SENIOR_SWE_ORCHESTRATION_PROMPT.replace('{{context}}', context);
   }
 }
