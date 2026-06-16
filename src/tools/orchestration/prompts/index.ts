@@ -23,7 +23,7 @@ export const PLANNING_PROMPT = `### Phase {{phase}}: Planning, Brainstorming & T
 `;
 
 export const EXECUTION_PROMPT = `### Phase {{phase}}: Code Execution & Compounding
-1. **Execute Work**: Use the \`ce-work\` tool to implement the code according to the plan from Phase 1.
+1. **Execute Work**: Use the \`ce-work\` tool to implement the code according to the plan from Phase 1. Note: If the work involves frontend UI development (e.g., React, HTML, or Vue), use the \`ce-frontend-design\` command from compound engineering instead.
 2. **Document Learnings**: Once the code is written, use \`ce-compound\` to document any reusable learnings or patterns.
 `;
 
