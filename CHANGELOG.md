@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.4] — 2026-06-16
+
+### Added
+- **Unified Orchestration & Compound Engineering UI**: Restructured the documentation website and merged the landing page orchestration flow with Compound Engineering. The Orchestration phases are now explicitly mapped to Compound Engineering slash commands (`/ce-brainstorm`, `/ce-plan`, `/ce-work`, `/ce-code-review`, `/ce-compound`).
+- **Comprehensive PM Documentation**: Added step-by-step API key tutorials and exact environment variable setup tables for Jira, Trello, and OpenProject on the documentation site.
+- **Segmented Docs Architecture**: Splitted monolithic docs into dedicated modular pages for Project Management, Databases, Version Control, and Compound Engineering.
+
 ## [1.0.3] — 2026-06-14
 
 ### Added

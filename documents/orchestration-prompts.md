@@ -35,7 +35,7 @@ The orchestration engine is divided into six distinct phases. The AI agent must 
 
 ### Phase 1: Planning, Brainstorming & Test Catalog
 1. **Context Fetching:** Checks the repository for relevant context, skills (`Agent.md`), and tickets (via Jira/Trello tools).
-2. **Brainstorm & Plan:** Generates a robust technical approach and implementation plan.
+2. **Brainstorm & Plan:** Generates a robust technical approach and implementation plan using Compound Engineering's `ce-brainstorm` and `ce-plan`.
 3. **Test Catalog:** Generates a test catalog document based on the plan.
 *Requires user review of the plan and catalog before continuing.*
 

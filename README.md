@@ -60,7 +60,7 @@ You (natural language) → MCP Client → Lumina MCP → MySQL / PostgreSQL
 
 | Tool | Description |
 |------|-------------|
-| **Get Orchestration Phase** | Retrieve instructions for a specific orchestration phase (1-6) with dynamic test skipping logic. |
+| **Get Orchestration Phase** | Retrieve instructions for a specific orchestration phase (1-6) with dynamic test skipping logic. Integrates directly with Compound Engineering plugins. |
 
 ### 💬 AI Prompts
 
@@ -103,7 +103,14 @@ Add this configuration to your MCP client settings (e.g. `mcp.json` or your Curs
       "env": {
         "MYSQL_URL": "mysql://root:root@localhost:3306/db_name",
         "POSTGRES_URL": "postgres://postgres:lumina@localhost:5432/db_name",
-        "GITHUB_TOKEN": "your-github-personal-access-token"
+        "GITHUB_TOKEN": "your-github-personal-access-token",
+        "JIRA_URL": "https://yourcompany.atlassian.net",
+        "JIRA_EMAIL": "your.email@company.com",
+        "JIRA_API_TOKEN": "your-jira-token",
+        "TRELLO_API_KEY": "your-trello-key",
+        "TRELLO_API_TOKEN": "your-trello-token",
+        "OPENPROJECT_URL": "https://openproject.yourcompany.com",
+        "OPENPROJECT_API_KEY": "your-openproject-key"
       }
     }
   }
@@ -114,6 +121,7 @@ Add this configuration to your MCP client settings (e.g. `mcp.json` or your Curs
 > - **MySQL:** `mysql://{username}:{password}@{host}:{port}/{database_name}`
 > - **PostgreSQL:** `postgres://{username}:{password}@{host}:{port}/{database_name}`
 > - **GitHub:** Personal Access Token (PAT) with `repo` scopes.
+> - **Project Management:** Obtain Jira API Tokens from Atlassian, Trello keys via Power-Ups admin, and OpenProject tokens from your account settings.
 >
 > You can omit any environment variables that you do not use.
 
