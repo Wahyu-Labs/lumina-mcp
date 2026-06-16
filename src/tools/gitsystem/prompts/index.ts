@@ -31,10 +31,10 @@ You MUST act as a strict senior engineer writing a professional commit message t
   \`\`\`
 
 - **Rules for the Subject Line and Body Trailers**:
-  - Replace \`<model_name>\` with the actual model name running (e.g. \`Gemini 3.5 Flash\`, \`Claude 3.5 Sonnet\`).
+  - Replace \`<model_name>\` with the actual model name running (e.g. \`Gemini 3.5 Flash\`, \`Claude 3.5 Sonnet\`). Ensure you use the exact version currently active.
   - \`<type>\` MUST be: \`feat\`, \`fix\`, \`refactor\`, \`perf\`, \`docs\`, \`test\`, \`chore\`, \`build\`, \`ci\`, \`style\`, \`revert\`.
   - Use **imperative mood** ("Fix", "Add", "Refactor"). No trailing period. Keep under ~100 characters.
-  - In the \`Co-authored-by:\` trailer, specify the actual model/AI provider running (e.g. \`Gemini 3.5 Flash <gemini@google.com>\`).
+  - In the \`Co-authored-by:\` trailer, specify the actual model/AI provider running (e.g. \`Gemini 3.5 Flash <gemini@google.com>\`). Do not default to Gemini 2.5 Pro unless that is actually the model you are running.
 
 - **Example** (good):
   \`\`\`text
