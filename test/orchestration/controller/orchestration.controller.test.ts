@@ -3,7 +3,6 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { registerOrchestrationController } from '../../../src/tools/orchestration/controller/orchestration.controller.js';
 import {
   PLANNING_PROMPT,
-  EXECUTION_PROMPT,
   TESTING_PROMPT,
   CODE_REVIEW_PROMPT,
   VERIFICATION_PROMPT,
@@ -12,7 +11,10 @@ import {
 } from '../../../src/tools/orchestration/prompts/index.js';
 
 describe('Orchestration Controller', () => {
-  let mockServer: any;
+  let mockServer: {
+    registerTool: ReturnType<typeof vi.fn>;
+    registerPrompt: ReturnType<typeof vi.fn>;
+  };
 
   beforeEach(() => {
     mockServer = {
@@ -38,7 +40,7 @@ describe('Orchestration Controller', () => {
   });
 
   describe('get_orchestration_phase tool', () => {
-    let getPhaseCallback: any;
+    let getPhaseCallback: (args: { phase: number; includeTest: boolean }) => Promise<{ content: { text: string }[]; isError?: boolean }>;
 
     beforeEach(() => {
       registerOrchestrationController(mockServer as unknown as McpServer);
@@ -89,7 +91,7 @@ describe('Orchestration Controller', () => {
   });
 
   describe('lumina_orchestrate prompt', () => {
-    let orchestrateCallback: any;
+    let orchestrateCallback: (args: { command?: string }) => Promise<{ messages: { role: string; content: { text: string } }[] }>;
 
     beforeEach(() => {
       registerOrchestrationController(mockServer as unknown as McpServer);
