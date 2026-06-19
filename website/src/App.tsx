@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Landing from './pages/Landing'
 import { DocsLayout } from './components/docs/DocsLayout'
 import { GettingStarted } from './pages/docs/GettingStarted'
@@ -11,7 +11,8 @@ import { OrchestrationDocs } from './pages/docs/OrchestrationDocs'
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Landing />} />
+      <Route path="/" element={<Navigate to="/home" replace />} />
+      <Route path="/home" element={<Landing />} />
       <Route path="/docs" element={<DocsLayout />}>
         <Route path="getting-started" element={<GettingStarted />} />
         <Route path="compound-engineering" element={<CompoundEngineeringDocs />} />

@@ -4,7 +4,7 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/lumina-mcp/',
+  base: './',
   plugins: [react()],
   resolve: {
     alias: {
