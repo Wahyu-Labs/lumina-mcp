@@ -51,7 +51,7 @@ export function hasCompoundEngineering(): boolean {
           return true;
         }
       }
-    } catch (e) {
+    } catch {
       // Ignore read errors
     }
   }
