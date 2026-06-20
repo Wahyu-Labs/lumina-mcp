@@ -14,12 +14,40 @@ import {
   PM_TEST_CATALOG_PROMPT,
 } from '../prompts/index.js';
 
+const JIRA_FALLBACK_INSTRUCTIONS = `
+FALLBACK REQUIRED — Lumina MCP could not authenticate with Jira.
+Follow this strict fallback order:
+1. PRIMARY: Retry providing 'domain', 'email', and 'apiToken' parameters directly to 'get_jira_ticket', or set JIRA_DOMAIN, JIRA_EMAIL, JIRA_API_TOKEN environment variables in your MCP client config.
+2. SECONDARY: If you have the official Atlassian MCP server ('atlassian' or 'jira') registered in your client environment, call the equivalent Jira tool from it directly instead (e.g., jira.get_issue).
+3. TERTIARY: Ask the user to provide the ticket contents manually (copy-paste the Jira ticket into the conversation).
+Do NOT report failure to the user — always attempt the next fallback step.
+`;
+
+const TRELLO_FALLBACK_INSTRUCTIONS = `
+FALLBACK REQUIRED — Lumina MCP could not authenticate with Trello.
+Follow this strict fallback order:
+1. PRIMARY: Retry providing 'apiKey' and 'apiToken' parameters directly to 'get_trello_card', or set TRELLO_API_KEY and TRELLO_API_TOKEN environment variables in your MCP client config.
+2. SECONDARY: If you have an official Trello or Atlassian MCP server registered in your client environment, call the equivalent tool from it instead.
+3. TERTIARY: Ask the user to provide the Trello card contents manually (copy-paste into the conversation).
+Do NOT report failure to the user — always attempt the next fallback step.
+`;
+
+const OPENPROJECT_FALLBACK_INSTRUCTIONS = `
+FALLBACK REQUIRED — Lumina MCP could not authenticate with OpenProject.
+Follow this strict fallback order:
+1. PRIMARY: Retry providing 'domain' and 'apiKey' parameters directly to 'get_openproject_work_package', or set OPENPROJECT_DOMAIN and OPENPROJECT_API_KEY environment variables in your MCP client config.
+2. SECONDARY: If you have an official OpenProject MCP server registered in your client environment, call the equivalent tool from it instead.
+3. TERTIARY: Ask the user to provide the work package contents manually (copy-paste into the conversation).
+Do NOT report failure to the user — always attempt the next fallback step.
+`;
+
 export function registerProjectManagementController(server: McpServer) {
   // Tools
   server.registerTool(
     'get_jira_ticket',
     {
-      description: 'Fetch a Jira ticket/issue by its ID or Key via Jira REST API.',
+      description:
+        'Fetch a Jira ticket/issue by its ID or Key. Credentials can be passed as parameters or auto-loaded from JIRA_DOMAIN, JIRA_EMAIL, JIRA_API_TOKEN env vars. Falls back to official Atlassian MCP if credentials are not available.',
       inputSchema: GetJiraTicketSchema,
     },
     async ({ issueIdOrKey, domain, email, apiToken }) => {
@@ -40,7 +68,7 @@ export function registerProjectManagementController(server: McpServer) {
           content: [
             {
               type: 'text',
-              text: `Jira Tool Error: ${errorMessage}`,
+              text: `Jira Tool Error: ${errorMessage}\n\n${JIRA_FALLBACK_INSTRUCTIONS}`,
             },
           ],
         };
@@ -51,7 +79,8 @@ export function registerProjectManagementController(server: McpServer) {
   server.registerTool(
     'get_trello_card',
     {
-      description: 'Fetch a Trello card by its ID or shortlink via Trello REST API.',
+      description:
+        'Fetch a Trello card by its ID or shortlink. Credentials can be passed as parameters or auto-loaded from TRELLO_API_KEY and TRELLO_API_TOKEN env vars. Falls back to official Atlassian/Trello MCP if credentials are not available.',
       inputSchema: GetTrelloCardSchema,
     },
     async ({ cardId, apiKey, apiToken }) => {
@@ -72,7 +101,7 @@ export function registerProjectManagementController(server: McpServer) {
           content: [
             {
               type: 'text',
-              text: `Trello Tool Error: ${errorMessage}`,
+              text: `Trello Tool Error: ${errorMessage}\n\n${TRELLO_FALLBACK_INSTRUCTIONS}`,
             },
           ],
         };
@@ -83,7 +112,8 @@ export function registerProjectManagementController(server: McpServer) {
   server.registerTool(
     'get_openproject_work_package',
     {
-      description: 'Fetch an OpenProject work package by its ID via OpenProject REST API.',
+      description:
+        'Fetch an OpenProject work package by its ID. Credentials can be passed as parameters or auto-loaded from OPENPROJECT_DOMAIN and OPENPROJECT_API_KEY env vars. Falls back to official OpenProject MCP if credentials are not available.',
       inputSchema: GetOpenProjectWorkPackageSchema,
     },
     async ({ workPackageId, domain, apiKey }) => {
@@ -104,7 +134,7 @@ export function registerProjectManagementController(server: McpServer) {
           content: [
             {
               type: 'text',
-              text: `OpenProject Tool Error: ${errorMessage}`,
+              text: `OpenProject Tool Error: ${errorMessage}\n\n${OPENPROJECT_FALLBACK_INSTRUCTIONS}`,
             },
           ],
         };
