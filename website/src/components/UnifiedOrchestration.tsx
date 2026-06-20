@@ -87,7 +87,7 @@ export function UnifiedOrchestration() {
             Agentic Workflows Powered by Compound Engineering
           </div>
           <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-white mb-6">
-            Autonomous Orchestration
+            Advanced Orchestration
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Lumina MCP simplifies the 6-phase engineering lifecycle by mapping each phase directly to standard 

@@ -11,7 +11,7 @@ const features = [
   },
   {
     title: "Git System",
-    description: "Automate your version control workflows seamlessly.",
+    description: "Streamline your version control workflows seamlessly.",
     icon: <GitPullRequest className="h-6 w-6 text-purple-500" />,
     className: "md:col-span-1",
     bullets: ["Generate smart commits", "Create & review PRs", "Resolve review threads"]

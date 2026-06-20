@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Sun, Moon, Terminal, Menu, X } from "lucide-react"
+import { LanguageSwitcher } from "../ui/LanguageSwitcher"
+import { useTranslation } from "react-i18next"
 
 export function Navbar() {
   const [theme, setTheme] = useState<"light" | "dark">(() => {
@@ -13,6 +15,7 @@ export function Navbar() {
   const [activeSection, setActiveSection] = useState("")
   const location = useLocation()
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   useEffect(() => {
     const root = document.documentElement
@@ -114,35 +117,35 @@ export function Navbar() {
             onClick={handleScrollToTop}
             className={`text-sm transition-colors ${isHomeActive ? "text-accent font-bold" : "font-medium text-muted-foreground hover:text-foreground"}`}
           >
-            Home
+            {t('navbar.home')}
           </a>
           <a 
             href="#database" 
             onClick={(e) => handleScrollToSection(e, "database")}
             className={`text-sm transition-colors ${activeSection === "database" && !isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground hover:text-foreground"}`}
           >
-            Database
+            {t('navbar.database')}
           </a>
           <a 
             href="#git" 
             onClick={(e) => handleScrollToSection(e, "git")}
             className={`text-sm transition-colors ${activeSection === "git" && !isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground hover:text-foreground"}`}
           >
-            Git & PR
+            {t('navbar.git')}
           </a>
           <a 
             href="#pm" 
             onClick={(e) => handleScrollToSection(e, "pm")}
             className={`text-sm transition-colors ${activeSection === "pm" && !isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground hover:text-foreground"}`}
           >
-            Project Management
+            {t('navbar.pm')}
           </a>
           <a 
             href="#orchestration" 
             onClick={(e) => handleScrollToSection(e, "orchestration")}
             className={`text-sm transition-colors ${activeSection === "orchestration" && !isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground hover:text-foreground"}`}
           >
-            Orchestration
+            {t('navbar.orchestration')}
           </a>
           
           <div className="h-4 w-px bg-border/60" />
@@ -151,7 +154,7 @@ export function Navbar() {
             to="/docs/getting-started" 
             className={`text-sm transition-colors ${isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground hover:text-foreground"}`}
           >
-            Docs
+            {t('navbar.docs')}
           </Link>
           
           <a 
@@ -160,8 +163,10 @@ export function Navbar() {
             rel="noopener noreferrer" 
             className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
-            GitHub
+            {t('navbar.github')}
           </a>
+
+          <LanguageSwitcher />
 
           {/* Theme Switcher Toggle */}
           <button
@@ -175,6 +180,7 @@ export function Navbar() {
 
         {/* Mobile menu trigger + theme toggle */}
         <div className="flex md:hidden items-center gap-2">
+          <LanguageSwitcher />
           <button
             onClick={toggleTheme}
             className="p-2 rounded-lg border border-border/60 hover:bg-muted/50 transition-colors text-muted-foreground hover:text-foreground"
@@ -201,35 +207,35 @@ export function Navbar() {
             onClick={handleScrollToTop}
             className={`text-base transition-colors ${isHomeActive ? "text-accent font-bold" : "font-medium text-muted-foreground"}`}
           >
-            Home
+            {t('navbar.home')}
           </a>
           <a 
             href="#database" 
             onClick={(e) => handleScrollToSection(e, "database")}
             className={`text-base transition-colors ${activeSection === "database" && !isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground"}`}
           >
-            Database
+            {t('navbar.database')}
           </a>
           <a 
             href="#git" 
             onClick={(e) => handleScrollToSection(e, "git")}
             className={`text-base transition-colors ${activeSection === "git" && !isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground"}`}
           >
-            Git & PR
+            {t('navbar.git')}
           </a>
           <a 
             href="#pm" 
             onClick={(e) => handleScrollToSection(e, "pm")}
             className={`text-base transition-colors ${activeSection === "pm" && !isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground"}`}
           >
-            Project Management
+            {t('navbar.pm')}
           </a>
           <a 
             href="#orchestration" 
             onClick={(e) => handleScrollToSection(e, "orchestration")}
             className={`text-base transition-colors ${activeSection === "orchestration" && !isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground"}`}
           >
-            Orchestration
+            {t('navbar.orchestration')}
           </a>
           
           <div className="h-px w-full bg-border/60" />
@@ -239,7 +245,7 @@ export function Navbar() {
             onClick={() => setIsMobileMenuOpen(false)}
             className={`flex items-center gap-2 text-base transition-colors ${isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground"}`}
           >
-            <Terminal className="h-4 w-4" /> Docs
+            <Terminal className="h-4 w-4" /> {t('navbar.docs')}
           </Link>
           
           <a 
@@ -248,7 +254,7 @@ export function Navbar() {
             rel="noopener noreferrer" 
             className="flex items-center gap-2 text-base font-medium text-muted-foreground"
           >
-            GitHub
+            {t('navbar.github')}
           </a>
         </div>
       )}

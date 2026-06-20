@@ -1,5 +1,6 @@
 import { build } from 'esbuild';
 import fs from 'fs';
+import path from 'path';
 
 // Clean the dist directory to ensure no un-minified TS output remains
 if (fs.existsSync('dist')) {
@@ -22,6 +23,14 @@ build({
     js: '#!/usr/bin/env node', // CRITICAL for npx / CLI execution
   },
 }).then(() => {
+  // Copy skills folder to dist
+  const skillsSrcDir = path.join('src', 'skills');
+  const skillsDistDir = path.join('dist', 'skills');
+  if (fs.existsSync(skillsSrcDir)) {
+    fs.cpSync(skillsSrcDir, skillsDistDir, { recursive: true });
+    console.log('Copied skills folder to dist/skills');
+  }
+
   console.log('Production build completed successfully!');
   console.log('Output generated at dist/index.js');
 }).catch((error: unknown) => {

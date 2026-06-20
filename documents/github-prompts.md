@@ -1,6 +1,6 @@
-# GitHub Source Control — Available Prompts & Tools
+# GitHub Source Control — Prompts & Tools
 
-> **Lumina MCP** provides four prompts and four tools for interacting with Git and GitHub through the Model Context Protocol.
+> **Lumina MCP** provides seven tools and four prompts for automating Git workflows and GitHub operations through the Model Context Protocol.
 
 ---
 
@@ -8,76 +8,130 @@
 
 ### `generate_commit_and_push`
 
-Generate a commit message based on local changes, commit the files, and push them to GitHub.
+Generate a Conventional Commit message, stage the specified files, and push them to a remote branch.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `repository` | `string` | ✅ | Repository name in format `owner/repo` |
-| `branch` | `string` | ✅ | Branch name to commit and push to |
-| `files` | `array` | ✅ | List of specific files to add and commit |
-| `commitMessage` | `string` | ❌ | The commit message to use (optional) |
-| `diff` | `string` | ❌ | Git diff content or fallback message (optional) |
+| `repository` | `string` | ✅ | Repository in `owner/repo` format |
+| `branch` | `string` | ✅ | Target branch to commit and push to |
+| `files` | `array` | ✅ | List of file paths to stage and commit |
+| `commitMessage` | `string` | ❌ | Commit message (auto-generated if omitted) |
+| `diff` | `string` | ❌ | Git diff content for context |
 
 **Example:**
 ```
 /mcp:lumina-mcp-local:generate_commit_and_push
 
 repository: owner/repo
-branch: main
-files: ["src/index.ts", "package.json"]
-commitMessage: "feat: implement JWT token rotation"
+branch: feat/auth
+files: ["src/auth.ts", "src/middleware/jwt.ts"]
+commitMessage: "feat(auth): implement JWT token rotation"
 ```
 
 ---
 
 ### `create_github_pr`
 
-Create a pull request on GitHub.
+Create a Pull Request on GitHub.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `repository` | `string` | ✅ | Repository name in format `owner/repo` |
+| `repository` | `string` | ✅ | Repository in `owner/repo` format |
 | `title` | `string` | ✅ | Pull request title |
-| `head` | `string` | ✅ | The name of the branch where your changes are implemented |
-| `base` | `string` | ✅ | The name of the branch you want the changes pulled into |
-| `body` | `string` | ✅ | The contents of the pull request description |
+| `head` | `string` | ✅ | Source branch (where changes are implemented) |
+| `base` | `string` | ✅ | Target branch (where changes will be merged into) |
+| `body` | `string` | ✅ | Pull request description (Markdown supported) |
 
 **Example:**
 ```
 /mcp:lumina-mcp-local:create_github_pr
 
 repository: owner/repo
-title: "feat: implement auth"
-head: "feature/auth"
+title: "feat(auth): implement JWT token rotation"
+head: "feat/auth"
 base: "main"
-body: "This PR introduces JWT token rotation and authentication layers."
+body: "This PR introduces JWT token rotation and secure middleware layers."
 ```
 
 ---
 
 ### `review_github_pr`
 
-Submit an AI-based code review directly to a GitHub Pull Request.
+Submit an AI-powered code review directly to a GitHub Pull Request.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `repository` | `string` | ✅ | Repository name in format `owner/repo` |
-| `pullRequestNumber` | `number` | ✅ | The number of the pull request to review |
-| `event` | `string` | ✅ | The review action to perform (`APPROVE`, `REQUEST_CHANGES`, `COMMENT`) |
-| `body` | `string` | ✅ | The body text of the pull request review |
-| `comments` | `array` | ❌ | Optional inline comments containing `path`, `position`, and `body` |
+| `repository` | `string` | ✅ | Repository in `owner/repo` format |
+| `pullRequestNumber` | `number` | ✅ | The PR number to review |
+| `event` | `string` | ✅ | Review action: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT` |
+| `body` | `string` | ✅ | The overall review body text |
+| `comments` | `array` | ❌ | Inline comments with `path`, `position`, and `body` |
+
+**Example:**
+```
+/mcp:lumina-mcp-local:review_github_pr
+
+repository: owner/repo
+pullRequestNumber: 42
+event: "REQUEST_CHANGES"
+body: "Found 2 critical issues. See inline comments."
+```
 
 ---
 
 ### `fix_github_pr_review`
 
-Fetch the reviews and inline comments of a Pull Request to help automatically fix them.
+Fetch all review comments from a PR to help the AI automatically apply fixes and push the result.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `repository` | `string` | ✅ | Repository name in format `owner/repo` |
-| `pullRequestNumber` | `number` | ✅ | The number of the pull request |
-| `branch` | `string` | ✅ | The branch of the pull request to commit fixes to |
+| `repository` | `string` | ✅ | Repository in `owner/repo` format |
+| `pullRequestNumber` | `number` | ✅ | The PR number |
+| `branch` | `string` | ✅ | Branch to commit the fixes to |
+
+**Example:**
+```
+/mcp:lumina-mcp-local:fix_github_pr_review
+
+repository: owner/repo
+pullRequestNumber: 104
+branch: feat/auth
+```
+
+---
+
+### `get_github_pr_diff`
+
+Download the clean unified diff of any open GitHub PR for automated review or analysis.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `repository` | `string` | ✅ | Repository in `owner/repo` format |
+| `pullRequestNumber` | `number` | ✅ | The PR number |
+
+---
+
+### `reply_to_pr_comment`
+
+Reply to an inline comment within a GitHub Pull Request review.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `repository` | `string` | ✅ | Repository in `owner/repo` format |
+| `pullRequestNumber` | `number` | ✅ | The PR number |
+| `commentId` | `number` | ✅ | The ID of the comment to reply to |
+| `body` | `string` | ✅ | The reply message body |
+
+---
+
+### `resolve_pr_review_thread`
+
+Resolve a GitHub PR review thread by its comment node ID, marking the discussion as resolved.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `repository` | `string` | ✅ | Repository in `owner/repo` format |
+| `threadId` | `string` | ✅ | The GraphQL node ID of the review thread to resolve |
 
 ---
 
@@ -87,11 +141,16 @@ Fetch the reviews and inline comments of a Pull Request to help automatically fi
 
 > **Title:** Senior SWE Commit Generator
 
-Generate a professional commit message following conventional commits, ticket/branch name detection, and AI transparent authorship rules.
+Generate a professional Conventional Commit message with automatic ticket/branch name detection and AI transparent authorship tagging.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `command` | `string` | ❌ | Natural language instruction or context |
+
+**Example:**
+```
+Stage my changes and generate a commit message.
+```
 
 ---
 
@@ -99,11 +158,16 @@ Generate a professional commit message following conventional commits, ticket/br
 
 > **Title:** Tech Company PR Creator
 
-Generate a comprehensive PR description following the style of large tech companies (like Netflix, Meta, or Google), including context, solution, test coverage, and checklist.
+Generate a comprehensive, tech company-style PR description (Netflix/Meta/Google standard) including problem context, solution overview, test coverage, and a review checklist.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `command` | `string` | ❌ | Natural language instruction or context |
+
+**Example:**
+```
+Create a PR from feat/auth into main.
+```
 
 ---
 
@@ -111,11 +175,16 @@ Generate a comprehensive PR description following the style of large tech compan
 
 > **Title:** AI Code Reviewer
 
-Submit a rigorous, high-standard code review directly to GitHub acting as a strict **Senior Staff Engineer** with categorization for issues ([CRITICAL], [MAJOR], [MINOR], [NIT]).
+Submit a rigorous, Big Tech-style code review directly to a GitHub Pull Request, acting as a strict Senior Staff Engineer. Issues are categorized as `[CRITICAL]`, `[MAJOR]`, `[MINOR]`, or `[NIT]`.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `command` | `string` | ❌ | Natural language instruction or context |
+
+**Example:**
+```
+Review PR #42 and approve it.
+```
 
 ---
 
@@ -123,21 +192,23 @@ Submit a rigorous, high-standard code review directly to GitHub acting as a stri
 
 > **Title:** Fix PR Review Message
 
-Automatically analyze review comments, apply fixes to the codebase, verify changes, and reply/resolve them on GitHub.
+Automatically fetch PR review comments, analyze what needs to be fixed, apply changes to the codebase, verify them, and reply or resolve the threads on GitHub.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `command` | `string` | ❌ | Natural language instruction or context |
 
+**Example:**
+```
+Resolve all PR review comments on PR #104.
+```
+
 ---
 
-## 🔒 Execution Guardrails & Fallbacks
+## 🛡️ Fallback Strategy
 
-All Git/GitHub prompts enforce that after generating a description, commit message, or code fix, the AI **must** call the respective MCP tool (`generate_commit_and_push`, `create_github_pr`, `review_github_pr`) to complete the workflow automatically.
+All Git/GitHub prompts use a smart three-tier fallback if a tool is unavailable:
 
-### Prompt-Based Fallback Rules
-To avoid environment-setup roadblocks (such as a missing or invalid `GITHUB_TOKEN` on the server), all prompt templates embed dynamic, intelligent fallback flow instructions for the AI:
-1. **Primary**: Attempt to use `lumina-mcp` tools (e.g. `create_github_pr`, `review_github_pr`, etc.).
-2. **Secondary**: Fall back to the official GitHub MCP server (`github`) if it is registered in the client's environment.
-3. **Tertiary**: Fall back to executing local shell commands via the GitHub CLI (`gh` CLI) or standard `git` terminal commands if both MCP servers are unavailable or fail.
-
+1. **Primary** — Use Lumina MCP tools (`generate_commit_and_push`, `create_github_pr`, etc.)
+2. **Secondary** — Fall back to the official GitHub MCP server if registered in the client
+3. **Tertiary** — Fall back to GitHub CLI (`gh`) or standard `git` terminal commands

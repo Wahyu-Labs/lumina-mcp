@@ -1,3 +1,8 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { hasCompoundEngineering } from '../../../utils/compound-engineering.util.js';
+
 import {
   SENIOR_SWE_ORCHESTRATION_PROMPT,
   PLANNING_PROMPT,
@@ -10,6 +15,28 @@ import {
 } from '../prompts/index.js';
 
 export class OrchestrationService {
+  private getFallbackSkill(skillName: string): string {
+    try {
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = path.dirname(__filename);
+      
+      const prodSkillsDir = path.join(__dirname, 'skills');
+      const devSkillsDir = path.join(__dirname, '..', '..', '..', 'skills');
+      
+      let filePath = path.join(prodSkillsDir, `${skillName}.md`);
+      if (!fs.existsSync(filePath)) {
+        filePath = path.join(devSkillsDir, `${skillName}.md`);
+      }
+      
+      if (fs.existsSync(filePath)) {
+        return '\n\n' + fs.readFileSync(filePath, 'utf-8') + '\n\n';
+      }
+    } catch (e) {
+      console.error(`Failed to load fallback skill: ${skillName}`, e);
+    }
+    return '';
+  }
+
   /**
    * Returns the dynamic instructions for a specific orchestration phase.
    *
@@ -86,6 +113,27 @@ export class OrchestrationService {
       ? `\n### Context from Previous Phase\n${previousPhaseSummary}\n`
       : '';
     instructions = instructions.replace(/\{\{previousSummary\}\}/g, summaryContent);
+
+    // Inject fallback content if Compound Engineering is not installed
+    const hasCE = hasCompoundEngineering();
+    let fallbackContent = '';
+
+    if (!hasCE) {
+      if (phase === 1) {
+        fallbackContent += this.getFallbackSkill('fallback-brainstorm');
+      } else if (phase === 2) {
+        fallbackContent += this.getFallbackSkill('fallback-work');
+        fallbackContent += this.getFallbackSkill('fallback-compound');
+      } else if (phase === 3 && !includeTest) {
+        fallbackContent += this.getFallbackSkill('fallback-review');
+      } else if (phase === 4 && includeTest) {
+        fallbackContent += this.getFallbackSkill('fallback-review');
+      }
+    }
+
+    if (fallbackContent) {
+      instructions += fallbackContent;
+    }
 
     return { instructions };
   }

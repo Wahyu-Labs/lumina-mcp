@@ -1,14 +1,20 @@
 <p align="center">
-  <h1 align="center">✦ Lumina MCP</h1>
+  <h1 align="center">Lumina MCP</h1>
   <p align="center">
-    <strong>Unified MCP toolkit for database operations — query, inspect, analyze, and audit your MySQL & PostgreSQL databases through natural language.</strong>
+    <strong>Give your AI assistant real developer superpowers. Query databases, automate Git workflows, sync project tickets, and orchestrate full development cycles — all through natural language.</strong>
   </p>
   <p align="center">
+    <a href="https://lumina-mcp.vercel.app">Website</a> •
     <a href="#-quick-start">Quick Start</a> •
-    <a href="#-features">Features</a> •
+    <a href="#-tools--prompts">Tools & Prompts</a> •
     <a href="#-documentation">Documentation</a> •
-    <a href="CHANGELOG.md">Changelog</a> •
-    <a href="#-license">License</a>
+    <a href="CONTRIBUTING.md">Contributing</a> •
+    <a href="CHANGELOG.md">Changelog</a>
+  </p>
+  <p align="center">
+    <img alt="npm" src="https://img.shields.io/npm/v/lumina-mcp?style=flat-square&color=6366f1">
+    <img alt="license" src="https://img.shields.io/github/license/Wahyu-Labs/lumina-mcp?style=flat-square&color=6366f1">
+    <img alt="node" src="https://img.shields.io/node/v/lumina-mcp?style=flat-square&color=6366f1">
   </p>
 </p>
 
@@ -16,83 +22,151 @@
 
 ## Overview
 
-**Lumina MCP** is a [Model Context Protocol](https://modelcontextprotocol.io) server that exposes database tools and AI-driven prompts for MySQL and PostgreSQL. It allows any MCP-compatible client (Antigravity IDE, Claude Code, Cursor, etc.) to query, inspect, and audit databases using natural language — with built-in security guardrails.
+**Lumina MCP** is a [Model Context Protocol](https://modelcontextprotocol.io) server that gives AI assistants (Antigravity IDE, Claude Code, Cursor, Codex, VS Code) direct access to your developer environment.
+
+It acts as a secure bridge between your AI agent and the real tools developers use every day:
 
 ```
-You (natural language) → MCP Client → Lumina MCP → MySQL / PostgreSQL
-                                          ↓
-                              Query results, audit reports,
-                              schema inspection, EXPLAIN plans
+You (natural language) → AI Client (MCP) → Lumina MCP Server
+                                                  ↓
+                              MySQL / PostgreSQL — GitHub — Jira / Trello / OpenProject
+                              Schema inspection, Audit reports, Git commits, PR creation,
+                              Ticket ingestion, Full dev cycle orchestration
+```
+
+> **💡 Pro Tip:** Lumina MCP works out of the box with **any MCP-compatible AI client**. You only need to include environment variables for the tools you actually plan to use.
+
+---
+
+## ✨ Tools & Prompts
+
+### 🗄️ Database Tools (MySQL & PostgreSQL)
+
+| Tool | MySQL | PostgreSQL | Description |
+|------|:-----:|:----------:|-------------|
+| `execute_mysql_query` / `execute_postgres_query` | ✅ | ✅ | Run read-only SQL queries via natural language |
+| `list_mysql_tables` / `list_postgresql_tables` | ✅ | ✅ | List all tables in the target database |
+| `inspect_mysql_table` / `inspect_postgresql_table` | ✅ | ✅ | Inspect columns, types, keys, nullability |
+| `analyze_mysql_query` / `analyze_postgresql_query` | ✅ | ✅ | `EXPLAIN`/`EXPLAIN ANALYZE` with DBA-level verdict |
+| `save_audit_report` / `save_audit_report_pg` | ✅ | ✅ | Persist AI-generated audit reports as Markdown |
+
+**Database Prompts:**
+
+| Prompt | Description |
+|--------|-------------|
+| `running_query` | Natural language → MySQL `SELECT` query with schema auto-detection |
+| `auditor_query` | Full MySQL performance & security audit by a Principal DBA |
+| `running_pg_query` | Natural language → PostgreSQL `SELECT` query with schema auto-detection |
+| `auditor_pg_query` | Full PostgreSQL performance & security audit by a Principal DBA |
+
+**Example:**
+```
+Run a query to find the top 5 customers with active status.
+Analyze query performance for SELECT * FROM orders WHERE status = 'pending'
 ```
 
 ---
 
-## ✨ Features
-
-### 🗄️ Database Tools
-
-| Tool | MySQL | PostgreSQL | Description |
-|------|:-----:|:----------:|-------------|
-| **Execute Query** | ✅ | ✅ | Run read-only SQL queries with parameterized bindings |
-| **List Tables** | ✅ | ✅ | Discover all tables in the target database |
-| **Inspect Table** | ✅ | ✅ | View column names, types, keys, nullability, defaults |
-| **Analyze Query** | ✅ | ✅ | `EXPLAIN` / `EXPLAIN ANALYZE` with Senior DBA verdicts |
-| **Save Audit Report** | ✅ | ✅ | Persist AI-generated audit reports as Markdown |
-
-### 🐙 GitHub Source Control Tools
+### 🐙 Version Control Tools (GitHub)
 
 | Tool | Description |
 |------|-------------|
-| **Generate Commit & Push** | Staging granularity commit generation, staging only created/modified files, Conventional Commit with JIRA/Ticket auto-detection, and push |
-| **Create PR** | Create a pull request on GitHub with custom head/base branches and body |
-| **Review PR** | Submit a rigorous, Big Tech-style code review directly to a GitHub Pull Request |
-| **Fix PR Review** | Fetch review comments and code review threads concurrently to guide code fixes |
+| `generate_commit_and_push` | Generate a Conventional Commit message, stage files, and push |
+| `create_github_pr` | Create a GitHub Pull Request with auto-generated tech company-style description |
+| `review_github_pr` | Submit a rigorous AI code review directly to a GitHub Pull Request |
+| `fix_github_pr_review` | Fetch PR review comments and automatically apply fixes to the codebase |
+| `get_github_pr_diff` | Download a clean unified diff of any open GitHub PR for automated review |
+| `reply_to_pr_comment` | Reply to inline comments within a GitHub Pull Request review |
+| `resolve_pr_review_thread` | Resolve a GitHub PR review thread by its comment node ID |
 
-### 📋 Project Management Tools
+**Git Prompts:**
+
+| Prompt | Description |
+|--------|-------------|
+| `commit_generator_message` | Conventional commit message generator with ticket/branch auto-detection |
+| `tech_company_pr_creator` | Netflix/Meta/Google-style PR description generator |
+| `ai_code_reviewer` | Senior Staff-level PR reviewer ([CRITICAL], [MAJOR], [MINOR], [NIT]) |
+| `fix_pr_review_message` | Analyze review comments, apply fixes, and resolve threads automatically |
+
+**Example:**
+```
+Stage my changes and generate a commit message.
+Create a PR from feat/auth into main.
+Review PR #42 and approve it.
+Resolve all review comments on PR #104.
+```
+
+---
+
+### 📋 Project Management Integration
 
 | Tool | Description |
 |------|-------------|
-| **Get Jira Ticket** | Fetch a Jira ticket/issue by its ID or Key via Jira REST API |
-| **Get Trello Card** | Fetch a Trello card by its ID or shortlink via Trello REST API |
-| **Get OpenProject WP** | Fetch an OpenProject work package by its ID via OpenProject REST API |
+| `get_jira_ticket` | Fetch a Jira issue by ID/Key — includes title, description, labels, comments, epic |
+| `get_trello_card` | Fetch a Trello card — includes description, status, checklist, comment history |
+| `get_openproject_work_package` | Fetch an OpenProject work package — includes assignee, priority, and comments |
 
-### 🤖 Orchestration Tools
+**PM Prompts:**
+
+| Prompt | Description |
+|--------|-------------|
+| `pm_summarize_ticket` | Summarize a raw Jira/Trello/OpenProject ticket as a Senior Product Manager |
+| `pm_brainstorm_plan` | Brainstorm technical approach and create a step-by-step implementation plan |
+| `pm_test_catalog` | Generate a comprehensive test catalog based on the ticket and technical plan |
+
+**Example:**
+```
+Fetch Jira ticket LUM-402 and summarize it.
+Download OpenProject work package #82 and create a technical plan.
+Get Trello card 64b19c and generate a test catalog.
+```
+
+---
+
+### 🤖 Orchestration
 
 | Tool | Description |
 |------|-------------|
-| **Get Orchestration Phase** | Retrieve instructions for a specific orchestration phase (1-6) with dynamic test skipping logic. Integrates directly with Compound Engineering plugins. |
+| `get_orchestration_phase` | Retrieve system-level instructions for a specific orchestration phase (1–6) |
 
-### 💬 AI Prompts
+**Orchestration Prompt:**
 
-| Prompt | Engine | Description |
-|--------|--------|-------------|
-| `running_query` | MySQL | Natural-language → SQL with auto schema detection |
-| `auditor_query` | MySQL | Full performance & security audit by a Principal DBA |
-| `running_pg_query` | PostgreSQL | Natural-language → SQL with auto schema detection |
-| `auditor_pg_query` | PostgreSQL | Full performance & security audit by a Principal DBA |
-| `commit_generator_message` | GitHub/Git | Conventional commit message generator with ticket/branch detection |
-| `tech_company_pr_creator` | GitHub/Git | Tech Company PR description generator (Netflix/Meta/Google style) |
-| `ai_code_reviewer` | GitHub/Git | Senior Staff level PR reviewer checking correctness, security, performance |
-| `fix_pr_review_message` | GitHub/Git | Automatically analyze PR review comments, guide fixes, and push updates |
-| `pm_summarize_ticket` | Project Management | Summarize a raw Jira or Trello ticket as a Senior Product Manager |
-| `pm_brainstorm_plan` | Project Management | Brainstorm technical approach and create a step-by-step plan |
-| `pm_test_catalog` | Project Management | Generate a comprehensive test catalog based on ticket and plan |
-| `lumina-orchestrate` | Orchestration | Entry-point prompt that kicks off the 6-Phase Orchestration workflow (`includeTest=true/false`) |
+| Prompt | Description |
+|--------|-------------|
+| `lumina-orchestrate` | Kicks off the full Orchestration Development Cycle. Use `includeTest=true/false` to control the testing phase |
+
+The orchestration cycle follows **6 deterministic phases**:
+
+| # | Phase | Description |
+|---|-------|-------------|
+| 1 | **Discovery & Analysis** | Fetches tickets, reads codebase, drafts requirements |
+| 2 | **Technical Planning** | Creates a precise file-by-file implementation plan |
+| 3 | **Execution & Implementation** | Implements code following the approved plan |
+| 4 | **Iterative Code Review** | Multi-agent review loop for security & quality |
+| 5 | **Verification & Compounding** | Runs tests, audits DB changes, records learnings |
+| 6 | **Git Pull Request Release** | Conventional commit, push, and GitHub PR creation |
+
+**Example:**
+```
+/lumina-orchestrate includeTest=true
+```
+
+---
 
 ### 🔒 Security
 
-- **Read-only enforcement** — Blocks `INSERT`, `UPDATE`, `DELETE`, `DROP`, `ALTER`, `CREATE`, `TRUNCATE`
-- **SQL injection detection** — Detects comments, tautologies (`OR 1=1`), and `UNION SELECT`
+All database connections are **strictly read-only** with multiple enforcement layers:
+
+- **Write blocking** — Blocks `INSERT`, `UPDATE`, `DELETE`, `DROP`, `ALTER`, `CREATE`, `TRUNCATE`
+- **SQL injection detection** — Detects comments (`--`, `/*`), tautologies (`OR 1=1`), and `UNION SELECT`
 - **Sensitive column filtering** — Auto-strips `password`, `token`, `secret`, `credential` from results
 - **Configurable restrictions** — Extend blocked columns via `.lumina/database/restricColumn.json`
 
 ---
 
-## 🚀 Quick Start (Usage via MCP Client)
+## 🚀 Quick Start
 
-You can run **Lumina MCP** directly using `npx` (which runs the published npm package) without manual installation or cloning:
-
-Add this configuration to your MCP client settings (e.g. `mcp.json` or your Cursor/Claude Desktop settings):
+Add this to your MCP client configuration (e.g. `mcp.json`, Cursor settings, Claude config):
 
 ```json
 {
@@ -101,8 +175,8 @@ Add this configuration to your MCP client settings (e.g. `mcp.json` or your Curs
       "command": "npx",
       "args": ["-y", "lumina-mcp"],
       "env": {
-        "MYSQL_URL": "mysql://root:root@localhost:3306/db_name",
-        "POSTGRES_URL": "postgres://postgres:lumina@localhost:5432/db_name",
+        "MYSQL_URL": "mysql://user:password@localhost:3306/db_name",
+        "POSTGRES_URL": "postgres://user:password@localhost:5432/db_name",
         "GITHUB_TOKEN": "your-github-personal-access-token",
         "JIRA_URL": "https://yourcompany.atlassian.net",
         "JIRA_EMAIL": "your.email@company.com",
@@ -117,161 +191,64 @@ Add this configuration to your MCP client settings (e.g. `mcp.json` or your Curs
 }
 ```
 
-> ℹ️ **Connection Configuration:**
-> - **MySQL:** `mysql://{username}:{password}@{host}:{port}/{database_name}`
-> - **PostgreSQL:** `postgres://{username}:{password}@{host}:{port}/{database_name}`
-> - **GitHub:** Personal Access Token (PAT) with `repo` scopes.
-> - **Project Management:** Obtain Jira API Tokens from Atlassian, Trello keys via Power-Ups admin, and OpenProject tokens from your account settings.
->
-> You can omit any environment variables that you do not use.
+> **You only need to include the environment variables for the integrations you use.** If you already have the official [Atlassian MCP](https://github.com/atlassian/mcp) or [GitHub MCP](https://github.com/github/mcp) installed, Lumina MCP will automatically use them as a fallback.
+
+For detailed, client-specific installation guides (Antigravity IDE, Cursor, Claude Code, VS Code, Codex), visit **[lumina-mcp.vercel.app](https://lumina-mcp.vercel.app)**.
 
 ---
 
 ## 📖 Documentation
 
-Detailed guides with every tool parameter, prompt workflow, usage examples, and security features:
+Detailed guides for every tool, prompt, parameter, and usage example:
 
 | Guide | Description |
 |-------|-------------|
-| **[MySQL Prompts & Tools](documents/mysql-prompts.md)** | All 5 MySQL tools, 2 prompts, security features, and usage examples |
-| **[PostgreSQL Prompts & Tools](documents/postgresql-prompts.md)** | All 5 PostgreSQL tools, 2 prompts, security features, and usage examples |
-| **[GitHub Source Control Prompts & Tools](documents/github-prompts.md)** | All 4 Git/GitHub tools, 4 prompts, rollout guardrails, and usage examples |
-| **[Project Management Prompts & Tools](documents/projectmanagement-prompts.md)** | 3 Project Management tools (Jira, Trello, OpenProject), 3 AI prompts |
-| **[Orchestration Prompts & Tools](documents/orchestration-prompts.md)** | The 6-Phase AI Orchestration Engine, dynamic phase shifting, and usage examples |
-
----
-
-## 🤝 Development & Contributing
-
-Contributions are welcome! If you want to develop locally, run from source, or contribute to Lumina MCP, follow these instructions:
-
-### Prerequisites
-
-- **Node.js** ≥ 18
-- **MySQL** 8.0+ / **PostgreSQL** 15+ (or use the included Docker Compose)
-
-### 1. Clone & Install
-
-```bash
-git clone https://github.com/Wahyu-Labs/lumina-mcp.git
-cd lumina-mcp
-npm install
-```
-
-### 2. Run Database Containers (Optional)
-
-We include a `docker-compose.yml` to spin up local MySQL and PostgreSQL instances configured with default credentials:
-
-```bash
-docker compose up -d
-```
-
-### 3. Local Development
-
-Create a `.env` file from the example:
-
-```bash
-cp .env.example .env
-```
-
-Start the TypeScript compiler in watch mode:
-
-```bash
-npm run dev
-```
-
-### 4. Build & Production Run
-
-Lumina MCP uses **esbuild** to compile, minify, and mangle the TypeScript code into a single, highly optimized binary file (`dist/index.js`).
-
-```bash
-npm run build
-```
-
-You can then run the built executable directly:
-```bash
-npx .
-```
-
-To connect your local build to your MCP client, configure it like this:
-
-```json
-    "lumina-mcp-local": {
-      "command": "node",
-      "args": ["/absolute/path/to/lumina-mcp/dist/index.js"],
-      "env": {
-        "MYSQL_URL": "mysql://root:root@localhost:3306/db_name",
-        "POSTGRES_URL": "postgres://postgres:lumina@localhost:5432/db_name"
-      }
-    }
-```
+| **[MySQL Prompts & Tools](documents/mysql-prompts.md)** | 5 MySQL tools, 2 prompts, security features, and examples |
+| **[PostgreSQL Prompts & Tools](documents/postgresql-prompts.md)** | 5 PostgreSQL tools, 2 prompts, security features, and examples |
+| **[GitHub Source Control](documents/github-prompts.md)** | 7 Git/GitHub tools, 4 prompts, and fallback strategy |
+| **[Project Management Integration](documents/projectmanagement-prompts.md)** | 3 PM tools (Jira, Trello, OpenProject), 3 AI prompts |
+| **[AI Orchestration](documents/orchestration-prompts.md)** | 6-Phase Orchestration Engine, native fallback strategy |
 
 ---
 
 ## 🏗️ Architecture
 
-Lumina MCP uses a clean, **layered architecture** to separate concerns:
+Lumina MCP follows a clean, layered architecture:
 
 ```
 src/
 ├── index.ts                          # MCP server entry point
-├── utils/
-│   └── prompt-args.utils.ts          # Prompt argument compatibility patch
 └── tools/
-    └── database/
-        ├── dto/                      # Zod validation schemas
-        │   └── database.dto.ts
-        ├── types/                    # TypeScript interfaces
-        │   └── database.types.ts
-        ├── prompts/                  # AI prompt templates
-        │   ├── running-query.prompt.ts
-        │   └── auditor-query.prompt.ts
-        ├── utils/                    # Shared utilities
-        │   ├── security.ts           # SQL injection & column filtering
-        │   └── report.ts             # Audit report persistence
-        ├── mysql/
-        │   ├── controller/           # Tool & prompt registration
-        │   ├── service/              # Business logic & validation
-        │   └── repository/           # Database connection pool
-        └── postgresql/
-            ├── controller/
-            ├── service/
-            └── repository/
+    ├── database/
+    │   ├── mysql/
+    │   │   ├── controller/           # Tool & prompt registration
+    │   │   ├── service/              # Business logic & read-only validation
+    │   │   └── repository/           # Connection pool
+    │   └── postgresql/
+    │       ├── controller/
+    │       ├── service/
+    │       └── repository/
+    ├── github/                       # Git & PR tools
+    ├── projectmanagement/            # Jira, Trello, OpenProject tools
+    └── orchestration/                # Phase-based orchestration engine
 ```
-
-- **Controller** — Registers MCP tools and prompts, handles requests/responses.
-- **Service** — Business logic, read-only validation, query execution analysis.
-- **Repository** — Database connection pooling and raw query execution.
 
 ---
 
-## 🧪 Testing & Verification
+## 🧪 Testing
 
 ```bash
-# Run tests
-npm test
-
-# Run tests with coverage
-npm run test:coverage
-
-# Lint
-npm run lint
-
-# Format
-npm run format
+npm test                # Run all tests
+npm run test:coverage   # Run tests with coverage report
+npm run lint            # Lint the codebase
+npm run format          # Format the codebase
 ```
 
 ---
 
-## 🚀 Contributing Process
+## 🤝 Contributing
 
-1. **Fork** the repository.
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`).
-3. **Commit** your changes (`git commit -m 'feat: add amazing feature'`).
-4. **Push** to the branch (`git push origin feature/amazing-feature`).
-5. **Open** a Pull Request.
-
-Please ensure your code passes linting, formatting, and unit tests before opening a PR.
+We welcome contributions of all kinds! Please read **[CONTRIBUTING.md](CONTRIBUTING.md)** for guidelines on how to get started, coding standards, and the PR process.
 
 ---
 

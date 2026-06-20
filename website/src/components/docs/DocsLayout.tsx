@@ -2,6 +2,10 @@ import { useEffect, useState } from "react"
 import { Link, Outlet, useLocation } from "react-router-dom"
 import { motion } from "framer-motion"
 import { Search, ChevronDown, Sun, Moon, Home, BookOpen, Menu, X } from "lucide-react"
+import pkg from "../../../../package.json"
+import { Footer } from "../landing/Footer"
+import { LanguageSwitcher } from "../ui/LanguageSwitcher"
+import { useTranslation } from "react-i18next"
 
 interface TOCItem {
   id: string
@@ -34,6 +38,7 @@ const SECTIONS = [
 ]
 
 export function DocsLayout() {
+  const { t } = useTranslation()
   const { pathname } = useLocation()
   const [toc, setToc] = useState<TOCItem[]>([])
   const [searchQuery, setSearchQuery] = useState("")
@@ -115,23 +120,36 @@ export function DocsLayout() {
       <nav className="w-full border-b border-border/40 bg-background/80 backdrop-blur-md sticky top-0 z-50 transition-colors">
         <div className="max-w-[1400px] mx-auto px-6 h-16 flex justify-between items-center relative">
           
-          <Link to="/" className="text-lg font-extrabold tracking-tighter flex items-center gap-2 group shrink-0">
-            <span className="h-7 w-7 rounded bg-accent text-accent-foreground flex items-center justify-center font-black group-hover:scale-105 transition-transform text-sm shrink-0">
-              L
-            </span>
-            <span className="flex items-center gap-1.5 whitespace-nowrap">
-              <span className="text-foreground">Lumina<span className="text-accent">MCP</span></span>
-              <span className="text-muted-foreground font-normal text-xs border-l border-border/60 pl-2 h-4 flex items-center">Docs</span>
-            </span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link to="/" className="text-lg font-extrabold tracking-tighter flex items-center gap-2 group shrink-0">
+              <span className="h-7 w-7 rounded bg-accent text-accent-foreground flex items-center justify-center font-black group-hover:scale-105 transition-transform text-sm shrink-0">
+                L
+              </span>
+              <span className="flex items-center gap-1.5 whitespace-nowrap">
+                <span className="text-foreground">Lumina<span className="text-accent">MCP</span></span>
+                <span className="text-muted-foreground font-normal text-xs border-l border-border/60 pl-2 h-4 flex items-center">Docs</span>
+              </span>
+            </Link>
+
+            {/* Version Dropdown */}
+            <div className="hidden sm:flex items-center gap-2 bg-muted/30 border border-border/60 rounded-md px-2.5 py-1.5 transition-colors hover:bg-muted/50 cursor-pointer group">
+              <span className="text-xs font-semibold tracking-wide text-muted-foreground group-hover:text-foreground transition-colors">v{pkg.version}</span>
+              <span className="px-1.5 py-0.5 rounded-sm bg-accent/10 text-accent border border-accent/20 text-[9px] font-extrabold uppercase tracking-wider">
+                Latest
+              </span>
+              <ChevronDown className="h-3.5 w-3.5 text-muted-foreground ml-1" />
+            </div>
+
+            <LanguageSwitcher />
+          </div>
 
           {/* Desktop Links */}
           <div className="hidden md:flex gap-6 items-center">
             <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
-              <Home className="h-4 w-4" /> Home
+              <Home className="h-4 w-4" /> {t('docsLayout.home')}
             </Link>
             <a href="https://github.com/Wahyu-Labs/lumina-mcp" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              GitHub
+              {t('docsLayout.github')}
             </a>
             
             <div className="h-4 w-px bg-border/60" />
@@ -174,7 +192,7 @@ export function DocsLayout() {
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Search docs..."
+                placeholder={t('docsLayout.searchDocs')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-9 pr-4 py-2 text-xs rounded-lg border border-border/60 bg-muted/30 focus:bg-background focus:ring-1 focus:ring-accent focus:outline-none transition-all placeholder:text-muted-foreground"
@@ -187,7 +205,7 @@ export function DocsLayout() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
               >
-                <Home className="h-4 w-4" /> Home
+                <Home className="h-4 w-4" /> {t('docsLayout.home')}
               </Link>
               <a 
                 href="https://github.com/Wahyu-Labs/lumina-mcp" 
@@ -196,7 +214,7 @@ export function DocsLayout() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
               >
-                GitHub
+                {t('docsLayout.github')}
               </a>
             </div>
 
@@ -205,12 +223,12 @@ export function DocsLayout() {
             {/* Collapsible Sections (Sidebar contents for mobile) */}
             <div className="space-y-6">
               <div className="text-xs uppercase font-extrabold text-muted-foreground tracking-wider mb-2">
-                Documentation
+                {t('docsLayout.documentation')}
               </div>
               {filteredSections.map(section => (
                 <div key={section.title} className="space-y-2">
                   <div className="text-xs font-bold text-muted-foreground/80">
-                    {section.title}
+                    {t(`docsLayout.sections.${section.title}`)}
                   </div>
                   <ul className="space-y-1.5 pl-1.5 border-l border-border/40">
                     {section.items.map(item => {
@@ -226,7 +244,7 @@ export function DocsLayout() {
                                 : "text-muted-foreground hover:text-foreground hover:bg-muted/30"
                             }`}
                           >
-                            {item.name}
+                            {t(`docsLayout.sections.${item.name}`)}
                           </Link>
                         </li>
                       )
@@ -251,7 +269,7 @@ export function DocsLayout() {
             <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Search docs..."
+              placeholder={t('docsLayout.searchDocs')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-4 py-2 text-xs rounded-lg border border-border/60 bg-muted/30 focus:bg-background focus:ring-1 focus:ring-accent focus:outline-none transition-all placeholder:text-muted-foreground"
@@ -268,7 +286,7 @@ export function DocsLayout() {
                   onClick={() => toggleSection(section.title)}
                   className="w-full flex items-center justify-between text-xs uppercase font-extrabold text-muted-foreground hover:text-foreground transition-colors py-1 text-left tracking-wider"
                 >
-                  <span>{section.title}</span>
+                  <span>{t(`docsLayout.sections.${section.title}`)}</span>
                   <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${
                     expandedSections[section.title] ? "" : "-rotate-90"
                   }`} />
@@ -289,7 +307,7 @@ export function DocsLayout() {
                                 : "text-muted-foreground hover:text-foreground hover:bg-muted/30"
                             }`}
                           >
-                            {item.name}
+                            {t(`docsLayout.sections.${item.name}`)}
                           </Link>
                         </li>
                       )
@@ -320,13 +338,23 @@ export function DocsLayout() {
           {toc.length > 0 && (
             <div className="space-y-4">
               <h4 className="font-extrabold text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <BookOpen className="h-3.5 w-3.5" /> On this page
+                <BookOpen className="h-3.5 w-3.5" /> {t('docsLayout.onThisPage')}
               </h4>
               <ul className="space-y-2 border-l border-border/40 pl-2">
                 {toc.map(item => (
                   <li key={item.id} className={`${item.level === 3 ? "ml-4" : ""}`}>
                     <a
                       href={`#${item.id}`}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        const element = document.getElementById(item.id)
+                        if (element) {
+                          const yOffset = -80 // Offset for sticky navbar
+                          const y = element.getBoundingClientRect().top + window.scrollY + yOffset
+                          window.scrollTo({ top: y, behavior: 'smooth' })
+                          window.history.pushState(null, '', `#${item.id}`)
+                        }
+                      }}
                       className="text-xs text-muted-foreground hover:text-foreground transition-colors line-clamp-2 leading-relaxed"
                     >
                       {item.text}
@@ -339,6 +367,8 @@ export function DocsLayout() {
         </aside>
 
       </div>
+
+      <Footer />
     </div>
   )
 }
