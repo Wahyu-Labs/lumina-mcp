@@ -4,6 +4,10 @@ Thank you for your interest in contributing to **Lumina MCP**! We appreciate con
 
 Please take a moment to read this guide before opening an issue or submitting a pull request.
 
+### What to Expect
+
+Lumina MCP is maintained by [@darm102](https://github.com/darm102) and is built to help developers and businesses streamline their workflows using AI. Because of this focused direction, we cannot promise to accept every proposed change. All pull requests and issues will be reviewed first to ensure they align with the project's vision.
+
 ---
 
 ## Table of Contents
@@ -45,9 +49,9 @@ By participating in this project, you agree to abide by our Code of Conduct. We 
 
 ### Prerequisites
 
-- **Node.js** ≥ 18
-- **npm** ≥ 9
-- **MySQL** 8.0+ and/or **PostgreSQL** 15+ (optional — use Docker Compose for local instances)
+- **Node.js** ≥ 22
+- **npm** ≥ 10
+- **MySQL** and **PostgreSQL** (not required for development)
 
 ### 1. Install dependencies
 
