@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] — 2026-06-21
+
+### Added
+- **Automated Publishing Workflow**: Added `.github/workflows/publish-package.yml` to automatically publish the package to npm and GitHub Packages when a new GitHub Release is created.
+- **Brand Assets**: Integrated new Lumina MCP brand assets and logos into the website.
+
+### Changed
+- **CI/CD Deployments**: Updated GitHub Pages deployment workflow (`deploy-docs.yml`) to Node 22 and configured Vite `base` path for correct asset loading on GitHub Pages.
+- **Documentation & Styling**: Removed emojis from `README.md` headings, simplified footer and license texts, and updated badges (including a dynamic tests passing badge).
+- **Contributing Guide**: Updated `CONTRIBUTING.md` to establish project vision, simplify expectations, and clarify Node 22 prerequisites.
+- **Orchestration**: Fixed orchestration localization issues.
+
+---
+
 ## [1.0.6] — 2026-06-21
 
 ### Added
@@ -132,6 +146,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[1.1.0]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.6...v1.1.0
 [1.0.6]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.3...v1.0.4
