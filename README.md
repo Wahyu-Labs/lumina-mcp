@@ -12,9 +12,10 @@
     <a href="CHANGELOG.md">Changelog</a>
   </p>
   <p align="center">
-    <img alt="npm" src="https://img.shields.io/npm/v/lumina-mcp?style=flat-square&color=6366f1">
-    <img alt="license" src="https://img.shields.io/github/license/Wahyu-Labs/lumina-mcp?style=flat-square&color=6366f1">
-    <img alt="node" src="https://img.shields.io/node/v/lumina-mcp?style=flat-square&color=6366f1">
+    <img alt="npm" src="https://img.shields.io/badge/npm-v1.0.6-6366f1?style=flat-square">
+    <img alt="node" src="https://img.shields.io/badge/node-%3E%3D20.0.0-6366f1?style=flat-square">
+    <img alt="license" src="https://img.shields.io/badge/license-MIT-6366f1?style=flat-square">
+    <img alt="tests" src="https://img.shields.io/badge/tests-passing-emerald?style=flat-square">
   </p>
 </p>
 
