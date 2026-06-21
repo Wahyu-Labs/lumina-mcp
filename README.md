@@ -59,10 +59,13 @@ You (natural language) → AI Client (MCP) → Lumina MCP Server
 | `running_pg_query` | Natural language → PostgreSQL `SELECT` query with schema auto-detection |
 | `auditor_pg_query` | Full PostgreSQL performance & security audit by a Principal DBA |
 
-**Example:**
-```
-Run a query to find the top 5 customers with active status.
-Analyze query performance for SELECT * FROM orders WHERE status = 'pending'
+**Example Prompts:**
+In your MCP client, you can use these prompts as slash commands:
+```bash
+/running_query command="Run a query to find the top 5 customers with active status."
+/auditor_query command="Analyze query performance for SELECT * FROM orders WHERE status = 'pending'"
+/running_pg_query command="Show all tables in public schema."
+/auditor_pg_query command="SELECT * FROM users"
 ```
 
 ---
@@ -88,12 +91,13 @@ Analyze query performance for SELECT * FROM orders WHERE status = 'pending'
 | `ai_code_reviewer` | Senior Staff-level PR reviewer ([CRITICAL], [MAJOR], [MINOR], [NIT]) |
 | `fix_pr_review_message` | Analyze review comments, apply fixes, and resolve threads automatically |
 
-**Example:**
-```
-Stage my changes and generate a commit message.
-Create a PR from feat/auth into main.
-Review PR #42 and approve it.
-Resolve all review comments on PR #104.
+**Example Prompts:**
+In your MCP client, you can use these prompts as slash commands:
+```bash
+/commit_generator_message command="Stage my changes and generate a conventional commit message."
+/tech_company_pr_creator command="Create a PR description from feat/auth into main."
+/ai_code_reviewer command="Review PR #42 and approve it."
+/fix_pr_review_message command="Resolve all review comments on PR #104."
 ```
 
 ---
@@ -114,11 +118,12 @@ Resolve all review comments on PR #104.
 | `pm_brainstorm_plan` | Brainstorm technical approach and create a step-by-step implementation plan |
 | `pm_test_catalog` | Generate a comprehensive test catalog based on the ticket and technical plan |
 
-**Example:**
-```
-Fetch Jira ticket LUM-402 and summarize it.
-Download OpenProject work package #82 and create a technical plan.
-Get Trello card 64b19c and generate a test catalog.
+**Example Prompts:**
+In your MCP client, you can use these prompts as slash commands:
+```bash
+/pm_summarize_ticket command="Fetch Jira ticket LUM-402 and summarize it."
+/pm_brainstorm_plan command="Download OpenProject work package #82 and create a technical plan."
+/pm_test_catalog command="Get Trello card 64b19c and generate a test catalog."
 ```
 
 ---
@@ -133,7 +138,7 @@ Get Trello card 64b19c and generate a test catalog.
 
 | Prompt | Description |
 |--------|-------------|
-| `lumina-orchestrate` | Kicks off the full Orchestration Development Cycle. Use `includeTest=true/false` to control the testing phase |
+| `lumina_orchestrate` | Kicks off the full Orchestration Development Cycle. Has optional arguments: `command` and `tokenBudget` |
 
 The orchestration cycle follows **6 deterministic phases**:
 
@@ -146,9 +151,11 @@ The orchestration cycle follows **6 deterministic phases**:
 | 5 | **Verification & Compounding** | Runs tests, audits DB changes, records learnings |
 | 6 | **Git Pull Request Release** | Conventional commit, push, and GitHub PR creation |
 
-**Example:**
-```
-/lumina-orchestrate includeTest=true
+**Example Prompts:**
+In your MCP client, you can use this prompt as a slash command:
+```bash
+/lumina_orchestrate command="Build a new login page" tokenBudget="save-tokens"
+/lumina_orchestrate command="Implement requirements from Jira ticket LUM-402" tokenBudget="full-detail"
 ```
 
 ---

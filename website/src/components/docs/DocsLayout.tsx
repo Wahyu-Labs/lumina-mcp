@@ -5,6 +5,7 @@ import { Search, ChevronDown, Sun, Moon, Home, BookOpen, Menu, X } from "lucide-
 import pkg from "../../../../package.json"
 import { Footer } from "../landing/Footer"
 import { LanguageSwitcher } from "../ui/LanguageSwitcher"
+import { LuminaLogo } from "../ui/LuminaLogo"
 import { useTranslation } from "react-i18next"
 
 interface TOCItem {
@@ -121,12 +122,10 @@ export function DocsLayout() {
         <div className="max-w-[1400px] mx-auto px-6 h-16 flex justify-between items-center relative">
           
           <div className="flex items-center gap-3">
-            <Link to="/" className="text-lg font-extrabold tracking-tighter flex items-center gap-2 group shrink-0">
-              <span className="h-7 w-7 rounded bg-accent text-accent-foreground flex items-center justify-center font-black group-hover:scale-105 transition-transform text-sm shrink-0">
-                L
-              </span>
+            <Link to="/" className="flex items-center gap-2 group shrink-0">
+              <LuminaLogo size={28} showText={false} />
               <span className="flex items-center gap-1.5 whitespace-nowrap">
-                <span className="text-foreground">Lumina<span className="text-accent">MCP</span></span>
+                <span className="text-lg font-extrabold tracking-tighter text-foreground">Lumina<span className="text-accent">MCP</span></span>
                 <span className="text-muted-foreground font-normal text-xs border-l border-border/60 pl-2 h-4 flex items-center">Docs</span>
               </span>
             </Link>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Sun, Moon, Terminal, Menu, X } from "lucide-react"
 import { LanguageSwitcher } from "../ui/LanguageSwitcher"
+import { LuminaLogo } from "../ui/LuminaLogo"
 import { useTranslation } from "react-i18next"
 
 export function Navbar() {
@@ -100,14 +101,8 @@ export function Navbar() {
             window.scrollTo({ top: 0, behavior: "smooth" })
             setIsMobileMenuOpen(false)
           }}
-          className="text-xl font-extrabold tracking-tighter flex items-center gap-2 group text-foreground"
         >
-          <span className="h-8 w-8 rounded-lg bg-accent text-accent-foreground flex items-center justify-center font-black group-hover:scale-105 transition-transform">
-            L
-          </span>
-          <span>
-            Lumina<span className="text-accent">MCP</span>
-          </span>
+          <LuminaLogo size={32} />
         </Link>
 
         {/* Desktop Links */}

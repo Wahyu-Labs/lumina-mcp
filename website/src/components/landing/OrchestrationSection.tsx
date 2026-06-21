@@ -77,9 +77,12 @@ export function OrchestrationSection() {
               <div>
                 <h4 className="font-bold text-foreground text-sm m-0">{t('orchestration.pluginTitle')}</h4>
                 <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed m-0">
-                  <Trans i18nKey="orchestration.pluginDesc">
-                    If you use the <a href="https://github.com/EveryInc/compound-engineering-plugin" target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:underline font-semibold">Compound Engineering plugin</a> features, the orchestration results are significantly better! Lumina leverages its advanced specialized agents natively.
-                  </Trans>
+                  <Trans 
+                    i18nKey="orchestration.pluginDesc"
+                    components={[
+                      <a key="0" href="https://github.com/EveryInc/compound-engineering-plugin" target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:underline font-semibold" />
+                    ]}
+                  />
                 </p>
               </div>
             </div>

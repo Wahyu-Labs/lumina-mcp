@@ -77,7 +77,7 @@
     "title": "Orchestration End-to-End",
     "subtitle": "Orchestration memungkinkan AI untuk bertindak selayaknya Senior Software Engineer yang mampu mengelola seluruh siklus development secara otonom, mulai dari tahap perencanaan spesifikasi, penulisan kode, hingga proses code review dan Git commit, guna memastikan kualitas kode yang siap produksi.",
     "pluginTitle": "Plugin Compound Engineering",
-    "pluginDesc": "Jika Anda menggunakan fitur <a href=\"https://github.com/EveryInc/compound-engineering-plugin\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"text-indigo-500 hover:underline font-semibold\">Compound Engineering plugin</a>, hasil orchestration-nya secara signifikan jauh lebih baik! Lumina memanfaatkan agent khusus tingkat lanjutnya secara native.",
+    "pluginDesc": "Jika Anda menggunakan fitur <0>Compound Engineering plugin</0>, hasil orchestration-nya secara signifikan jauh lebih baik! Lumina memanfaatkan agent khusus tingkat lanjutnya secara native.",
     "docs": "Dokumentasi",
     "examplePrompts": "Contoh Prompt",
     "promptName": "/lumina_orchestrate",
