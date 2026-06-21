@@ -4,7 +4,7 @@
     <strong>Give your AI assistant real developer superpowers. Query databases, automate Git workflows, sync project tickets, and orchestrate full development cycles — all through natural language.</strong>
   </p>
   <p align="center">
-    <a href="https://lumina-mcp.vercel.app">Website</a> •
+    <a href="https://wahyu-labs.github.io/lumina-mcp/">Website</a> •
     <a href="#quick-start">Quick Start</a> •
     <a href="#tools--prompts">Tools & Prompts</a> •
     <a href="#documentation">Documentation</a> •
@@ -201,7 +201,7 @@ Add this to your MCP client configuration (e.g. `mcp.json`, Cursor settings, Cla
 
 > **You only need to include the environment variables for the integrations you use.** If you already have the official [Atlassian MCP](https://github.com/atlassian/mcp) or [GitHub MCP](https://github.com/github/mcp) installed, Lumina MCP will automatically use them as a fallback.
 
-For detailed, client-specific installation guides (Antigravity IDE, Cursor, Claude Code, VS Code, Codex), visit **[lumina-mcp.vercel.app](https://lumina-mcp.vercel.app)**.
+For detailed, client-specific installation guides (Antigravity IDE, Cursor, Claude Code, VS Code, Codex), visit **[Lumina MCP Documentation](https://wahyu-labs.github.io/lumina-mcp/)**.
 
 ---
 
