@@ -2,6 +2,29 @@
   "name": "lumina-mcp",
   "version": "1.1.1",
   "description": "Unified MCP toolkit for engineering workflows, database connections, and source control",
+  "keywords": [
+    "mcp",
+    "model context protocol",
+    "ai",
+    "claude",
+    "gemini",
+    "github",
+    "database",
+    "mysql",
+    "postgresql",
+    "orchestration",
+    "project-management"
+  ],
+  "author": "Wahyu-Labs (darm102)",
+  "license": "MIT",
+  "homepage": "https://wahyu-labs.github.io/lumina-mcp/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wahyu-Labs/lumina-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Wahyu-Labs/lumina-mcp/issues"
+  },
   "main": "dist/index.js",
   "type": "module",
   "files": [
