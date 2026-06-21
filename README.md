@@ -5,9 +5,9 @@
   </p>
   <p align="center">
     <a href="https://lumina-mcp.vercel.app">Website</a> •
-    <a href="#-quick-start">Quick Start</a> •
-    <a href="#-tools--prompts">Tools & Prompts</a> •
-    <a href="#-documentation">Documentation</a> •
+    <a href="#quick-start">Quick Start</a> •
+    <a href="#tools--prompts">Tools & Prompts</a> •
+    <a href="#documentation">Documentation</a> •
     <a href="CONTRIBUTING.md">Contributing</a> •
     <a href="CHANGELOG.md">Changelog</a>
   </p>
@@ -39,9 +39,9 @@ You (natural language) → AI Client (MCP) → Lumina MCP Server
 
 ---
 
-## ✨ Tools & Prompts
+## Tools & Prompts
 
-### 🗄️ Database Tools (MySQL & PostgreSQL)
+### Database Tools (MySQL & PostgreSQL)
 
 | Tool | MySQL | PostgreSQL | Description |
 |------|:-----:|:----------:|-------------|
@@ -71,7 +71,7 @@ In your MCP client, you can use these prompts as slash commands:
 
 ---
 
-### 🐙 Version Control Tools (GitHub)
+### Version Control Tools (GitHub)
 
 | Tool | Description |
 |------|-------------|
@@ -103,7 +103,7 @@ In your MCP client, you can use these prompts as slash commands:
 
 ---
 
-### 📋 Project Management Integration
+### Project Management Integration
 
 | Tool | Description |
 |------|-------------|
@@ -129,7 +129,7 @@ In your MCP client, you can use these prompts as slash commands:
 
 ---
 
-### 🤖 Orchestration
+### Orchestration
 
 | Tool | Description |
 |------|-------------|
@@ -161,7 +161,7 @@ In your MCP client, you can use this prompt as a slash command:
 
 ---
 
-### 🔒 Security
+### Security
 
 All database connections are **strictly read-only** with multiple enforcement layers:
 
@@ -172,7 +172,7 @@ All database connections are **strictly read-only** with multiple enforcement la
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 Add this to your MCP client configuration (e.g. `mcp.json`, Cursor settings, Claude config):
 
@@ -205,7 +205,7 @@ For detailed, client-specific installation guides (Antigravity IDE, Cursor, Clau
 
 ---
 
-## 📖 Documentation
+## Documentation
 
 Detailed guides for every tool, prompt, parameter, and usage example:
 
@@ -219,7 +219,7 @@ Detailed guides for every tool, prompt, parameter, and usage example:
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 Lumina MCP follows a clean, layered architecture:
 
@@ -243,7 +243,7 @@ src/
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ```bash
 npm test                # Run all tests
@@ -254,18 +254,12 @@ npm run format          # Format the codebase
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions of all kinds! Please read **[CONTRIBUTING.md](CONTRIBUTING.md)** for guidelines on how to get started, coding standards, and the PR process.
 
 ---
 
-## 📄 License
+## License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
----
-
-<p align="center">
-  Built with ❤️ by <a href="https://github.com/Wahyu-Labs">Wahyu-Labs</a>
-</p>
+[MIT License](LICENSE)
