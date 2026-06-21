@@ -4,6 +4,12 @@ Thank you for your interest in contributing to **Lumina MCP**! We appreciate con
 
 Please take a moment to read this guide before opening an issue or submitting a pull request.
 
+### What to Expect
+
+Compound Engineering is opinionated by design. It's maintained by [@darm102](https://github.com/darm102), and its direction reflects a specific point of view about how AI-assisted engineering should work. So while we welcome help, we can't promise to accept every change — some proposals won't fit that vision even when they're good ideas on their own.
+
+Open an issue or send a PR, and we'll fold in what moves the plugin in the right direction. We just want to be upfront that not everything will land.
+
 ---
 
 ## Table of Contents
@@ -45,9 +51,9 @@ By participating in this project, you agree to abide by our Code of Conduct. We 
 
 ### Prerequisites
 
-- **Node.js** ≥ 18
-- **npm** ≥ 9
-- **MySQL** 8.0+ and/or **PostgreSQL** 15+ (optional — use Docker Compose for local instances)
+- **Node.js** ≥ 22
+- **npm** ≥ 10
+- **MySQL** and **PostgreSQL** (not required for development)
 
 ### 1. Install dependencies
 
