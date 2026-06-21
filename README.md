@@ -15,7 +15,7 @@
     <img alt="npm" src="https://img.shields.io/badge/npm-v1.0.6-6366f1?style=flat-square">
     <img alt="node" src="https://img.shields.io/badge/node-%3E%3D20.0.0-6366f1?style=flat-square">
     <img alt="license" src="https://img.shields.io/badge/license-MIT-6366f1?style=flat-square">
-    <img alt="tests" src="https://img.shields.io/badge/tests-passing-emerald?style=flat-square">
+    <a href="https://github.com/Wahyu-Labs/lumina-mcp/actions/workflows/lint-and-test.yml"><img alt="tests" src="https://github.com/Wahyu-Labs/lumina-mcp/actions/workflows/lint-and-test.yml/badge.svg"></a>
   </p>
 </p>
 
