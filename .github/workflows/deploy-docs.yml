@@ -1,6 +1,11 @@
-name: Deploy Static Documentation to GitHub Pages
+name: Deploy Website to GitHub Pages
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'website/**'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -26,7 +31,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
           cache-dependency-path: 'website/package-lock.json'
       - name: Setup Pages
