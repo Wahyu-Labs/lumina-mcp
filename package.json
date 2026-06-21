@@ -13,7 +13,11 @@
     "mysql",
     "postgresql",
     "orchestration",
-    "project-management"
+    "project-management",
+    "AI workflows",
+    "AI Toolkit",
+    "orchestration tool",
+    "lumina"
   ],
   "author": "Wahyu-Labs (darm102)",
   "license": "MIT",
