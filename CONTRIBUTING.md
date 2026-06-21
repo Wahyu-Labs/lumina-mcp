@@ -6,9 +6,7 @@ Please take a moment to read this guide before opening an issue or submitting a 
 
 ### What to Expect
 
-Lumina MCP is opinionated by design. It's maintained by [@darm102](https://github.com/darm102), and its direction reflects a specific point of view about how AI-assisted engineering should work. So while we welcome help, we can't promise to accept every change — some proposals won't fit that vision even when they're good ideas on their own.
-
-Open an issue or send a PR, and we'll fold in what moves the project in the right direction. We just want to be upfront that not everything will land.
+Lumina MCP is maintained by [@darm102](https://github.com/darm102) and is built to help developers and businesses streamline their workflows using AI. Because of this focused direction, we cannot promise to accept every proposed change. All pull requests and issues will be reviewed first to ensure they align with the project's vision.
 
 ---
 
