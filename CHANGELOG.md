@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.2] — 2026-06-21
+
+### Added
+- **npm SEO Optimization**: Added comprehensive package metadata (`keywords`, `author`, `repository`, `homepage`, `license`, `bugs`) to `package.json` to significantly improve discoverability and ranking on the npm registry.
+
+---
+
 ## [1.1.1] — 2026-06-21
 
 ### Changed
@@ -153,6 +160,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[1.1.2]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.6...v1.1.0
 [1.0.6]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.5...v1.0.6
