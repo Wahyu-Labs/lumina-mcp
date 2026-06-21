@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.3] — 2026-06-21
+
+### Changed
+- **Documentation**: Removed the static npm version badge from `README.md` to avoid confusion when new versions are released.
+
+---
+
 ## [1.1.2] — 2026-06-21
 
 ### Added
@@ -160,6 +167,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[1.1.3]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.6...v1.1.0
