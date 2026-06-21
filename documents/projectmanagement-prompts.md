@@ -1,6 +1,6 @@
-# Project Management — Available Prompts & Tools
+# Project Management Integration — Prompts & Tools
 
-> **Lumina MCP** provides three prompts and three tools for integrating with popular Project Management systems (Jira, Trello, OpenProject) through the Model Context Protocol.
+> **Lumina MCP** provides three tools and three prompts for integrating with popular project management systems (Jira, Trello, OpenProject) through the Model Context Protocol. This allows AI agents to directly ingest ticket requirements and build precisely what was specified.
 
 ---
 
@@ -8,14 +8,16 @@
 
 ### `get_jira_ticket`
 
-Fetch a Jira ticket/issue by its ID or Key via the Jira REST API.
+Fetch a Jira issue by its ID or Key, including title, description, labels, comments, reporter, and epic links.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `issueIdOrKey` | `string` | ✅ | The ID or Key of the Jira issue (e.g., `PROJ-123`) |
-| `domain` | `string` | ✅ | Your Jira workspace domain (e.g., `yourcompany` for `yourcompany.atlassian.net`) |
-| `email` | `string` | ✅ | The email address associated with your Jira account |
+| `issueIdOrKey` | `string` | ✅ | Jira issue ID or Key (e.g., `PROJ-123`) |
+| `domain` | `string` | ✅ | Jira workspace domain (e.g., `yourcompany` for `yourcompany.atlassian.net`) |
+| `email` | `string` | ✅ | Email associated with your Jira account |
 | `apiToken` | `string` | ✅ | Your Jira API token |
+
+> **Note:** If you have set `JIRA_URL`, `JIRA_EMAIL`, and `JIRA_API_TOKEN` as environment variables in your MCP config, the AI agent will use those automatically without needing to pass credentials in the prompt.
 
 **Example:**
 ```
@@ -27,17 +29,21 @@ email: "user@example.com"
 apiToken: "your_api_token_here"
 ```
 
+**Returns:** Title, description, status, priority, assignee, labels, comments, epic link, and acceptance criteria.
+
 ---
 
 ### `get_trello_card`
 
-Fetch a Trello card by its ID or shortlink via the Trello REST API.
+Fetch a Trello card by its ID or shortlink, including description, status, checklist items, and comment history.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `cardId` | `string` | ✅ | The ID or shortlink of the Trello card |
+| `cardId` | `string` | ✅ | Trello card ID or shortlink |
 | `apiKey` | `string` | ✅ | Your Trello API key |
 | `apiToken` | `string` | ✅ | Your Trello API token |
+
+> **Note:** If `TRELLO_API_KEY` and `TRELLO_API_TOKEN` are set in your MCP environment config, they will be used automatically.
 
 **Example:**
 ```
@@ -48,17 +54,21 @@ apiKey: "your_trello_api_key"
 apiToken: "your_trello_api_token"
 ```
 
+**Returns:** Card title, description, list/column, checklists with completion status, labels, members, and all comments.
+
 ---
 
 ### `get_openproject_work_package`
 
-Fetch an OpenProject work package by its ID via the OpenProject REST API.
+Fetch an OpenProject work package by its ID, including assignee, priority, description, status, and comments.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `workPackageId` | `number` | ✅ | The ID of the OpenProject work package |
-| `domain` | `string` | ✅ | Your OpenProject workspace domain (e.g., `https://openproject.yourcompany.com`) |
+| `workPackageId` | `number` | ✅ | OpenProject work package ID |
+| `domain` | `string` | ✅ | OpenProject instance URL (e.g., `https://openproject.yourcompany.com`) |
 | `apiKey` | `string` | ✅ | Your OpenProject API key/token |
+
+> **Note:** If `OPENPROJECT_URL` and `OPENPROJECT_API_KEY` are set in your MCP environment config, they will be used automatically.
 
 **Example:**
 ```
@@ -69,6 +79,8 @@ domain: "https://openproject.yourcompany.com"
 apiKey: "your_openproject_api_key"
 ```
 
+**Returns:** Subject, description, type, status, priority, assignee, due date, and activity/comments.
+
 ---
 
 ## 💬 Prompts
@@ -77,11 +89,22 @@ apiKey: "your_openproject_api_key"
 
 > **Title:** Senior PM Summarize Ticket
 
-Summarize a raw Jira or Trello ticket as a Senior Product Manager. This prompt takes the raw JSON response from the tools and translates it into a concise, business-focused summary of the problem, requirements, and acceptance criteria.
+Summarize a raw Jira, Trello, or OpenProject ticket as a Senior Product Manager. Translates raw ticket JSON into a concise, business-focused summary covering the problem statement, requirements, and acceptance criteria.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `command` | `string` | ❌ | Raw ticket JSON or natural language context |
+
+**Example:**
+```
+Fetch and summarize Jira ticket LUM-402.
+```
+
+**Output includes:**
+- Problem statement in plain language
+- Business context and motivation
+- Acceptance criteria in testable format
+- Priority and risk assessment
 
 ---
 
@@ -89,11 +112,22 @@ Summarize a raw Jira or Trello ticket as a Senior Product Manager. This prompt t
 
 > **Title:** Staff Engineer Brainstorm and Plan
 
-Brainstorm technical approach and create a step-by-step implementation plan based on the ticket summary. This acts as a Staff Engineer mapping the product requirements to concrete architectural changes.
+Brainstorm technical approaches and create a step-by-step implementation plan based on the ticket summary. Acts as a Staff Engineer mapping product requirements to concrete architectural changes.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `command` | `string` | ❌ | Ticket summary or context |
+
+**Example:**
+```
+Download OpenProject work package #82 and create a technical implementation plan.
+```
+
+**Output includes:**
+- High-level architectural decisions
+- File-by-file change manifest
+- API contracts and interface changes
+- Dependencies and risk areas
 
 ---
 
@@ -101,8 +135,32 @@ Brainstorm technical approach and create a step-by-step implementation plan base
 
 > **Title:** Strict QA Test Catalog Generator
 
-Generate a comprehensive test catalog based on the ticket and technical plan. This ensures that all edge cases, regression risks, and acceptance criteria are tested.
+Generate a comprehensive test catalog based on the ticket and technical plan. Ensures all edge cases, regression risks, and acceptance criteria are covered before implementation begins.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `command` | `string` | ❌ | Ticket summary, technical plan, or context |
+
+**Example:**
+```
+Get the checklist from Trello card 64b19c and generate a full test catalog.
+```
+
+**Output includes:**
+- Unit test cases per component
+- Integration test scenarios
+- Edge cases and negative test cases
+- Acceptance criteria verification checklist
+
+---
+
+## 🔗 Integration with Orchestration
+
+Project Management tools integrate directly with the **Lumina Orchestration Engine**. During Phase 1 (Discovery & Analysis), the orchestration agent automatically calls the PM tools to fetch tickets and inject requirements into the planning context:
+
+```
+/lumina-orchestrate includeTest=true
+> Fetch Jira ticket LUM-402 first, then start orchestration.
+```
+
+This ensures the entire development cycle — from code to PR — is grounded in the exact requirements from your project management system.

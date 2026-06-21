@@ -7,6 +7,64 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.6] — 2026-06-21
+
+### Added
+- **Version Control Extended Tools**: Added three new GitHub tools to complete the PR discussion lifecycle:
+  - `get_github_pr_diff` — Download a clean unified diff of any open GitHub PR for automated review or analysis.
+  - `reply_to_pr_comment` — Reply to an inline comment within a GitHub Pull Request review thread.
+  - `resolve_pr_review_thread` — Resolve a GitHub PR review thread by its GraphQL node ID, closing the discussion.
+- **Multilingual Website (ID/EN)**: The documentation website now supports Bahasa Indonesia and English with a language switcher in the navbar, fully responsive on desktop and mobile.
+- **Version Dropdown in Docs Navbar**: Added a version selector in the docs navigation bar showing the current Lumina MCP package version with a **Latest** badge.
+- **On-This-Page Navigation Fix**: Fixed section anchor links in docs pages — clicking an item in the "On this page" sidebar now correctly scrolls to the corresponding section.
+- **Orchestration Development Cycle Diagram**: Replaced the "6-Phase Development Cycle" label with "Orchestration Development Cycle" and updated the engineering workflow diagram on the landing page.
+- **CONTRIBUTING.md**: Added a comprehensive contributing guide following international open source standards, covering setup, coding standards, PR guidelines, bug reporting, commit message conventions, and scope definitions.
+
+### Changed
+- **Project Management naming**: Renamed "Project Management Ingestion" to "Project Management Integration" across the website, documentation, and README for clarity.
+- **README.md**: Completely restructured to focus on tools, prompts, and usage examples. Removed local development steps (moved to `CONTRIBUTING.md`). Added all 7 GitHub tools, all PM tools, and full orchestration phase table.
+- **Documents folder updated**: All files in `documents/` updated to reflect the current tool surface — `github-prompts.md` now documents all 7 tools, `orchestration-prompts.md` has clearer phase descriptions and PM integration examples, `projectmanagement-prompts.md` now documents env variable auto-detection and Orchestration integration.
+- **Footer text**: Simplified footer from "© 2026 Wahyu-Labs Lumina MCP" to "© 2026 Lumina MCP".
+- **Indonesian translation quality**: Improved tone and phrasing of Bahasa Indonesia copy across hero, database, git, project management, and orchestration sections to be more professional and natural.
+
+---
+
+## [1.0.5] — 2026-06-19
+
+### Added
+- **Native Fallback Prompts**: Added Big Tech-style professional fallback instructions for Orchestration (`fallback-brainstorm.md`, `fallback-work.md`, `fallback-review.md`, `fallback-compound.md`) when Compound Engineering tools are unavailable.
+- **Cross-Client Detection**: Expanded the detection logic to identify MCP installations not only in Antigravity (`~/.gemini`), but also across Cursor, Claude Desktop, VS Code (via Cline/Roo Code), and Claude Code CLI.
+- **Automated Fallback Bundling**: Updated `esbuild` configuration to ensure fallback markdown files are automatically packaged and distributed with the npm build.
+
+---
+
+## [1.0.4] — 2026-06-16
+
+### Added
+- **Unified Orchestration & Compound Engineering UI**: Restructured the documentation website and merged the landing page orchestration flow with Compound Engineering. The Orchestration phases are now explicitly mapped to Compound Engineering slash commands (`/ce-brainstorm`, `/ce-plan`, `/ce-work`, `/ce-code-review`, `/ce-compound`).
+- **Comprehensive PM Documentation**: Added step-by-step API key tutorials and exact environment variable setup tables for Jira, Trello, and OpenProject on the documentation site.
+- **Segmented Docs Architecture**: Split monolithic docs into dedicated modular pages for Project Management, Databases, Version Control, and Compound Engineering.
+
+---
+
+## [1.0.3] — 2026-06-14
+
+### Added
+- **Orchestration Workflow Module** (`lumina-orchestrate` prompt and `get_orchestration_phase` tool).
+- 6-Phase AI Orchestration Engine:
+  1. Planning & Brainstorming
+  2. Execution (ce-work)
+  3. Unit Testing
+  4. Code Review (ce-code-review)
+  5. Verification (Language specific tests + Database checks)
+  6. Git & GitHub Push
+- Dynamic test skipping logic (`includeTest` boolean) which shifts phases seamlessly.
+- **Production Build Pipeline**: Replaced standard TypeScript compiler output with an optimized `esbuild` configuration (`build.ts`).
+- Minification and mangling enabled to bundle the entire application into a fast, lightweight, and obfuscated single binary.
+- Added `bin` executable mapping and shebang (`#!/usr/bin/env node`) for perfect `npx` compatibility across all OS when executed by AI Clients (Cursor, Antigravity, Claude Code, Codex).
+
+---
+
 ## [1.0.2] — 2026-06-14
 
 ### Added
@@ -14,6 +72,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tools: `get_jira_ticket`, `get_trello_card`, `get_openproject_work_package` for automated ticket retrieval.
 - Prompts: `pm_summarize_ticket` (Senior PM Ticket Summarization), `pm_brainstorm_plan` (Staff Engineer Brainstorm & Plan), and `pm_test_catalog` (Strict QA Test Catalog Generator).
 - Stronger security practices: Domain sanitization for Jira endpoints and OAuth headers instead of query parameters for Trello API calls.
+
+---
 
 ## [1.0.1] — 2026-06-08
 
@@ -23,6 +83,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Prompts: `commit_generator_message` (Conventional Commit and JIRA trace), `tech_company_pr_creator` (Netflix/Meta-style description template), `ai_code_reviewer` (strict Senior Staff level review), `fix_pr_review_message` (guided AI fix and commit/push workflow).
 - Prompt-Based GitHub Fallback Rules: Native instruction-based fallbacks embedded in all Git/GitHub prompts. The executing AI agent dynamically tries calling `lumina-mcp` tools primary, falls back to the official GitHub MCP server (`github`) secondary, and falls back to executing local CLI commands (`gh` CLI or `git`) tertiary if tokens or environment variables are missing.
 - Strict validation test suite with 40 passing tests using Vitest covering database repositories, services, and MCP integrations.
+
+---
 
 ## [1.0.0] — 2026-06-07
 
@@ -68,4 +130,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Vitest test suite with coverage reporting
 - Hot-reload development via `tsx watch`
 
+---
+
+[1.0.6]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.5...v1.0.6
+[1.0.5]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.4...v1.0.5
+[1.0.4]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.3...v1.0.4
+[1.0.3]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.2...v1.0.3
+[1.0.2]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/Wahyu-Labs/lumina-mcp/releases/tag/v1.0.0

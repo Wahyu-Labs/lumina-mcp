@@ -31,10 +31,10 @@ You MUST act as a strict senior engineer writing a professional commit message t
   \`\`\`
 
 - **Rules for the Subject Line and Body Trailers**:
-  - Replace \`<model_name>\` with the actual model name running (e.g. \`Gemini 3.5 Flash\`, \`Claude 3.5 Sonnet\`).
+  - Replace \`<model_name>\` with the actual model name running (e.g. \`Gemini 3.5 Flash\`, \`Claude 3.5 Sonnet\`). Ensure you use the exact version currently active.
   - \`<type>\` MUST be: \`feat\`, \`fix\`, \`refactor\`, \`perf\`, \`docs\`, \`test\`, \`chore\`, \`build\`, \`ci\`, \`style\`, \`revert\`.
   - Use **imperative mood** ("Fix", "Add", "Refactor"). No trailing period. Keep under ~100 characters.
-  - In the \`Co-authored-by:\` trailer, specify the actual model/AI provider running (e.g. \`Gemini 3.5 Flash <gemini@google.com>\`).
+  - In the \`Co-authored-by:\` trailer, specify the actual model/AI provider running (e.g. \`Gemini 3.5 Flash <gemini@google.com>\`). Do not default to Gemini 2.5 Pro unless that is actually the model you are running.
 
 - **Example** (good):
   \`\`\`text
@@ -204,7 +204,7 @@ Review Comments & Context:
 {{context}}
 
 Instructions:
-1. **Understand and Fix**: Carefully analyze the fetched review comments (including both general comments and inline line-by-line comments) and apply the necessary fixes directly to the local codebase. If the review comments are not provided in the context, you MUST first fetch the comments. Follow the **GitHub / Git Tool Execution & Fallback Rules** below (e.g. call 'fix_github_pr_review' tool primary, official 'github' MCP secondary, or local 'gh' CLI tertiary).
+1. **Understand and Fix**: Use the Compound Engineering skill \`ce-resolve-pr-feedback\` to evaluate and automatically fix the issues raised in the PR review. If the review comments are not provided in the context, you MUST first fetch the comments using the 'fix_github_pr_review' tool (or fallback to official 'github' MCP or 'gh' CLI).
 2. **Verify**: Run the linter and tests to ensure your changes are correct and do not introduce regressions.
 3. **Commit & Push**: Commit your changes using Conventional Commits. You MUST commit and push the modified files following the **GitHub / Git Tool Execution & Fallback Rules** below.
 4. **Respond and Approve on GitHub**: 

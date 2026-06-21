@@ -1,0 +1,463 @@
+{
+  "navbar": {
+    "home": "Beranda",
+    "database": "Database",
+    "git": "Git & PR",
+    "pm": "Project Management",
+    "orchestration": "Orchestration",
+    "docs": "Dokumentasi",
+    "github": "GitHub"
+  },
+  "hero": {
+    "versionBadge": "AI MCP Server & Workflows v1.0.3",
+    "heading1": "Berdayakan AI Assistant Anda dengan",
+    "heading2": "Superpower Developer",
+    "subtitle": "Berikan agen AI Anda akses langsung dan aman ke environment development. Eksekusi query database, otomatisasi workflow Git, sinkronkan tiket Jira, dan jalankan task programming kompleks dengan mudah.",
+    "getStarted": "Mulai Sekarang",
+    "starGithub": "Star di GitHub"
+  },
+  "cta": {
+    "title": "Supercharge AI Agent Anda",
+    "subtitle": "Hubungkan Lumina MCP langsung ke environment AI assistant pilihan Anda untuk mengaktifkan kapabilitas integrasi database instan, pelacakan proyek, otomasi Git, dan orkestrasi kode secara end-to-end.",
+    "configureIn": "Konfigurasi di",
+    "installationSteps": "Langkah Instalasi",
+    "pathLabel": "Path",
+    "copyConfig": "Copy Config",
+    "copied": "Berhasil!",
+    "proTip": "Pro Tip:",
+    "proTipDesc": "Anda hanya perlu menyertakan environment variables untuk tool spesifik yang ingin Anda gunakan. Selain itu, jika Anda sudah menginstal Atlassian MCP atau GitHub MCP resmi, Lumina MCP akan otomatis menggunakannya sebagai fallback sehingga Anda tidak perlu memasukkan kredensialnya di sini!"
+  },
+  "footer": {
+    "copyright": "© 2026 Lumina MCP"
+  },
+  "database": {
+    "title": "Integrasi Database",
+    "subtitle": "Lengkapi agen AI Anda dengan kemampuan menjalankan query read-only secara langsung pada database MySQL dan PostgreSQL. Lakukan audit performa dan analisis struktur schema dengan instan dan aman.",
+    "strictReadOnly": "Guardrail Read-Only Ketat",
+    "strictReadOnlyDesc": "Lumina memastikan keamanan data dengan sistem pencegahan otomatis. Agen AI hanya memiliki akses baca (read-only), sehingga seluruh perintah operasi write, update, delete, maupun modifikasi struktur database akan otomatis diblokir.",
+    "notForProd": "Bukan untuk Penggunaan Produksi",
+    "notForProdDesc": "Fitur ini dirancang khusus untuk database environment lokal, staging, atau dummy. Menghubungkannya dengan database produksi sangat tidak disarankan karena berisiko mengekspos data sensitif pengguna ke provider LLM eksternal.",
+    "docs": "Dokumentasi",
+    "examplePrompt": "Contoh Prompt",
+    "prompts": {
+      "runMysql": "Hasilkan dan eksekusi query MySQL read-only berdasarkan natural language.",
+      "auditMysql": "Lakukan audit query MySQL untuk mengecek performa dan keamanan menggunakan analisis EXPLAIN.",
+      "runPg": "Hasilkan dan eksekusi query PostgreSQL read-only berdasarkan natural language.",
+      "auditPg": "Lakukan audit query PostgreSQL untuk mengecek performa dan keamanan."
+    }
+  },
+  "git": {
+    "title": "Otomasi Git & PR",
+    "subtitle": "Otomatisasi workflow Git commit dan pull request (PR). Jalankan proses code review komprehensif dan selesaikan diskusi thread secara otonom dan terstruktur.",
+    "recursiveResolution": "Resolusi Thread Rekursif",
+    "recursiveResolutionDesc": "Lumina secara cerdas menangani feedback dari komentar PR GitHub. Agen AI akan membaca komentar, melacak file target, memperbaiki kode, melakukan push commit, dan membalas komentar untuk menyelesaikan (resolve) thread diskusi.",
+    "docs": "Dokumentasi",
+    "examplePrompt": "Contoh Prompt",
+    "prompts": {
+      "commit": "Hasilkan commit message seperti senior software engineer di perusahaan big tech.",
+      "pr": "Buat deskripsi pull request seperti tech company, termasuk cakupan pengujian.",
+      "review": "Berikan code review secara langsung ke github berbasis AI.",
+      "fix": "Ambil komentar ulasan dan berikan instruksi untuk memperbaikinya secara otomatis."
+    }
+  },
+  "pm": {
+    "title": "Integrasi Project Management",
+    "subtitle": "Hubungkan alur kerja product management dan engineering secara mulus. Agen AI dapat menarik data tiket secara langsung untuk membaca requirements dan menulis kode sesuai spesifikasi secara presisi.",
+    "contextAware": "Sinkronisasi Task Berbasis Konteks",
+    "contextAwareDesc": "Lumina menyerap judul tiket, detail cakupan, checklist, hingga diskusi terkait ke dalam fase discovery dan planning, memastikan hasil kode selalu selaras dengan kebutuhan bisnis.",
+    "docs": "Dokumentasi",
+    "examplePrompt": "Contoh Prompt",
+    "prompts": {
+      "summarize": "Ringkas tiket Jira, Trello, atau OpenProject mentah selayaknya Senior Product Manager.",
+      "brainstorm": "Brainstorming pendekatan teknikal dan buat rencana berdasarkan ringkasan tiket.",
+      "test": "Hasilkan katalog pengujian komprehensif berdasarkan tiket dan rencana teknis."
+    }
+  },
+  "orchestration": {
+    "title": "Orchestration End-to-End",
+    "subtitle": "Orchestration memungkinkan AI untuk bertindak selayaknya Senior Software Engineer yang mampu mengelola seluruh siklus development secara otonom, mulai dari tahap perencanaan spesifikasi, penulisan kode, hingga proses code review dan Git commit, guna memastikan kualitas kode yang siap produksi.",
+    "pluginTitle": "Plugin Compound Engineering",
+    "pluginDesc": "Jika Anda menggunakan fitur <0>Compound Engineering plugin</0>, hasil orchestration-nya secara signifikan jauh lebih baik! Lumina memanfaatkan agent khusus tingkat lanjutnya secara native.",
+    "docs": "Dokumentasi",
+    "examplePrompts": "Contoh Prompt",
+    "promptName": "/lumina_orchestrate",
+    "promptDesc": "Memicu workflow AI end-to-end dengan bertindak sebagai Senior Software Engineer. Secara rekursif memuat instruksi sistem fase demi fase.",
+    "pipelinesTitle": "Pipeline Workflow & Mode Pengujian",
+    "pipelinesDesc": "Alur orchestration beradaptasi berdasarkan apakah Anda ingin AI menulis dan menjalankan pengujian (<code className=\"bg-muted px-1.5 py-0.5 rounded text-accent font-mono\">includeTest</code>).",
+    "phases": {
+      "planning": "Planning",
+      "planningDesc": "Menyusun draft requirements & arsitektur sistem.",
+      "execution": "Execution",
+      "executionDesc": "Menghasilkan dan mengimplementasikan core code.",
+      "testing": "Testing",
+      "testingDesc": "Menulis unit & integration test.",
+      "codeReview": "Code Review",
+      "codeReviewDesc": "Pengecekan keamanan & kualitas multi-agen.",
+      "verification": "Verification",
+      "verificationDesc": "Membangun code dan memverifikasi fungsionalitas.",
+      "git": "Git System",
+      "gitDesc": "Melakukan commit file dan push ke remote."
+    }
+  },
+  "orchestrationTimeline": {
+    "badge": "Orchestration Workflow Stepper",
+    "title": "Orchestration Development Cycle",
+    "subtitle": "Agen AI mengikuti progresi linier. Jika environment target tidak memiliki plugin Compound Engineering, Lumina akan menggunakan fallback ke prompt markdown native.",
+    "fallbackLabel": "Fallback Prompt",
+    "phases": {
+      "discovery": {
+        "title": "Discovery & Analysis",
+        "desc": "AI mengambil tiket (Jira/Trello), membaca struktur codebase, dan menyusun requirements."
+      },
+      "planning": {
+        "title": "Technical Planning",
+        "desc": "AI menyusun rencana implementasi file-by-file yang presisi memetakan semua file yang akan dimodifikasi."
+      },
+      "execution": {
+        "title": "Execution & Implementation",
+        "desc": "AI mengimplementasikan perubahan, mengeksekusi pengeditan code mengikuti rencana secara ketat tanpa menyimpang."
+      },
+      "review": {
+        "title": "Iterative Code Review",
+        "desc": "Loop review multi-agen mengevaluasi diff untuk memastikan kepatuhan terhadap standar keamanan dan linter."
+      },
+      "verification": {
+        "title": "Verification & Compounding",
+        "desc": "Menjalankan test suite, mengaudit koneksi, dan merekam pembelajaran ke dalam docs/solutions."
+      },
+      "release": {
+        "title": "Git Pull Request Release",
+        "desc": "Menghasilkan conventional commit yang rapi, melakukan push perubahan, dan membuat pull request GitHub."
+      }
+    }
+  },
+  "docs": {
+    "gettingStarted": {
+      "badge": "Installation",
+      "title": "Getting Started",
+      "subtitle": "Instal dan konfigurasikan Lumina MCP untuk query dan audit database secara aman dari AI client apa pun yang kompatibel dengan MCP.",
+      "recommendedTitle": "Recommended Support: Compound Engineering Plugin (Opsional)",
+      "recommendedDesc": "Lumina MCP mencakup fallback skill native dan <0>tidak memerlukan</0> plugin Compound Engineering untuk berfungsi. Namun, menginstalnya di AI client Anda sangat direkomendasikan sebagai alat pendukung untuk mengaktifkan workflow lanjutan, routing konteks dinamis, dan kemampuan peningkatan otomatis, guna memastikan hasil yang lebih baik.",
+      "clientConfig": "Client Configuration",
+      "clientConfigDesc": "Pilih AI client Anda di bawah ini untuk melihat langkah instalasi spesifik dan menyalin potongan konfigurasi:",
+      "configureIn": "Konfigurasi di",
+      "installSteps": "Langkah Instalasi",
+      "path": "Path",
+      "configToml": "Konfigurasi TOML",
+      "configJson": "Konfigurasi JSON",
+      "copyConfig": "Copy Config",
+      "copied": "Copied!",
+      "proTipTitle": "Pro Tip:",
+      "proTipDesc1": "Anda hanya perlu menyertakan environment variable untuk alat spesifik yang akan Anda gunakan.",
+      "proTipDesc2": "Selain itu, jika Anda sudah menginstal <0>Atlassian MCP</0> atau <1>GitHub MCP</1> resmi, Lumina MCP akan secara otomatis menggunakannya sebagai fallback sehingga Anda tidak perlu memberikan kredensial tersebut di sini!",
+      "envVars": "Environment Variables",
+      "envVarsDesc": "Lumina MCP membutuhkan string koneksi untuk berinteraksi dengan database atau GitHub Anda. Anda dapat meneruskannya sebagai environment variable di pengaturan MCP client Anda.",
+      "table": {
+        "variable": "Variable",
+        "description": "Deskripsi",
+        "example": "Contoh",
+        "descMysql": "String koneksi untuk instance MySQL",
+        "descPostgres": "String koneksi untuk PostgreSQL",
+        "descGithub": "Personal Access Token untuk fitur Git",
+        "descTrelloKey": "API Key untuk integrasi Trello",
+        "descTrelloToken": "API Token untuk integrasi Trello",
+        "descOpDomain": "URL Domain untuk OpenProject",
+        "descOpKey": "API Key untuk integrasi OpenProject",
+        "descJiraEmail": "Alamat email untuk autentikasi Jira",
+        "descJiraToken": "API Token untuk integrasi Jira",
+        "descJiraDomain": "URL Domain untuk instance Jira Anda"
+      },
+      "securityNote": "Security Note",
+      "securityDesc": "Semua koneksi database dijalankan sebagai <0>read-only</0> oleh service layer. Percobaan untuk menjalankan <1>DROP</1>, <2>DELETE</2>, atau <3>UPDATE</3> melalui prompt AI akan diblokir secara otomatis.",
+      "nextSteps": "Next Steps",
+      "nextStepsDesc": "Setelah Anda memahami konfigurasi dasar, buka halaman <0>Core Integrations</0> di sidebar untuk melihat cara menghubungkan dan menjalankan database, git, atau integrasi tiket Anda.",
+      "clients": {
+        "antigravity": {
+          "desc": "Antigravity adalah environment coding AI agentic dari Gemini. Untuk menambahkan Lumina MCP, daftarkan di file konfigurasi mcp_config.json Anda.",
+          "steps": [
+            "Buka atau buat file konfigurasi pada path spesifik OS Anda",
+            "Paste blok konfigurasi JSON ke dalam objek \"mcpServers\"",
+            "Restart Antigravity agar dapat secara otomatis memuat semua tool Lumina MCP"
+          ]
+        },
+        "cursor": {
+          "desc": "Cursor adalah code editor AI-first. Anda dapat mendaftarkan Lumina MCP melalui UI pengaturan atau langsung di dalam file settings MCP Cursor.",
+          "steps": [
+            "Buka Settings Cursor (Cmd+, atau Ctrl+,), masuk ke Features -> MCP dan klik '+ Add New MCP Server'",
+            "Atur Name ke 'lumina-mcp', Type ke 'command', dan Command ke 'npx -y lumina-mcp'",
+            "Tambahkan environment variable secara manual di UI, ATAU edit file pengaturan JSON langsung dengan mem-paste keseluruhan blok"
+          ]
+        },
+        "claude": {
+          "desc": "Claude Code adalah agen coding berbasis terminal dari Anthropic. Konfigurasikan Lumina MCP di dalam file config global Claude Anda.",
+          "steps": [
+            "Buka atau buat file .claude.json di home directory Anda",
+            "Paste blok konfigurasi JSON di bawah key \"mcpServers\"",
+            "Jalankan 'claude' di terminal Anda dan fitur akan otomatis menemukan database, git, dan tool orchestration"
+          ]
+        },
+        "vscode": {
+          "desc": "VS Code memerlukan ekstensi MCP (seperti Cline atau Roo Code) untuk bertindak sebagai AI client, karena VS Code versi native tidak mendukung MCP.",
+          "steps": [
+            "Instal ekstensi yang kompatibel dengan MCP seperti Cline atau Roo Code di VS Code",
+            "Buka panel pengaturan ekstensi dan klik 'Edit Settings File'",
+            "Paste blok konfigurasi JSON di bawah key \"mcpServers\""
+          ]
+        },
+        "codex": {
+          "desc": "Codex adalah asisten coding berbasis AI. Ia menggunakan file TOML untuk konfigurasi MCP dan mengelolanya melalui CLI-nya sendiri.",
+          "steps": [
+            "Jalankan 'codex mcp add lumina-mcp --command npx --args -y,lumina-mcp' di terminal Anda",
+            "Tetapkan environment variable Anda menggunakan 'codex mcp env lumina-mcp set <KEY>=<VALUE>'",
+            "Alternatifnya, langsung buka file config.toml dan paste blok TOML di bawah ini"
+          ]
+        }
+      }
+    },
+    "database": {
+      "badge": "Documentation",
+      "title": "Database Integration",
+      "subtitle": "Hubungkan Lumina MCP ke database MySQL atau PostgreSQL. Biarkan agen AI Anda mengambil schema, query data, dan menganalisis rencana eksekusi query secara aman.",
+      "setupTitle": "Setup & Connection Configuration",
+      "setupDesc": "Berikan string koneksi sebagai environment variable ke server Lumina MCP.",
+      "table": {
+        "variable": "Variable",
+        "description": "Deskripsi",
+        "example": "Contoh Format",
+        "descMysql": "String koneksi untuk instance database MySQL",
+        "descPostgres": "String koneksi untuk instance database PostgreSQL"
+      },
+      "securityTitle": "Security Enforcement",
+      "securityDesc": "Semua koneksi yang dibangun oleh service controller dipaksakan sebagai <0>Read-Only</0>. Aksi write diblokir oleh layer controller. Percobaan untuk menjalankan statement mutasi seperti <1>DROP</1>, <2>DELETE</2>, <3>UPDATE</3>, atau <4>INSERT</4> akan dicegat dan gagal.",
+      "toolsTitle": "Exposed Database Tools",
+      "toolsDesc": "Agen AI menggunakan tools ini secara langsung dengan memanggilnya melalui protokol MCP.",
+      "tools": {
+        "t1Badge": "Reads Data",
+        "t1Desc": "Menjalankan query SQL read-only raw pada konfigurasi database yang aktif dan mengembalikan hasilnya dalam bentuk baris tabel JSON.",
+        "t2Badge": "Reads Schema",
+        "t2Desc": "Menampilkan semua tabel yang tersedia saat ini dalam konteks schema database aktif.",
+        "t3Badge": "Inspect Columns",
+        "t3Desc": "Mengambil informasi kolom tabel, schema field, batasan nullability, index, dan tipe data.",
+        "t4Badge": "Performance Audit",
+        "t4Desc": "Menjalankan statement <0>EXPLAIN</0> pada string query, mengembalikan jalur index dan biaya eksekusi query.",
+        "t5Badge": "Writes Report",
+        "t5Desc": "Menyimpan laporan audit database hasil buatan AI ke dalam direktori docs/database lokal."
+      },
+      "promptsTitle": "Database Prompts",
+      "promptsDesc": "Lumina MCP juga menyediakan prompt pra-konfigurasi untuk memicu workflow AI yang kompleks dengan cepat. Anda dapat menggunakan prompt ini secara langsung di chat AI client Anda.",
+      "prompts": {
+        "exampleUsage": "Contoh Penggunaan",
+        "p1Desc": "Menghasilkan dan menjalankan query MySQL read-only berdasarkan bahasa natural.",
+        "p1Query": "Run query to find top 5 customers with status active.",
+        "p2Desc": "Melakukan audit query MySQL untuk menguji performa dan keamanan menggunakan analisis EXPLAIN.",
+        "p2Query": "Analyze query performance for SELECT * FROM items WHERE status = pending",
+        "p3Desc": "Menghasilkan dan menjalankan query PostgreSQL read-only berdasarkan bahasa natural.",
+        "p3Query": "Show all tables in public schema.",
+        "p4Desc": "Melakukan audit query PostgreSQL untuk menguji performa dan keamanan.",
+        "p4Query": "Analyze query performance for SELECT * FROM users"
+      }
+    },
+    "projectManagement": {
+      "badge": "Documentation",
+      "title": "Project Management Integration",
+      "subtitle": "Hubungkan agen AI Anda langsung ke tiket project management. Ambil spesifikasi dan konteks deskripsi dari <0>Jira, Trello, dan OpenProject</0>.",
+      "setupTitle": "Setup & Connection Credentials",
+      "setupDesc": "Berikan string koneksi sebagai environment variable ke server Lumina MCP.",
+      "table": {
+        "platform": "Platform",
+        "variable": "Variable",
+        "description": "Deskripsi",
+        "descJiraUrl": "URL instance Jira Anda (cth. <0>https://company.atlassian.net</0>)",
+        "descJiraEmail": "Alamat email yang terasosiasi dengan akun Jira Anda",
+        "descJiraToken": "Personal API Token Atlassian Anda",
+        "descTrelloKey": "Trello Power-Up atau developer API key Anda",
+        "descTrelloToken": "Token autorisasi personal Trello Anda",
+        "descOpUrl": "Base URL dari instance OpenProject Anda",
+        "descOpKey": "Token APIv3 OpenProject Anda"
+      },
+      "toolsTitle": "Exposed PM Tools",
+      "toolsDesc": "Agen AI memanggil tools ini secara langsung via protokol MCP untuk mengimpor deskripsi isu, definisi task, dan diskusi.",
+      "tools": {
+        "t1Desc": "Mengambil deskripsi, pelapor, ringkasan, label, komentar, dan tautan epic untuk tiket Jira spesifik.",
+        "t2Desc": "Mengunduh deskripsi, status, daftar periksa, dan riwayat komentar kartu Trello.",
+        "t3Desc": "Mengunduh konten work package lengkap termasuk assignee, prioritas, deskripsi, dan komentar status dari OpenProject."
+      },
+      "promptsTitle": "PM Prompts",
+      "promptsDesc": "Lumina MCP juga menyediakan prompt pra-konfigurasi untuk memicu workflow AI yang kompleks dengan cepat. Anda dapat menggunakan prompt ini secara langsung di chat AI client Anda.",
+      "prompts": {
+        "exampleUsage": "Contoh Penggunaan",
+        "p1Desc": "Meringkas tiket raw Jira, Trello, atau OpenProject sebagai Senior Product Manager.",
+        "p1Query": "Fetch description for Jira ticket LUM-402.",
+        "p2Desc": "Lakukan brainstorm untuk pendekatan teknis dan membuat plan berdasarkan ringkasan tiket.",
+        "p2Query": "Download OpenProject work package #82.",
+        "p3Desc": "Menghasilkan katalog test komprehensif berdasarkan tiket dan plan teknis.",
+        "p3Query": "Get checklist details from Trello card 64b19c."
+      }
+    },
+    "versionControl": {
+      "badge": "Documentation",
+      "title": "Version Control",
+      "subtitle": "Otomatiskan pull request GitHub, commit konvensional, dan resolusi komentar secara langsung melalui sistem Version Control Lumina MCP.",
+      "setupTitle": "Setup & Token Configuration",
+      "setupDesc": "Untuk berinteraksi dengan repositori GitHub Anda, konfigurasikan environment variable berikut:",
+      "table": {
+        "variable": "Variable",
+        "description": "Deskripsi",
+        "example": "Contoh Format",
+        "descToken": "Classic Personal Access Token (PAT) dengan scope <0>repo</0>, atau Fine-grained GitHub Access Token."
+      },
+      "toolsTitle": "Exposed Git Tools",
+      "toolsDesc": "Agen AI menggunakan tool ini secara langsung melalui protokol MCP untuk memeriksa diff, melakukan stage pada file, push commit, dan berinteraksi dengan pull request.",
+      "tools": {
+        "t1Badge": "Commits",
+        "t1Desc": "Menganalisis staged git diff, menulis pesan commit konvensional yang sangat deskriptif, melakukan commit perubahan, dan push ke branch remote.",
+        "t2Badge": "Pull Request",
+        "t2Desc": "Membuka Pull Request GitHub baru. Lumina secara otomatis menghasilkan deskripsi markdown yang value-first menguraikan modifikasinya.",
+        "t3Badge": "Auto Review",
+        "t3Desc": "Mengirimkan tinjauan kode berbasis AI ke GitHub Pull Request (menyetujui, meminta perubahan, atau komentar).",
+        "t4Badge": "Auto Review",
+        "t4Desc": "Mengambil komentar tinjauan PR untuk membantu AI memahami feedback dan menerapkan perbaikan secara lokal.",
+        "t5Badge": "Reviews",
+        "t5Desc": "Mengunduh representasi git diff terpadu yang bersih dari pull request GitHub terbuka mana pun untuk tinjauan otomatis.",
+        "t6Badge": "Discussions",
+        "t6Desc": "Membalas komentar inline dalam tinjauan pull request GitHub.",
+        "t7Badge": "Discussions",
+        "t7Desc": "Menyelesaikan thread tinjauan pull request GitHub menggunakan ID node komentarnya."
+      },
+      "promptsTitle": "Git Prompts",
+      "promptsDesc": "Lumina MCP juga menyediakan prompt pra-konfigurasi untuk memicu workflow AI yang kompleks dengan cepat. Anda dapat menggunakan prompt ini secara langsung di chat AI client Anda.",
+      "prompts": {
+        "exampleUsage": "Contoh Penggunaan",
+        "p1Desc": "Membuat pesan commit layaknya software engineer senior di perusahaan teknologi besar.",
+        "p1Query": "Stage my changes and run commit push.",
+        "p2Desc": "Membuat deskripsi pull request layaknya perusahaan teknologi, mencakup test coverage.",
+        "p2Query": "Create a PR into main for the branch feat/readonly.",
+        "p3Desc": "Menyediakan review kode secara langsung ke github menggunakan AI.",
+        "p3Query": "Review PR #42 and approve it.",
+        "p4Desc": "Mengambil komentar review dan memberikan instruksi untuk memperbaikinya secara otomatis.",
+        "p4Query": "Resolve PR comments on #104."
+      }
+    },
+    "orchestration": {
+      "badge": "Documentation",
+      "title": "AI Orchestration & Lifecycles",
+      "subtitle": "Pahami dan gunakan Orchestration Development Cycle yang ditenagai oleh Lumina MCP dan Compound Engineering.",
+      "workflowTitle": "Orchestration Engineering Workflow",
+      "workflowDesc": "Lumina MCP mengoordinasikan modifikasi kode yang kompleks dengan membagi workflow ke dalam fase deterministik. Ini memastikan agen menghasilkan pekerjaan berkualitas tinggi, mendokumentasikan keputusan desain, dan melakukan iterasi peninjauan mandiri secara berkala.",
+      "phases": {
+        "p1Title": "Planning",
+        "p1Desc": "Merancang persyaratan & arsitektur sistem.",
+        "p2Title": "Execution",
+        "p2Desc": "Menghasilkan dan mengimplementasikan kode utama.",
+        "p3Title": "Testing",
+        "p3Desc": "Menulis test unit & integrasi.",
+        "p4Title": "Code Review",
+        "p4Desc": "Pengecekan kualitas & keamanan multi-agen.",
+        "p5Title": "Verification",
+        "p5Desc": "Melakukan build dan verifikasi fungsionalitas kode.",
+        "p6Title": "Git System",
+        "p6Desc": "Commit file dan push ke remote."
+      },
+      "toolsTitle": "Exposed Orchestration Tools",
+      "tools": {
+        "t1Badge": "Lifecycle",
+        "t1Desc": "Mengambil pedoman, persyaratan, dan instruksi sistem spesifik yang terasosiasi dengan fase pengembangan tertentu."
+      },
+      "promptsTitle": "Orchestration Prompts",
+      "promptsDesc": "Lumina MCP menyediakan prompt pra-konfigurasi yang kuat untuk menjalankan seluruh orkestrasi AI secara otomatis. Anda dapat mengontrol apakah fase ini mencakup test atau tidak dengan beralih di opsi <0>includeTest</0>.",
+      "prompts": {
+        "exampleUsage": "Contoh Penggunaan",
+        "p1Desc": "Memicu workflow AI end-to-end dengan bertindak sebagai Senior Software Engineer. Memuat sistem instruksi secara rekursif per fase.",
+        "generalFeature": "Fitur Umum",
+        "jiraIntegration": "Integrasi Jira",
+        "trelloIntegration": "Integrasi Trello",
+        "opIntegration": "Integrasi OpenProject"
+      },
+      "fallbackTitle": "Native Fallback Controller Strategy",
+      "fallbackDesc": "Lumina MCP dibuat untuk bekerja secara mulus dengan plugin <0>Compound Engineering</0>. Namun, jika Anda menjalankan Lumina di lingkungan workspace di mana plugin tersebut belum diinstal (seperti standar VS Code, Cursor, atau Claude Desktop), kontroler secara mulus berpindah menggunakan <1>Native Fallback Prompts</1> untuk memandu agen.",
+      "fallbacks": {
+        "f1Desc": "Meminta AI untuk memulai siklus pertanyaan dan jawaban interaktif, memahami batasan teknis dan drafting rincian sebelum menulis dokumen spesifikasi desain.",
+        "f2Desc": "Memandu AI untuk mendokumentasikan modifikasi file, modifikasi metode, dan batasan API dalam lembar implementasi teknis.",
+        "f3Desc": "Memaksa kode untuk mematuhi kualitas tinggi: cek validasi yang ketat, pencegahan error typing, exception handling, dan dilarang menggunakan konfigurasi teks rahasia.",
+        "f4Desc": "Memeriksa diff melalui checklist yang ketat dari fungsionalitas dan pengecekan tingkat OWASP yang kuat secara mandiri dan readability code.",
+        "f5Desc": "Menginstruksikan AI untuk membuat dan mengembangkan dokumentasi desain perangkat lunak dalam format markdown yang terletak dalam direktori <0>docs/solutions/</0> untuk menggabungkan pengetahuan yang berkelanjutan dalam workspace."
+      }
+    },
+    "compound": {
+      "badge": "Dukungan yang Disarankan",
+      "title": "Compound Engineering",
+      "subtitle": "Lumina MCP mendukung plugin Compound Engineering untuk memberdayakan workflow lanjutan dan perutean konteks, dengan skill native fallback jika plugin tersebut tidak terinstal.",
+      "recommendedTitle": "Setup yang Disarankan (Opsional)",
+      "recommendedDesc": "Sebelum mengonfigurasi tools Lumina yang spesifik, Anda dapat menginstal plugin Compound Engineering di klien AI Anda untuk meningkatkan workflow automasi Anda. Setup ini <0>sepenuhnya opsional</0> karena Lumina MCP sudah memiliki fallback bawaan.",
+      "installTitle": "Instruksi Instalasi",
+      "aiShortcutTitle": "💡 Pintasan Asisten AI:",
+      "aiShortcutDesc": "Anda cukup meminta agen AI Anda (di Cursor, Claude Code, atau Antigravity) untuk menginstal plugin tersebut untuk Anda dengan memberikan link repository ini:",
+      "claudeCode": {
+        "p1": "Ikuti langkah-langkah berikut untuk menginstal plugin Compound Engineering di Claude Code:",
+        "li1_title": "Buka Claude Code di terminal Anda dan daftarkan marketplace:",
+        "li1_desc": "Ini menambahkan marketplace resmi untuk plugin.",
+        "li2_title": "Instal plugin:",
+        "li2_desc": "Atau gunakan <0>/plugin install compound-engineering@compound-engineering-plugin</0> jika namanya tidak unik.",
+        "li3_title": "Verifikasi instalasi:",
+        "li3_desc": "Ketik <0>/plugin</0> untuk membuka manajer dan memeriksa tab \"Installed\". Muat ulang jika diperlukan dengan menggunakan <1>/reload-plugins</1>.",
+        "note": "Catatan: Ini adalah plugin pihak ketiga yang dibuat oleh EveryInc. Selalu pastikan Anda mempercayai sumbernya sebelum menginstal: <0>github.com/EveryInc/compound-engineering-plugin</0>. Setelah terinstal, Anda akan mendapatkan akses ke perintah seperti <1>/compound-engineering:plan</1> dan <2>/compound-engineering:review</2>."
+      },
+      "cursor": {
+        "p1": "Anda dapat menginstal plugin secara langsung melalui percakapan Agen Cursor atau melalui marketplace:",
+        "li1_title": "Instal via Percakapan Agen:",
+        "li2_title": "Alternatif (UI Marketplace):",
+        "li2_1": "Buka <0>Plugin Marketplace</0>.",
+        "li2_2": "Cari <0>\"Compound Engineering\"</0>.",
+        "li2_3": "Klik <0>Install</0>."
+      },
+      "antigravity": {
+        "p1": "Antigravity IDE secara asli mendukung plugin. Anda memiliki dua opsi untuk menginstalnya:",
+        "opt1_title": "Opsi 1: Minta Agen AI (Disarankan)",
+        "opt1_desc": "Cukup salin tautan GitHub dan minta agen Anda: <0>\"Tolong instal plugin ini untuk saya: https://github.com/EveryInc/compound-engineering-plugin\"</0>",
+        "opt2_title": "Opsi 2: Instal sebagai Plugin Global (Manual)",
+        "opt2_li1_title": "Buat direktori plugin:",
+        "opt2_li2_title": "Kloning repository:",
+        "opt2_li2_desc": "Ini akan membuat folder <0>compound-engineering-plugin</0> dengan semua skill, agen, dan konfigurasi yang diperlukan.",
+        "opt2_li3": "<0>Restart Antigravity IDE.</0> Ini akan mendeteksi plugin secara otomatis dari folder global."
+      },
+      "codex": {
+        "p1": "Untuk menggunakan plugin di Codex, Anda hanya perlu menjalankan perintah <0>bunx</0> berikut di terminal Anda:",
+        "p2": "Perintah ini mengonversi dan menginstal plugin untuk digunakan secara native di Codex."
+      },
+      "loopPrompts": {
+        "title": "Menggunakan Prompts Loop",
+        "desc": "Plugin Compound Engineering menyediakan prompts workflow standar yang digunakan Lumina MCP untuk automasi terstruktur. Anda dapat menggunakannya secara langsung di obrolan Anda:",
+        "ceStrategy": "Buat atau kelola file STRATEGY.md. Menangkap masalah target, pendekatan, metrik, dan trek.",
+        "ceBrainstorm": "Q&A interaktif untuk memikirkan sebuah masalah dan menulis dokumen persyaratan.",
+        "cePlan": "Ubah ide dan persyaratan yang telah dibrainstorm menjadi rencana implementasi yang terperinci.",
+        "ceWork": "Eksekusi rencana implementasi yang dihasilkan secara otomatis.",
+        "ceCodeReview": "Peninjauan kode multi-agen untuk menangkap masalah sebelum melakukan commit.",
+        "ceCompound": "Dokumentasikan pembelajaran dan pola untuk membuat workflow di masa depan lebih mudah dan lebih pintar."
+      },
+      "fallbacks": {
+        "title": "Lumina Native Fallbacks",
+        "desc": "Jika plugin Compound Engineering tidak diinstal, Lumina MCP secara otomatis menyediakan skill native fallback ini:",
+        "fbBrainstorm": "Menyediakan dukungan brainstorming interaktif dan perencanaan dasar.",
+        "fbWork": "Skill yang disederhanakan untuk menjalankan langkah-langkah implementasi dasar.",
+        "fbReview": "Menjalankan pemeriksaan review kode satu tahap (single-pass).",
+        "fbCompound": "Fallback sederhana untuk mencatat pola yang telah dipecahkan."
+      }
+    }
+  },
+  "docsLayout": {
+    "onThisPage": "Di halaman ini",
+    "searchDocs": "Cari dokumen...",
+    "home": "Beranda",
+    "github": "GitHub",
+    "documentation": "Dokumentasi",
+    "sections": {
+      "Getting Started": "Memulai",
+      "Compound Engineering": "Compound Engineering",
+      "Core Integrations": "Integrasi Utama",
+      "Database Integration": "Integrasi Database",
+      "Project Management": "Manajemen Proyek",
+      "Version Control": "Version Control",
+      "AI Orchestration": "AI Orchestration"
+    }
+  }
+}

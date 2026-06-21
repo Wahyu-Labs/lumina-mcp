@@ -1,15 +1,18 @@
 {
   "name": "lumina-mcp",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "description": "Unified MCP toolkit for engineering workflows, database connections, and source control",
   "main": "dist/index.js",
   "type": "module",
   "files": [
     "dist"
   ],
+  "bin": {
+    "lumina-mcp": "dist/index.js"
+  },
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "tsc --noEmit && tsx build.ts",
     "start": "node dist/index.js",
     "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \".eslintrc.json\" \"tsconfig.json\" \"test/tsconfig.json\"",
@@ -29,6 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^8.60.1",
     "@typescript-eslint/parser": "^8.60.1",
     "@vitest/coverage-v8": "^1.6.1",
+    "esbuild": "^0.28.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.3.1",

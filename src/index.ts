@@ -4,6 +4,7 @@ import { registerMysqlController } from './tools/database/mysql/index.js';
 import { registerPostgresqlController } from './tools/database/postgresql/index.js';
 import { registerGithubController } from './tools/gitsystem/index.js';
 import { registerProjectManagementController } from './tools/projectmanagement/index.js';
+import { registerOrchestrationController } from './tools/orchestration/index.js';
 import { applyPromptArgsPatch } from './utils/prompt-args.utils.js';
 
 export const server = new McpServer({
@@ -16,6 +17,7 @@ registerMysqlController(server);
 registerPostgresqlController(server);
 registerGithubController(server);
 registerProjectManagementController(server);
+registerOrchestrationController(server);
 
 applyPromptArgsPatch(server);
 

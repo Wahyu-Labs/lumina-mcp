@@ -1,0 +1,463 @@
+{
+  "navbar": {
+    "home": "Home",
+    "database": "Database",
+    "git": "Git & PR",
+    "pm": "Project Management",
+    "orchestration": "Orchestration",
+    "docs": "Docs",
+    "github": "GitHub"
+  },
+  "hero": {
+    "versionBadge": "AI MCP Server & Workflows v1.0.3",
+    "heading1": "Give Your AI Assistant",
+    "heading2": "Real Developer Superpowers",
+    "subtitle": "Provide your AI agents with direct access to your developer environment. Execute database queries, streamline Git workflows, track Jira boards, and orchestrate complex tasks safely.",
+    "getStarted": "Get Started",
+    "starGithub": "Star on GitHub"
+  },
+  "cta": {
+    "title": "Supercharge Your AI Agents",
+    "subtitle": "Plug Lumina MCP directly into your preferred AI coding environment to unlock instant database access, project tracking, Git integrations, and orchestration capabilities.",
+    "configureIn": "Configure in",
+    "installationSteps": "Installation Steps",
+    "pathLabel": "Path",
+    "copyConfig": "Copy Config",
+    "copied": "Copied!",
+    "proTip": "Pro Tip:",
+    "proTipDesc": "You only need to include the environment variables for the specific tools you plan to use. Additionally, if you already have the official Atlassian MCP or GitHub MCP installed, Lumina MCP will automatically use them as a fallback so you don't need to provide those credentials here!"
+  },
+  "footer": {
+    "copyright": "© 2026 Lumina MCP"
+  },
+  "database": {
+    "title": "Database Integration",
+    "subtitle": "Provide your AI agents with direct read-only query capabilities on MySQL and PostgreSQL databases. Audit performance and extract schema structures effortlessly.",
+    "strictReadOnly": "Strict Read-Only Guardrail",
+    "strictReadOnlyDesc": "Lumina automatically appends security constraints. AI agents are locked into a read-only database connection. Write, update, delete, or structure-modifying commands are rejected.",
+    "notForProd": "Not for Production Use",
+    "notForProdDesc": "We highly recommend using this feature only on local, staging, or dummy databases. Connecting a production database may inadvertently expose sensitive user data to the external LLM provider.",
+    "docs": "Docs",
+    "examplePrompt": "Example Prompt",
+    "prompts": {
+      "runMysql": "Generate and execute a read-only MySQL query based on natural language.",
+      "auditMysql": "Audit a MySQL query for performance and security using EXPLAIN analysis.",
+      "runPg": "Generate and execute a read-only PostgreSQL query based on natural language.",
+      "auditPg": "Audit a PostgreSQL query for performance and security."
+    }
+  },
+  "git": {
+    "title": "Git & PR Automation",
+    "subtitle": "Streamline Git commits and pull request workflows. Conduct thorough code reviews and resolve thread discussions recursively.",
+    "recursiveResolution": "Recursive Thread Resolution",
+    "recursiveResolutionDesc": "Lumina handles GitHub PR comments loops. The agent reviews comments, locates target files, edits code to resolve review requests, pushes commits, and replies to close the thread.",
+    "docs": "Docs",
+    "examplePrompt": "Example Prompt",
+    "prompts": {
+      "commit": "Generate commit message like a senior software engineer in a big tech company.",
+      "pr": "Create pull request description like a tech company, including test coverage.",
+      "review": "Provide code review directly to github based on AI.",
+      "fix": "Fetch review comments and provide instructions to automatically fix them."
+    }
+  },
+  "pm": {
+    "title": "Project Management Integration",
+    "subtitle": "Bridge the gap between product management and engineering. The AI agent directly fetches tickets to absorb requirements and build exactly what was asked.",
+    "contextAware": "Context-Aware Task Integration",
+    "contextAwareDesc": "Lumina feeds the ticket's title, scope description, checklists, and discussions directly into the discovery and planning phases to ensure alignment.",
+    "docs": "Docs",
+    "examplePrompt": "Example Prompt",
+    "prompts": {
+      "summarize": "Summarize a raw Jira, Trello, or OpenProject ticket as a Senior Product Manager.",
+      "brainstorm": "Brainstorm technical approach and create a plan based on the ticket summary.",
+      "test": "Generate comprehensive test catalog based on the ticket and technical plan."
+    }
+  },
+  "orchestration": {
+    "title": "End-to-End Orchestration",
+    "subtitle": "Orchestration is the process where the AI acts as a Senior Software Engineer, managing the lifecycle of a feature from planning to code review and Git commits. It iteratively loops through predefined phases to ensure high-quality, production-ready output.",
+    "pluginTitle": "Compound Engineering Plugin",
+    "pluginDesc": "If you use the <0>Compound Engineering plugin</0> features, the orchestration results are significantly better! Lumina leverages its advanced specialized agents natively.",
+    "docs": "Docs",
+    "examplePrompts": "Example Prompts",
+    "promptName": "/lumina_orchestrate",
+    "promptDesc": "Triggers an end-to-end AI workflow acting as a Senior Software Engineer. Recursively loads system directives phase by phase.",
+    "pipelinesTitle": "Workflow Pipelines & Testing Modes",
+    "pipelinesDesc": "The orchestration flow adapts based on whether you want the AI to write and run tests (<code className=\"bg-muted px-1.5 py-0.5 rounded text-accent font-mono\">includeTest</code>).",
+    "phases": {
+      "planning": "Planning",
+      "planningDesc": "Drafts requirements & system architecture.",
+      "execution": "Execution",
+      "executionDesc": "Generates and implements core code.",
+      "testing": "Testing",
+      "testingDesc": "Writes unit & integration tests.",
+      "codeReview": "Code Review",
+      "codeReviewDesc": "Multi-agent quality & security check.",
+      "verification": "Verification",
+      "verificationDesc": "Builds code and verifies functionality.",
+      "git": "Git System",
+      "gitDesc": "Commits files and pushes to remote."
+    }
+  },
+  "orchestrationTimeline": {
+    "badge": "Orchestration Workflow Stepper",
+    "title": "Orchestration Development Cycle",
+    "subtitle": "AI agents follow a linear progression. If the target environment lacks the Compound Engineering plugin, Lumina falls back to native markdown prompts.",
+    "fallbackLabel": "Fallback Prompt",
+    "phases": {
+      "discovery": {
+        "title": "Discovery & Analysis",
+        "desc": "AI retrieves tickets (Jira/Trello), reads the codebase structure, and outlines requirements."
+      },
+      "planning": {
+        "title": "Technical Planning",
+        "desc": "AI drafts a precise, file-by-file implementation plan mapping all files to modify."
+      },
+      "execution": {
+        "title": "Execution & Implementation",
+        "desc": "AI implements the changes, executing code edits following the plan strictly without wandering."
+      },
+      "review": {
+        "title": "Iterative Code Review",
+        "desc": "Multi-agent review loops evaluate the diff to ensure adherence to safety standards and linters."
+      },
+      "verification": {
+        "title": "Verification & Compounding",
+        "desc": "Runs test suites, audits connections, and records learnings into docs/solutions."
+      },
+      "release": {
+        "title": "Git Pull Request Release",
+        "desc": "Generates clean conventional commits, pushes changes, and creates a GitHub pull request."
+      }
+    }
+  },
+  "docs": {
+    "gettingStarted": {
+      "badge": "Installation",
+      "title": "Getting Started",
+      "subtitle": "Install and configure Lumina MCP to securely query and audit your databases from any MCP-compatible AI client.",
+      "recommendedTitle": "Recommended Support: Compound Engineering Plugin (Optional)",
+      "recommendedDesc": "Lumina MCP includes native fallback skills and <0>does not require</0> the Compound Engineering plugin to function. However, installing it in your AI client is highly recommended as a support tool to enable advanced workflows, dynamic context routing, and self-improving capabilities, ensuring even better results.",
+      "clientConfig": "Client Configuration",
+      "clientConfigDesc": "Select your AI client below to view specific installation steps and copy the configuration snippet:",
+      "configureIn": "Configure in",
+      "installSteps": "Installation Steps",
+      "path": "Path",
+      "configToml": "TOML Configuration",
+      "configJson": "JSON Configuration",
+      "copyConfig": "Copy Config",
+      "copied": "Copied!",
+      "proTipTitle": "Pro Tip:",
+      "proTipDesc1": "You only need to include the environment variables for the specific tools you plan to use.",
+      "proTipDesc2": "Additionally, if you already have the official <0>Atlassian MCP</0> or <1>GitHub MCP</1> installed, Lumina MCP will automatically use them as a fallback so you don't need to provide those credentials here!",
+      "envVars": "Environment Variables",
+      "envVarsDesc": "Lumina MCP requires connection strings to interact with your databases or GitHub. You can pass these as environment variables in your client's MCP settings.",
+      "table": {
+        "variable": "Variable",
+        "description": "Description",
+        "example": "Example",
+        "descMysql": "Connection string for MySQL instances",
+        "descPostgres": "Connection string for PostgreSQL",
+        "descGithub": "Personal Access Token for Git tools",
+        "descTrelloKey": "API Key for Trello integration",
+        "descTrelloToken": "API Token for Trello integration",
+        "descOpDomain": "Domain URL for OpenProject",
+        "descOpKey": "API Key for OpenProject integration",
+        "descJiraEmail": "Email address for Jira authentication",
+        "descJiraToken": "API Token for Jira integration",
+        "descJiraDomain": "Domain URL for your Jira instance"
+      },
+      "securityNote": "Security Note",
+      "securityDesc": "All database connections are enforced as <0>read-only</0> by the service layer. Attempts to run <1>DROP</1>, <2>DELETE</2>, or <3>UPDATE</3> via AI prompts will be blocked automatically.",
+      "nextSteps": "Next Steps",
+      "nextStepsDesc": "Once you understand the basic configuration, head over to the <0>Core Integrations</0> pages in the sidebar to see how to connect and run your database, git, or ticketing integrations.",
+      "clients": {
+        "antigravity": {
+          "desc": "Antigravity is Gemini's agentic AI coding environment. To add Lumina MCP, register it in your mcp_config.json configuration file.",
+          "steps": [
+            "Open or create the config file at your OS-specific path",
+            "Paste the JSON configuration block inside the \"mcpServers\" object",
+            "Restart Antigravity to automatically load all Lumina MCP tools"
+          ]
+        },
+        "cursor": {
+          "desc": "Cursor is an AI-first code editor. You can register Lumina MCP through the settings UI or directly inside the Cursor MCP settings file.",
+          "steps": [
+            "Open Cursor Settings (Cmd+, or Ctrl+,), go to Features -> MCP and click '+ Add New MCP Server'",
+            "Set Name to 'lumina-mcp', Type to 'command', and Command to 'npx -y lumina-mcp'",
+            "Manually add the environment variables in the UI, OR edit the JSON settings file directly to paste the full block"
+          ]
+        },
+        "claude": {
+          "desc": "Claude Code is Anthropic's terminal-based coding agent. Configure Lumina MCP in your global Claude config file.",
+          "steps": [
+            "Open or create the .claude.json config file in your home directory",
+            "Paste the JSON configuration block under the \"mcpServers\" key",
+            "Run 'claude' in your terminal and it will automatically discover the database, git, and orchestration tools"
+          ]
+        },
+        "vscode": {
+          "desc": "VS Code requires an MCP extension (like Cline or Roo Code) to act as the AI client, since native VS Code does not support MCP out of the box.",
+          "steps": [
+            "Install an MCP-compatible extension like Cline or Roo Code in VS Code",
+            "Open the extension's settings panel and click 'Edit Settings File'",
+            "Paste the JSON configuration block under the \"mcpServers\" key"
+          ]
+        },
+        "codex": {
+          "desc": "Codex is an AI-powered coding assistant. It uses a TOML file for MCP configurations and manages them via its own CLI.",
+          "steps": [
+            "Run 'codex mcp add lumina-mcp --command npx --args -y,lumina-mcp' in your terminal",
+            "Set your environment variables using 'codex mcp env lumina-mcp set <KEY>=<VALUE>'",
+            "Alternatively, directly open the config.toml file and paste the TOML block below"
+          ]
+        }
+      }
+    },
+    "database": {
+      "badge": "Documentation",
+      "title": "Database Integration",
+      "subtitle": "Connect Lumina MCP to MySQL or PostgreSQL databases. Let your AI agents fetch schemas, query data, and analyze query execution plans securely.",
+      "setupTitle": "Setup & Connection Configuration",
+      "setupDesc": "Provide connection strings as environment variables to the Lumina MCP server.",
+      "table": {
+        "variable": "Variable",
+        "description": "Description",
+        "example": "Format Example",
+        "descMysql": "Connection string for MySQL database instances",
+        "descPostgres": "Connection string for PostgreSQL database instances"
+      },
+      "securityTitle": "Security Enforcement",
+      "securityDesc": "All connections established by the service controller are enforced as <0>Read-Only</0>. Write actions are blocked by the controller layer. Attempts to run mutating statements such as <1>DROP</1>, <2>DELETE</2>, <3>UPDATE</3>, or <4>INSERT</4> will be intercepted and fail.",
+      "toolsTitle": "Exposed Database Tools",
+      "toolsDesc": "AI agents utilize these tools directly by calling them via MCP protocols.",
+      "tools": {
+        "t1Badge": "Reads Data",
+        "t1Desc": "Runs a raw read-only SQL query against the active database configuration and returns the result in JSON table rows.",
+        "t2Badge": "Reads Schema",
+        "t2Desc": "Lists all tables currently available in the active database schema context.",
+        "t3Badge": "Inspect Columns",
+        "t3Desc": "Retrieves table columns, field schemas, nullability constraints, indices, and data types.",
+        "t4Badge": "Performance Audit",
+        "t4Desc": "Runs an <0>EXPLAIN</0> statement on a query string, returning the indexing path and query execution costs.",
+        "t5Badge": "Writes Report",
+        "t5Desc": "Saves an AI-generated database audit report locally to the docs/database directory."
+      },
+      "promptsTitle": "Database Prompts",
+      "promptsDesc": "Lumina MCP also exposes pre-configured prompts to quickly trigger complex AI workflows. You can use these prompts directly in your AI client chat.",
+      "prompts": {
+        "exampleUsage": "Example Usage",
+        "p1Desc": "Generate and execute a read-only MySQL query based on natural language.",
+        "p1Query": "Run query to find top 5 customers with status active.",
+        "p2Desc": "Audit a MySQL query for performance and security using EXPLAIN analysis.",
+        "p2Query": "Analyze query performance for SELECT * FROM items WHERE status = pending",
+        "p3Desc": "Generate and execute a read-only PostgreSQL query based on natural language.",
+        "p3Query": "Show all tables in public schema.",
+        "p4Desc": "Audit a PostgreSQL query for performance and security.",
+        "p4Query": "Analyze query performance for SELECT * FROM users"
+      }
+    },
+    "projectManagement": {
+      "badge": "Documentation",
+      "title": "Project Management Integration",
+      "subtitle": "Connect your AI agents directly to your project management tickets. Fetch specifications and description context from <0>Jira, Trello, and OpenProject</0>.",
+      "setupTitle": "Setup & Connection Credentials",
+      "setupDesc": "Provide connection strings as environment variables to the Lumina MCP server.",
+      "table": {
+        "platform": "Platform",
+        "variable": "Variable",
+        "description": "Description",
+        "descJiraUrl": "Your Jira instance URL (e.g. <0>https://company.atlassian.net</0>)",
+        "descJiraEmail": "The email address associated with your Jira account",
+        "descJiraToken": "Your Atlassian Personal API Token",
+        "descTrelloKey": "Your Trello Power-Up or developer API key",
+        "descTrelloToken": "Your personal Trello authorization token",
+        "descOpUrl": "The base URL of your OpenProject instance",
+        "descOpKey": "Your OpenProject APIv3 token"
+      },
+      "toolsTitle": "Exposed PM Tools",
+      "toolsDesc": "AI agents invoke these tools directly via MCP protocols to import issue descriptions, task definitions, and discussions.",
+      "tools": {
+        "t1Desc": "Fetches the description, reporter, summary, labels, comments, and epic links for a specific Jira ticket.",
+        "t2Desc": "Downloads a Trello card's description, status, checklists, and comments history.",
+        "t3Desc": "Downloads full work package content including assignee, priority, description, and status comments from OpenProject."
+      },
+      "promptsTitle": "PM Prompts",
+      "promptsDesc": "Lumina MCP also exposes pre-configured prompts to quickly trigger complex AI workflows. You can use these prompts directly in your AI client chat.",
+      "prompts": {
+        "exampleUsage": "Example Usage",
+        "p1Desc": "Summarize a raw Jira, Trello, or OpenProject ticket as a Senior Product Manager.",
+        "p1Query": "Fetch description for Jira ticket LUM-402.",
+        "p2Desc": "Brainstorm technical approach and create a plan based on the ticket summary.",
+        "p2Query": "Download OpenProject work package #82.",
+        "p3Desc": "Generate comprehensive test catalog based on the ticket and technical plan.",
+        "p3Query": "Get checklist details from Trello card 64b19c."
+      }
+    },
+    "versionControl": {
+      "badge": "Documentation",
+      "title": "Version Control",
+      "subtitle": "Automate GitHub pull requests, conventional commits, and comment resolutions directly through Lumina MCP's Version Control system.",
+      "setupTitle": "Setup & Token Configuration",
+      "setupDesc": "To interact with your GitHub repositories, configure the following environment variable:",
+      "table": {
+        "variable": "Variable",
+        "description": "Description",
+        "example": "Format Example",
+        "descToken": "Classic Personal Access Token (PAT) with <0>repo</0> scope, or a Fine-grained GitHub Access Token."
+      },
+      "toolsTitle": "Exposed Git Tools",
+      "toolsDesc": "AI agents utilize these tools directly via MCP protocols to check diffs, stage files, push commits, and interact with pull requests.",
+      "tools": {
+        "t1Badge": "Commits",
+        "t1Desc": "Analyzes staged git diffs, writes a highly descriptive conventional commit message, commits the changes, and pushes them to the remote branch.",
+        "t2Badge": "Pull Request",
+        "t2Desc": "Opens a new GitHub Pull Request. Lumina automatically generates a value-first markdown description outlining the modifications.",
+        "t3Badge": "Auto Review",
+        "t3Desc": "Submits an AI-based code review to a GitHub Pull Request (approve, request changes, or comment).",
+        "t4Badge": "Auto Review",
+        "t4Desc": "Fetches PR review comments to help the AI understand feedback and apply fixes locally.",
+        "t5Badge": "Reviews",
+        "t5Desc": "Downloads a clean, unified git diff representation of any open GitHub pull request for automated review.",
+        "t6Badge": "Discussions",
+        "t6Desc": "Replies to an inline comment in a GitHub pull request review.",
+        "t7Badge": "Discussions",
+        "t7Desc": "Resolves a GitHub pull request review thread using its comment node ID."
+      },
+      "promptsTitle": "Git Prompts",
+      "promptsDesc": "Lumina MCP also exposes pre-configured prompts to quickly trigger complex AI workflows. You can use these prompts directly in your AI client chat.",
+      "prompts": {
+        "exampleUsage": "Example Usage",
+        "p1Desc": "Generate commit message like a senior software engineer in a big tech company.",
+        "p1Query": "Stage my changes and run commit push.",
+        "p2Desc": "Create pull request description like a tech company, including test coverage.",
+        "p2Query": "Create a PR into main for the branch feat/readonly.",
+        "p3Desc": "Provide code review directly to github based on AI.",
+        "p3Query": "Review PR #42 and approve it.",
+        "p4Desc": "Fetch review comments and provide instructions to automatically fix them.",
+        "p4Query": "Resolve PR comments on #104."
+      }
+    },
+    "orchestration": {
+      "badge": "Documentation",
+      "title": "AI Orchestration & Lifecycles",
+      "subtitle": "Understand and utilize the Orchestration Development Cycle powered by Lumina MCP and Compound Engineering.",
+      "workflowTitle": "Orchestration Engineering Workflow",
+      "workflowDesc": "Lumina MCP coordinates complex code modifications by splitting the workflow into deterministic phases. This ensures agents produce high-quality work, document design decisions, and perform self-review loops iteratively.",
+      "phases": {
+        "p1Title": "Planning",
+        "p1Desc": "Drafts requirements & system architecture.",
+        "p2Title": "Execution",
+        "p2Desc": "Generates and implements core code.",
+        "p3Title": "Testing",
+        "p3Desc": "Writes unit & integration tests.",
+        "p4Title": "Code Review",
+        "p4Desc": "Multi-agent quality & security check.",
+        "p5Title": "Verification",
+        "p5Desc": "Builds code and verifies functionality.",
+        "p6Title": "Git System",
+        "p6Desc": "Commits files and pushes to remote."
+      },
+      "toolsTitle": "Exposed Orchestration Tools",
+      "tools": {
+        "t1Badge": "Lifecycle",
+        "t1Desc": "Fetches specific guidelines, requirements, and system instructions associated with a given development phase."
+      },
+      "promptsTitle": "Orchestration Prompts",
+      "promptsDesc": "Lumina MCP exposes a powerful pre-configured prompt to run the entire AI orchestration automatically. You can control whether the phase includes tests or not by toggling <0>includeTest</0>.",
+      "prompts": {
+        "exampleUsage": "Example Usage",
+        "p1Desc": "Triggers an end-to-end AI workflow acting as a Senior Software Engineer. Recursively loads system directives phase by phase.",
+        "generalFeature": "General Feature",
+        "jiraIntegration": "Jira Integration",
+        "trelloIntegration": "Trello Integration",
+        "opIntegration": "OpenProject Integration"
+      },
+      "fallbackTitle": "Native Fallback Controller Strategy",
+      "fallbackDesc": "Lumina MCP is built to work seamlessly with <0>Compound Engineering</0> plugins. However, if you run Lumina in workspace environments where these plugins aren't installed (e.g. standard VS Code, Cursor, or Claude Desktop), the controller seamlessly falls back to <1>Native Fallback Prompts</1> to guide the agent.",
+      "fallbacks": {
+        "f1Desc": "Asks the AI to start an interactive question-and-answer cycle, understanding technical constraints and drafting details before writing a design spec.",
+        "f2Desc": "Guides the AI to document file modifications, method modifications, and API boundaries in a technical implementation sheet.",
+        "f3Desc": "Forces code quality compliance: strict validation checks, error-free typing, defensive exception blocks, and zero hardcoded secrets.",
+        "f4Desc": "Checks diffs against a rigorous self-review checklist covering functional correctness, OWASP security checks, and code readability.",
+        "f5Desc": "Instructs the AI to persist solved software patterns and technical designs in markdown format inside <0>docs/solutions/</0> directories for compounding workspace knowledge."
+      }
+    },
+    "compound": {
+      "badge": "Recommended Support",
+      "title": "Compound Engineering",
+      "subtitle": "Lumina MCP supports the Compound Engineering plugin to power advanced workflows and context routing, with native fallback skills if it is not installed.",
+      "recommendedTitle": "Recommended Setup (Optional)",
+      "recommendedDesc": "Before configuring any specific Lumina tools, you can install the Compound Engineering plugin in your AI client to enhance your automation workflows. This setup is <0>fully optional</0> since Lumina MCP has built-in fallbacks.",
+      "installTitle": "Installation Instructions",
+      "aiShortcutTitle": "💡 AI Assistant Shortcut:",
+      "aiShortcutDesc": "You can simply ask your AI agent (in Cursor, Claude Code, or Antigravity) to install the plugin for you by providing this repository link:",
+      "claudeCode": {
+        "p1": "Follow these steps to install the Compound Engineering plugin in Claude Code:",
+        "li1_title": "Open Claude Code in your terminal and register the marketplace:",
+        "li1_desc": "This adds the official marketplace for the plugin.",
+        "li2_title": "Install the plugin:",
+        "li2_desc": "Or use <0>/plugin install compound-engineering@compound-engineering-plugin</0> if the name isn't unique.",
+        "li3_title": "Verify installation:",
+        "li3_desc": "Type <0>/plugin</0> to open the manager and check the \"Installed\" tab. Reload if necessary using <1>/reload-plugins</1>.",
+        "note": "Note: This is a third-party plugin created by EveryInc. Always ensure you trust the source before installing: <0>github.com/EveryInc/compound-engineering-plugin</0>. Once installed, you will gain access to commands like <1>/compound-engineering:plan</1> and <2>/compound-engineering:review</2>."
+      },
+      "cursor": {
+        "p1": "You can install the plugin directly through the Cursor Agent chat or via the marketplace:",
+        "li1_title": "Install via Agent Chat:",
+        "li2_title": "Alternative (Marketplace UI):",
+        "li2_1": "Open the <0>Plugin Marketplace</0>.",
+        "li2_2": "Search for <0>\"Compound Engineering\"</0>.",
+        "li2_3": "Click <0>Install</0>."
+      },
+      "antigravity": {
+        "p1": "Antigravity IDE natively supports plugins. You have two options to install it:",
+        "opt1_title": "Option 1: Ask the AI Agent (Recommended)",
+        "opt1_desc": "Simply copy the GitHub link and ask your agent: <0>\"Please install this plugin for me: https://github.com/EveryInc/compound-engineering-plugin\"</0>",
+        "opt2_title": "Option 2: Install as Global Plugin (Manual)",
+        "opt2_li1_title": "Create the plugins directory:",
+        "opt2_li2_title": "Clone the repository:",
+        "opt2_li2_desc": "This will create a <0>compound-engineering-plugin</0> folder with all necessary skills, agents, and configs.",
+        "opt2_li3": "<0>Restart Antigravity IDE.</0> It will automatically detect the plugin from the global folder."
+      },
+      "codex": {
+        "p1": "To use the plugin in Codex, you only need to run the following <0>bunx</0> command in your terminal:",
+        "p2": "This command converts and installs the plugin to be used natively in Codex."
+      },
+      "loopPrompts": {
+        "title": "Using the Loop Prompts",
+        "desc": "The Compound Engineering plugin provides standard workflow prompts that Lumina MCP uses for structured automation. You can use these directly in your chat:",
+        "ceStrategy": "Create or maintain the STRATEGY.md file. Captures target problems, approaches, metrics, and tracks.",
+        "ceBrainstorm": "Interactive Q&A to think through a problem and write a requirements document.",
+        "cePlan": "Turn brainstormed ideas and requirements into detailed implementation plans.",
+        "ceWork": "Execute the generated implementation plans automatically.",
+        "ceCodeReview": "Multi-agent code review to catch issues before committing.",
+        "ceCompound": "Document learnings and patterns to make future workflows easier and smarter."
+      },
+      "fallbacks": {
+        "title": "Lumina Native Fallbacks",
+        "desc": "If the Compound Engineering plugin is not installed, Lumina MCP automatically provisions these native fallback skills:",
+        "fbBrainstorm": "Provides basic interactive brainstorming and planning support.",
+        "fbWork": "A streamlined skill to execute basic implementation steps.",
+        "fbReview": "Executes single-pass code review checks.",
+        "fbCompound": "A simple fallback to note down solved patterns."
+      }
+    }
+  },
+  "docsLayout": {
+    "onThisPage": "On this page",
+    "searchDocs": "Search docs...",
+    "home": "Home",
+    "github": "GitHub",
+    "documentation": "Documentation",
+    "sections": {
+      "Getting Started": "Getting Started",
+      "Compound Engineering": "Compound Engineering",
+      "Core Integrations": "Core Integrations",
+      "Database Integration": "Database Integration",
+      "Project Management": "Project Management",
+      "Version Control": "Version Control",
+      "AI Orchestration": "AI Orchestration"
+    }
+  }
+}
