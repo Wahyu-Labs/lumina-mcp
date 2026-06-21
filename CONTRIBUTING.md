@@ -6,9 +6,9 @@ Please take a moment to read this guide before opening an issue or submitting a 
 
 ### What to Expect
 
-Compound Engineering is opinionated by design. It's maintained by [@darm102](https://github.com/darm102), and its direction reflects a specific point of view about how AI-assisted engineering should work. So while we welcome help, we can't promise to accept every change — some proposals won't fit that vision even when they're good ideas on their own.
+Lumina MCP is opinionated by design. It's maintained by [@darm102](https://github.com/darm102), and its direction reflects a specific point of view about how AI-assisted engineering should work. So while we welcome help, we can't promise to accept every change — some proposals won't fit that vision even when they're good ideas on their own.
 
-Open an issue or send a PR, and we'll fold in what moves the plugin in the right direction. We just want to be upfront that not everything will land.
+Open an issue or send a PR, and we'll fold in what moves the project in the right direction. We just want to be upfront that not everything will land.
 
 ---
 
