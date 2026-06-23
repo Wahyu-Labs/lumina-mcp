@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { LayoutList, Compass, Command, FileText, ArrowRight, Copy, Check } from "lucide-react"
+import { LayoutList, Compass, Command, FileText, GitPullRequest, ArrowRight, Copy, Check } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 
@@ -62,12 +62,23 @@ export function PMSection() {
             </p>
 
             {/* Context Note */}
-            <div className="p-5 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 flex items-start gap-4 mb-10 w-full">
+            <div className="p-5 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 flex items-start gap-4 mb-4 w-full">
               <FileText className="h-6 w-6 text-emerald-500 mt-0.5 shrink-0" />
               <div>
                 <h4 className="font-bold text-foreground text-sm m-0">{t('pm.contextAware')}</h4>
                 <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed m-0">
                   {t('pm.contextAwareDesc')}
+                </p>
+              </div>
+            </div>
+
+            {/* GitHub Issues Note */}
+            <div className="p-5 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 flex items-start gap-4 mb-10 w-full">
+              <GitPullRequest className="h-6 w-6 text-emerald-500 mt-0.5 shrink-0" />
+              <div>
+                <h4 className="font-bold text-foreground text-sm m-0">{t('pm.githubIssueTitle', 'GitHub Issues Integration')}</h4>
+                <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed m-0">
+                  {t('pm.githubIssueDesc', 'Seamlessly pull complete GitHub Issue contexts — including comments, labels, and linked PRs — directly into your planning phase.')}
                 </p>
               </div>
             </div>

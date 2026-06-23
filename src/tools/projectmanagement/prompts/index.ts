@@ -1,6 +1,6 @@
 export const PM_SUMMARIZE_TICKET_PROMPT = `You are an expert Senior Product Manager at a top-tier Big Tech company. 
 
-I will provide you with the raw description and details of a Jira or Trello ticket. 
+I will provide you with the raw description and details of a Jira, Trello, OpenProject, or GitHub issue/ticket. 
 Your task is to analyze the ticket and create a comprehensive, well-structured, and clear summary. 
 
 Please structure your summary as follows:
@@ -34,27 +34,27 @@ Additional Context:
 {{context}}
 `;
 
-export const PM_TEST_CATALOG_PROMPT = `You are a Strict Senior QA Engineer at a top-tier Big Tech company with 10+ years of experience in quality assurance.
+export const PM_TEST_CATALOG_PROMPT = `You are a Strict Senior QA Engineer at a top-tier Big Tech company (Google, Meta, Apple level) with 10+ years of experience in quality assurance.
 
-Based on the ticket summary (\`docs/{ticket-id}/summary.md\`) and the technical plan (\`docs/{ticket-id}/plan.md\`), your task is to generate a **comprehensive and exhaustive Test Catalog**.
+Based on the ticket summary (\`docs/{ticket-id}/summary.md\`) and the technical plan (\`docs/{ticket-id}/plan.md\`), your task is to generate a **comprehensive, exhaustive, and production-grade Test Catalog** that would pass review at any FAANG-level QA organization.
 
-You must think critically and cover ALL of the following test categories:
+You must think critically and cover **ALL** of the following test categories. Every category MUST have at least 1 test case. If a category is not directly applicable, create a test case that validates the feature does not regress in that area.
 
-### Test Categories (must all be present in the catalog)
-1. **Happy Path (Functional)**: The standard, expected flow with valid inputs covering every core feature described in the ticket.
-2. **Negative Path**: Invalid inputs, unauthorized access, missing data, malformed payloads, wrong data types.
-3. **Edge Cases**: Boundary values, extreme conditions (very large/small inputs, empty states, max limits), unexpected state transitions.
-4. **Security**: XSS prevention, CSRF protection, injection attacks, unauthorized access, session hijacking, token expiry.
-5. **Performance**: Response time thresholds, concurrent user load, memory consumption, rendering performance under heavy data.
-6. **Accessibility (a11y)**: Keyboard navigation, screen reader support, ARIA labels, focus management, color contrast ratios.
-7. **Responsiveness / Cross-Browser**: Layout integrity on desktop, tablet, and mobile viewports; behavior across major browsers (Chrome, Firefox, Safari, Edge).
-8. **Integration**: End-to-end flows across multiple components, API contract validation, data consistency between frontend and backend.
+### Test Categories (ALL must be present in the catalog)
+1. **Happy Path (Functional)**: The standard, expected flow with valid inputs covering every core feature described in the ticket. Cover EVERY user-facing feature and API endpoint individually.
+2. **Negative Path**: Invalid inputs, unauthorized access, missing data, malformed payloads, wrong data types, null/undefined values, SQL injection strings, oversized payloads. Test every input field with at least one negative scenario.
+3. **Edge Cases**: Boundary values (0, 1, MAX_INT, empty string, single char), extreme conditions (very large/small inputs, empty states, max limits), race conditions, unexpected state transitions, concurrent operations, Unicode/emoji/special characters, timezone edge cases.
+4. **Security**: XSS prevention, CSRF protection, injection attacks (SQL, NoSQL, command), unauthorized access, privilege escalation, session hijacking, token expiry, sensitive data exposure, CORS misconfiguration, rate limiting validation.
+5. **Performance**: Response time thresholds, concurrent user load, memory consumption, rendering performance under heavy data, API latency under load, database query optimization, connection pool exhaustion.
+6. **Accessibility (a11y)**: Keyboard navigation, screen reader support, ARIA labels, focus management, color contrast ratios (WCAG AA), tab order, skip links, dynamic content announcements.
+7. **Responsiveness / Cross-Browser**: Layout integrity on desktop, tablet, and mobile viewports; behavior across major browsers (Chrome, Firefox, Safari, Edge); touch targets (min 44x44px).
+8. **Integration**: End-to-end flows across multiple components, API contract validation, data consistency between frontend and backend, third-party service integration, webhook delivery, event propagation.
 
 ---
 
 ## Output Format 1: Markdown (\`docs/{ticket-id}/test-catalog.md\`)
 
-The Markdown file must be **highly detailed and professionally structured** as a Senior QA Engineer would produce. Include the following for EVERY test case:
+The Markdown file must be **highly detailed and professionally structured** exactly as a Senior QA Engineer at a Big Tech company would produce for a production release gate review. Include the following for EVERY test case:
 
 ### Required fields per test case in Markdown:
 - **Case ID**: Unique identifier (e.g., TC-3701)
@@ -72,9 +72,26 @@ The Markdown file must be **highly detailed and professionally structured** as a
 
 ### Markdown document structure:
 1. **Header**: Title, Ticket ID, Catalog ID, Date, Author role.
-2. **Test Summary Matrix**: A table summarizing all test cases with columns: Case ID | Category | Severity | Priority | Title | Status (default: "Not Executed").
-3. **Detailed Test Cases**: Grouped by category (Happy Path, Negative Path, Edge Cases, Security, Performance, Accessibility, Responsiveness, Integration), each with all required fields listed above.
-4. **Coverage Summary**: A brief section at the bottom stating the total number of test cases per category and overall coverage assessment.
+2. **Test Coverage Summary Table**: A table at the TOP of the document summarizing the number of test cases per category:
+
+| Category | Count | Severity Breakdown | Notes |
+|---|---|---|---|
+| Happy Path | X | Critical: N, Major: N | ... |
+| Negative Path | X | Critical: N, Major: N | ... |
+| Edge Case | X | ... | ... |
+| Security | X | ... | ... |
+| Performance | X | ... | ... |
+| Accessibility | X | ... | ... |
+| Responsiveness | X | ... | ... |
+| Integration | X | ... | ... |
+| **Total** | **XX** | | |
+
+3. **Test Summary Matrix**: A table listing all test cases with columns: Case ID | Category | Severity | Priority | Title | Status (default: "Not Executed").
+4. **Detailed Test Cases**: Grouped by category (Happy Path, Negative Path, Edge Cases, Security, Performance, Accessibility, Responsiveness, Integration), each with all required fields listed above.
+5. **Coverage Assessment**: A final section with:
+   - Overall coverage percentage estimate per category.
+   - Risk areas with insufficient coverage.
+   - Recommended additional tests for future iterations.
 
 ---
 
@@ -82,10 +99,12 @@ The Markdown file must be **highly detailed and professionally structured** as a
 
 **CRITICAL: The \`.txt\` file MUST strictly follow this exact format for each test case without ANY deviation:**
 
+\`\`\`
 Test catalog Id: [A unique catalog identifier, e.g., TC-1000]
 --------------------------
 caseId: [A unique test case identifier, e.g., TC-1001]
 --------------------
+category: [Happy Path | Negative Path | Edge Case | Security | Performance | Accessibility | Responsiveness | Integration]
 prequites
 - [prerequisite 1]
 - [prerequisite 2]
@@ -97,8 +116,13 @@ success result
 failed result
 - [Expected failed outcome or error message]
 ------------------------
+\`\`\`
 
-The \`.txt\` file must contain ALL the same test cases from the Markdown file, but formatted strictly in the template above. Do NOT add extra fields or change the structure.
+### Rules for the .txt file:
+- The \`Test catalog Id\` header line and \`--------------------------\` separator MUST appear before every test case block.
+- The \`category\` field MUST be present in every test case and MUST be one of: \`Happy Path\`, \`Negative Path\`, \`Edge Case\`, \`Security\`, \`Performance\`, \`Accessibility\`, \`Responsiveness\`, \`Integration\`.
+- The \`.txt\` file must contain ALL the same test cases from the Markdown file, in the same order, but formatted strictly in the template above.
+- Do NOT add extra fields or change the structure. Do NOT omit the \`category\` field.
 
 ---
 

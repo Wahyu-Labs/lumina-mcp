@@ -83,6 +83,30 @@ apiKey: "your_openproject_api_key"
 
 ---
 
+### `get_github_issue`
+
+Fetch a GitHub issue, including its body, comments, labels, milestones, and any linked pull requests.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `owner` | `string` | ✅ | Repository owner |
+| `repo` | `string` | ✅ | Repository name |
+| `issueNumber` | `number` | ✅ | GitHub issue number |
+| `githubToken` | `string` | ❌ | GitHub Token (uses env var `GITHUB_TOKEN` or `GITHUB_PERSONAL_ACCESS_TOKEN` if omitted) |
+
+**Example:**
+```
+/mcp:lumina-mcp-local:get_github_issue
+
+owner: "Wahyu-Labs"
+repo: "lumina-mcp"
+issueNumber: 11
+```
+
+**Returns:** Core issue metadata, comments, assignees, labels, and linked pull requests via cross-references.
+
+---
+
 ## 💬 Prompts
 
 ### `pm_summarize_ticket`
@@ -135,7 +159,7 @@ Download OpenProject work package #82 and create a technical implementation plan
 
 > **Title:** Strict QA Test Catalog Generator
 
-Generate a comprehensive test catalog based on the ticket and technical plan. Ensures all edge cases, regression risks, and acceptance criteria are covered before implementation begins.
+Generate a comprehensive, FAANG-level test catalog based on the ticket and technical plan. Enforces 8 rigorous testing categories (Happy Path, Negative Path, Edge Cases, Security, Performance, Accessibility, Responsiveness, Integration) and generates both Markdown and structured `.txt` formats.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|

@@ -1,14 +1,23 @@
 import { useTranslation, Trans } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 
 export function ProjectManagementDocs() {
   const { t } = useTranslation()
+  const [searchParams] = useSearchParams()
+  const version = searchParams.get('v') || '1.2.0'
+  const showGithubIssue = version !== '1.1.3'
+
   return (
     <>
       <div className="mb-8">
         <span className="text-accent font-semibold tracking-wider text-sm uppercase">{t('docs.projectManagement.badge')}</span>
         <h1 className="mt-2 text-4xl font-extrabold tracking-tight">{t('docs.projectManagement.title')}</h1>
         <p className="text-xl text-muted-foreground mt-4">
-          <Trans i18nKey="docs.projectManagement.subtitle" components={[<strong key="0" />]} />
+          {showGithubIssue ? (
+            <Trans i18nKey="docs.projectManagement.subtitleGithub" components={[<strong key="0" />]} />
+          ) : (
+            <Trans i18nKey="docs.projectManagement.subtitle" components={[<strong key="0" />]} />
+          )}
         </p>
       </div>
 
@@ -64,6 +73,13 @@ export function ProjectManagementDocs() {
               <td className="p-4 font-mono text-accent text-xs">OPENPROJECT_API_KEY</td>
               <td className="p-4">{t('docs.projectManagement.table.descOpKey')}</td>
             </tr>
+            {showGithubIssue && (
+              <tr className="border-t-[3px] border-border/60">
+                <td className="p-4 font-semibold text-foreground">GitHub</td>
+                <td className="p-4 font-mono text-accent text-xs">GITHUB_TOKEN</td>
+                <td className="p-4">{t('docs.projectManagement.table.descGithubToken', 'GitHub Personal Access Token for fetching issues (or GITHUB_PERSONAL_ACCESS_TOKEN).')}</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -109,6 +125,19 @@ export function ProjectManagementDocs() {
             {t('docs.projectManagement.tools.t3Desc')}
           </p>
         </div>
+
+        {/* Tool 4 */}
+        {showGithubIssue && (
+          <div className="p-5 border border-border rounded-xl bg-card">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+              <h3 className="font-mono text-base md:text-lg text-accent m-0">get_github_issue</h3>
+              <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">GitHub</span>
+            </div>
+            <p className="text-xs md:text-sm text-muted-foreground m-0">
+              {t('docs.projectManagement.tools.t4Desc', 'Fetch a GitHub issue with complete context including comments, labels, milestones, and linked PRs.')}
+            </p>
+          </div>
+        )}
 
       </div>
 

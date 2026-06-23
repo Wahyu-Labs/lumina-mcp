@@ -33,7 +33,8 @@ export function OrchestrationSection() {
       { label: "General Feature", cmd: '/lumina_orchestrate "Build a new login page" includeTest=true tokenBudget="save-tokens"' },
       { label: "Jira Integration", cmd: '/lumina_orchestrate "Implement requirements from Jira ticket LUM-402" includeTest=true tokenBudget="full-detail"' },
       { label: "Trello Integration", cmd: '/lumina_orchestrate "Fetch checklist from Trello card 64b19c and build it" includeTest=false tokenBudget="save-tokens"' },
-      { label: "OpenProject Integration", cmd: '/lumina_orchestrate "Execute OpenProject work package #82" includeTest=true tokenBudget="save-tokens"' }
+      { label: "OpenProject Integration", cmd: '/lumina_orchestrate "Execute OpenProject work package #82" includeTest=true tokenBudget="save-tokens"' },
+      { label: "GitHub Issue Integration", cmd: '/lumina_orchestrate "Implement features from GitHub Issue #12" includeTest=true tokenBudget="save-tokens"' }
     ]
   }
 

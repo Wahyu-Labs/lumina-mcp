@@ -5,7 +5,7 @@ export const OrchestrationPromptSchema = {
   tokenBudget: z
     .enum(['save-tokens', 'full-detail'])
     .optional()
-    .default('save-tokens')
+    .default('full-detail')
     .describe('Token usage mode for the orchestration workflow.'),
 };
 
@@ -15,7 +15,7 @@ export const GetOrchestrationPhaseSchema = {
   tokenBudget: z
     .enum(['save-tokens', 'full-detail'])
     .optional()
-    .default('save-tokens')
+    .default('full-detail')
     .describe(
       'Token usage mode. "save-tokens" = save tokens (concise, bullet-points, no code echo). "full-detail" = complete explanation as usual.',
     ),

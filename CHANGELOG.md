@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] — 2026-06-23
+
+### Added
+- **GitHub Issue Context Retrieval**: Enhanced `get_github_issue` tool to automatically fetch issue comments, labels, milestones, and linked pull requests via timeline events using parallel API calls.
+- **Advanced QA Test Catalog**: Upgraded the `pm_test_catalog` prompt to act as a "Strict Senior QA Engineer". It now mandates 8 rigorous testing categories (Security, Accessibility, Performance, etc.) with dual-format outputs (Markdown + structured `.txt`).
+
+---
+
 ## [1.1.3] — 2026-06-21
 
 ### Changed
@@ -167,6 +175,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[1.2.0]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.1.3...v1.2.0
 [1.1.3]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/Wahyu-Labs/lumina-mcp/compare/v1.1.0...v1.1.1

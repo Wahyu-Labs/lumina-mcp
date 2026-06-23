@@ -1,8 +1,13 @@
 import { CheckCircle2, XCircle } from "lucide-react"
 import { useTranslation, Trans } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 
 export function OrchestrationDocs() {
   const { t } = useTranslation()
+  const [searchParams] = useSearchParams()
+  const version = searchParams.get('v') || '1.2.0'
+  const showGithubIssue = version !== '1.1.3'
+
   return (
     <>
       <div className="mb-8">
@@ -213,6 +218,14 @@ export function OrchestrationDocs() {
                 /lumina_orchestrate "Execute OpenProject work package #82" includeTest=true tokenBudget="save-tokens"
               </div>
             </div>
+            {showGithubIssue && (
+              <div>
+                <span className="text-[11px] font-semibold text-foreground/80 mb-1 block">{t('docs.orchestration.prompts.githubIntegration')}</span>
+                <div className="bg-muted p-3 rounded-lg font-mono text-sm border border-border/50 text-foreground overflow-x-auto">
+                  /lumina_orchestrate "Implement features from GitHub Issue #12" includeTest=true tokenBudget="save-tokens"
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
