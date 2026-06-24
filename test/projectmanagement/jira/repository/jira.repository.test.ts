@@ -42,4 +42,50 @@ describe('JiraRepository', () => {
       'Failed to fetch Jira ticket PRJ-999: Not Found - Issue does not exist',
     );
   });
+  it('should create Jira ticket successfully', async () => {
+    const mockResponse = { id: '456', key: 'PRJ-456' };
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: true,
+      json: async () => mockResponse,
+    } as Response);
+
+    const result = await repository.createTicket(
+      'PRJ',
+      'New Jira Ticket',
+      'Task',
+      'Ticket Description',
+      'High',
+      ['backend'],
+      'assignee123',
+      'testdomain',
+      'test@test.com',
+      'token123'
+    );
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://testdomain.atlassian.net/rest/api/3/issue',
+      expect.objectContaining({
+        method: 'POST',
+        headers: {
+          Authorization: `Basic ${Buffer.from('test@test.com:token123').toString('base64')}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: expect.stringContaining('"summary":"New Jira Ticket"'),
+      }),
+    );
+    expect(result).toEqual(mockResponse);
+  });
+
+  it('should throw an error if create fetch fails', async () => {
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: false,
+      statusText: 'Bad Request',
+      text: async () => 'Invalid project',
+    } as Response);
+
+    await expect(
+      repository.createTicket('INVALID', 'Title', 'Task', undefined, undefined, undefined, undefined, 'domain', 'email', 'token')
+    ).rejects.toThrow('Failed to create Jira ticket: Bad Request - Invalid project');
+  });
 });

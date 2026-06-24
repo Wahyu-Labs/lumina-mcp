@@ -181,19 +181,6 @@ export function DocsLayout() {
                   >
                     v{pkg.version} (Latest)
                   </button>
-                  <button 
-                    onClick={() => {
-                      setSearchParams((prev) => {
-                        const newParams = new URLSearchParams(prev)
-                        newParams.set('v', '1.1.3')
-                        return newParams
-                      })
-                      setIsVersionMenuOpen(false)
-                    }}
-                    className={`text-left px-3 py-2 text-xs hover:bg-muted/50 transition-colors border-t border-border/40 ${currentVersion === "1.1.3" ? 'font-bold text-accent bg-accent/5' : 'text-foreground'}`}
-                  >
-                    v1.1.3
-                  </button>
                 </div>
               )}
             </div>

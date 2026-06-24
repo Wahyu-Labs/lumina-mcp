@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.2.0] — 2026-06-23
+## [1.2.0] — 2026-06-24
 
 ### Added
+- **Direct Ticket Creation**: Empower AI agents to create tickets directly in your project management system. Added `create_jira_ticket`, `create_trello_card`, `create_openproject_work_package`, and `create_github_issue` tools.
+- **Senior PM Ticket Generation**: Added `pm_create_ticket` prompt. The AI acts as a Senior PM, digesting raw feature requests or bug reports and structuring them into Big Tech-standard tickets before creating them on your board.
 - **GitHub Issue Context Retrieval**: Enhanced `get_github_issue` tool to automatically fetch issue comments, labels, milestones, and linked pull requests via timeline events using parallel API calls.
 - **Advanced QA Test Catalog**: Upgraded the `pm_test_catalog` prompt to act as a "Strict Senior QA Engineer". It now mandates 8 rigorous testing categories (Security, Accessibility, Performance, etc.) with dual-format outputs (Markdown + structured `.txt`).
 

@@ -107,6 +107,61 @@ issueNumber: 11
 
 ---
 
+### `create_jira_ticket`
+
+Create a new Jira issue directly from your AI agent.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `projectKey` | `string` | ✅ | Jira Project Key (e.g., `PRJ`) |
+| `summary` | `string` | ✅ | Issue title/summary |
+| `issueType` | `string` | ✅ | Issue type (e.g., `Task`, `Bug`, `Story`) |
+| `description` | `string` | ❌ | Issue description in plain text or ADF |
+| `priority` | `string` | ❌ | Issue priority (e.g., `High`, `Medium`, `Low`) |
+| `labels` | `array` | ❌ | Array of labels |
+
+---
+
+### `create_trello_card`
+
+Create a new Trello card in a specific list.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `idList` | `string` | ✅ | Trello target list ID |
+| `name` | `string` | ✅ | Trello card title/name |
+| `desc` | `string` | ❌ | Trello card description |
+| `due` | `string` | ❌ | Due date (ISO 8601) |
+
+---
+
+### `create_openproject_work_package`
+
+Create a new OpenProject work package.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `projectId` | `string` | ✅ | OpenProject Project ID or slug |
+| `subject` | `string` | ✅ | Work package subject/title |
+| `type` | `string` | ✅ | Work package type (e.g., `Task`, `Bug`) |
+| `description` | `string` | ❌ | Work package description |
+
+---
+
+### `create_github_issue`
+
+Create a new GitHub issue in a repository.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `owner` | `string` | ✅ | Repository owner |
+| `repo` | `string` | ✅ | Repository name |
+| `title` | `string` | ✅ | Issue title |
+| `body` | `string` | ❌ | Markdown description for the issue |
+| `labels` | `array` | ❌ | Array of label names |
+
+---
+
 ## 💬 Prompts
 
 ### `pm_summarize_ticket`
@@ -175,6 +230,30 @@ Get the checklist from Trello card 64b19c and generate a full test catalog.
 - Integration test scenarios
 - Edge cases and negative test cases
 - Acceptance criteria verification checklist
+
+---
+
+### `pm_create_ticket`
+
+> **Title:** Senior PM Create Ticket
+
+Generate a production-grade, highly structured ticket body based on raw context (feature request, bug report, findings). The AI acts as a Senior Product Manager at a Big Tech company.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `command` | `string` | ❌ | Raw feature request, bug report, or context |
+
+**Example:**
+```
+/pm_create_ticket "Create a ticket for the user registration form with first name, last name, email, and password."
+```
+
+**Output includes:**
+- Concise Title, Type, and Priority
+- Executive summary and Problem Statement
+- Testable Acceptance Criteria
+- Dependencies, Out of Scope, and Definition of Done
+- A direct recommendation with precise arguments to call the relevant `create_*` tool.
 
 ---
 

@@ -139,6 +139,52 @@ export function ProjectManagementDocs() {
           </div>
         )}
 
+        {/* Tool 5 */}
+        <div className="p-5 border border-border rounded-xl bg-card">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <h3 className="font-mono text-base md:text-lg text-accent m-0">create_jira_ticket</h3>
+            <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">Jira</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground m-0">
+            {t('docs.projectManagement.tools.t5Desc', 'Creates a new Jira issue with labels, priority, and attachments.')}
+          </p>
+        </div>
+
+        {/* Tool 6 */}
+        <div className="p-5 border border-border rounded-xl bg-card">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <h3 className="font-mono text-base md:text-lg text-accent m-0">create_trello_card</h3>
+            <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">Trello</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground m-0">
+            {t('docs.projectManagement.tools.t6Desc', 'Creates a new Trello card in a specific list.')}
+          </p>
+        </div>
+
+        {/* Tool 7 */}
+        <div className="p-5 border border-border rounded-xl bg-card">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <h3 className="font-mono text-base md:text-lg text-accent m-0">create_openproject_work_package</h3>
+            <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">OpenProject</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground m-0">
+            {t('docs.projectManagement.tools.t7Desc', 'Creates a new OpenProject work package with assignee and priority.')}
+          </p>
+        </div>
+
+        {/* Tool 8 */}
+        {showGithubIssue && (
+          <div className="p-5 border border-border rounded-xl bg-card">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+              <h3 className="font-mono text-base md:text-lg text-accent m-0">create_github_issue</h3>
+              <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">GitHub</span>
+            </div>
+            <p className="text-xs md:text-sm text-muted-foreground m-0">
+              {t('docs.projectManagement.tools.t8Desc', 'Creates a new GitHub issue with labels, milestone, and assignees.')}
+            </p>
+          </div>
+        )}
+
       </div>
 
       <hr className="my-10 border-border" />
@@ -183,6 +229,29 @@ export function ProjectManagementDocs() {
           <span className="text-[10px] uppercase font-extrabold text-muted-foreground tracking-wider block mb-2">{t('docs.projectManagement.prompts.exampleUsage')}</span>
           <div className="bg-muted p-3 rounded-lg font-mono text-sm border border-border/50 text-foreground overflow-x-auto">
             /pm_test_catalog "{t('docs.projectManagement.prompts.p3Query')}"
+          </div>
+        </div>
+
+        {/* Prompt 4 */}
+        <div className="p-6 border border-border rounded-xl bg-card">
+          <h3 className="font-mono text-lg text-emerald-500 m-0 mb-2">/pm_create_ticket</h3>
+          <p className="text-xs md:text-sm text-muted-foreground mb-4">
+            {t('docs.projectManagement.prompts.p4Desc', 'Digest raw feature requests and structure them into Big Tech-standard tickets.')}
+          </p>
+          <span className="text-[10px] uppercase font-extrabold text-muted-foreground tracking-wider block mb-2">{t('docs.projectManagement.prompts.exampleUsage')}</span>
+          <div className="flex flex-col gap-2">
+            <div className="bg-muted p-3 rounded-lg font-mono text-sm border border-border/50 text-foreground overflow-x-auto">
+              /pm_create_ticket "{t('docs.projectManagement.prompts.p4QueryJira', 'Create a bug ticket for login page in Jira.')}"
+            </div>
+            <div className="bg-muted p-3 rounded-lg font-mono text-sm border border-border/50 text-foreground overflow-x-auto">
+              /pm_create_ticket "{t('docs.projectManagement.prompts.p4QueryTrello', 'Create a card in Trello todo list about registration form.')}"
+            </div>
+            <div className="bg-muted p-3 rounded-lg font-mono text-sm border border-border/50 text-foreground overflow-x-auto">
+              /pm_create_ticket "{t('docs.projectManagement.prompts.p4QueryOpenProject', 'Create a task in OpenProject for setting up database.')}"
+            </div>
+            <div className="bg-muted p-3 rounded-lg font-mono text-sm border border-border/50 text-foreground overflow-x-auto">
+              /pm_create_ticket "{t('docs.projectManagement.prompts.p4QueryGithub', 'Create a github issue about fixing the memory leak.')}"
+            </div>
           </div>
         </div>
 

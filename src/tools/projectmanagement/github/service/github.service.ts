@@ -185,3 +185,32 @@ export async function getGithubIssue(
 
   return context;
 }
+
+export async function createGithubIssue(
+  owner: string,
+  repo: string,
+  title: string,
+  body?: string,
+  labels?: string[],
+  assignees?: string[],
+  milestone?: number,
+  githubToken?: string,
+): Promise<unknown> {
+  const finalToken = githubToken || process.env.GITHUB_TOKEN || process.env.GITHUB_PERSONAL_ACCESS_TOKEN;
+
+  if (!owner || !repo || !title) {
+    throw new Error('Owner, repo, and title are required to create a GitHub issue.');
+  }
+
+  // Final token is optional for public repos, though usually required to create issues
+  return await githubRepository.createIssue(
+    owner,
+    repo,
+    title,
+    body,
+    labels,
+    assignees,
+    milestone,
+    finalToken,
+  );
+}
