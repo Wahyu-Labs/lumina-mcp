@@ -49,7 +49,7 @@ export class OrchestrationService {
   public getOrchestrationPhase(
     phase: number,
     includeTest: boolean,
-    tokenBudget: 'save-tokens' | 'full-detail' = 'full-detail',
+    tokenBudget: 'save-tokens' | 'full-detail' = 'save-tokens',
     previousPhaseSummary?: string,
   ): { instructions?: string; error?: string } {
     let instructions = '';

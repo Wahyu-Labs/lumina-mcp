@@ -1,12 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const { mockGetIssue } = vi.hoisted(() => ({
+const { mockGetIssue, mockGetIssueComments, mockGetIssueTimeline } = vi.hoisted(() => ({
   mockGetIssue: vi.fn(),
+  mockGetIssueComments: vi.fn(),
+  mockGetIssueTimeline: vi.fn(),
 }));
 
 vi.mock('../../../../src/tools/projectmanagement/github/repository/github.repository.js', () => ({
   githubRepository: {
     getIssue: mockGetIssue,
+    getIssueComments: mockGetIssueComments,
+    getIssueTimeline: mockGetIssueTimeline,
   },
 }));
 
@@ -21,17 +25,21 @@ describe('GithubService', () => {
 
   it('should call repository when arguments are valid', async () => {
     mockGetIssue.mockResolvedValueOnce({ id: 1 });
+    mockGetIssueComments.mockResolvedValueOnce([]);
+    mockGetIssueTimeline.mockResolvedValueOnce([]);
 
     const result = await getGithubIssue('myowner', 'myrepo', 1, 'mytoken');
 
     expect(mockGetIssue).toHaveBeenCalledWith('myowner', 'myrepo', 1, 'mytoken');
-    expect(result).toEqual({ id: 1 });
+    expect(result).toEqual(expect.objectContaining({ id: 1 }));
   });
 
   it('should fallback to env variables if token is omitted', async () => {
     process.env.GITHUB_TOKEN = 'envtoken';
 
     mockGetIssue.mockResolvedValueOnce({ id: 2 });
+    mockGetIssueComments.mockResolvedValueOnce([]);
+    mockGetIssueTimeline.mockResolvedValueOnce([]);
 
     await getGithubIssue('myowner', 'myrepo', 2);
 
@@ -42,6 +50,8 @@ describe('GithubService', () => {
     process.env.GITHUB_PERSONAL_ACCESS_TOKEN = 'pattoken';
 
     mockGetIssue.mockResolvedValueOnce({ id: 3 });
+    mockGetIssueComments.mockResolvedValueOnce([]);
+    mockGetIssueTimeline.mockResolvedValueOnce([]);
 
     await getGithubIssue('myowner', 'myrepo', 3);
 
