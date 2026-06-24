@@ -58,7 +58,7 @@ describe('JiraService', () => {
     it('should call repository.createTicket when arguments are valid', async () => {
       mockCreateTicket.mockResolvedValueOnce({ key: 'PRJ-10' });
       
-      const result = await createJiraTicket('PRJ', 'Title', 'Task', 'Desc', 'High', ['bug'], 'assignee', 'mydomain', 'myemail', 'mytoken');
+      const result = await createJiraTicket('PRJ', 'Title', 'Task', 'Desc', 'High', ['bug'], 'assignee', undefined, 'mydomain', 'myemail', 'mytoken');
       
       expect(mockCreateTicket).toHaveBeenCalledWith('PRJ', 'Title', 'Task', 'Desc', 'High', ['bug'], 'assignee', 'mydomain', 'myemail', 'mytoken');
       expect(result).toEqual({ key: 'PRJ-10' });
