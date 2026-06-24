@@ -41,7 +41,7 @@ export class OpenProjectRepository {
     const url = `https://${cleanDomain}/api/v3/projects/${projectId}/work_packages`;
     const authHeader = 'Basic ' + Buffer.from(`apikey:${apiKey}`).toString('base64');
 
-    const body: Record<string, unknown> = {
+    const body: any = {
       subject,
       _links: {
         type: { href: `/api/v3/types/${type}` }
