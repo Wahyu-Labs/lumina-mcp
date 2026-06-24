@@ -41,6 +41,16 @@ export function PMSection() {
       name: "/pm_test_catalog",
       desc: t('pm.prompts.test'),
       cmd: '/pm_test_catalog "Get checklist details from Trello card 64b19c."'
+    },
+    {
+      name: "/pm_create_ticket",
+      desc: t('pm.prompts.create'),
+      cmds: [
+        `/pm_create_ticket "${t('pm.prompts.p4QueryJira')}"`,
+        `/pm_create_ticket "${t('pm.prompts.p4QueryTrello')}"`,
+        `/pm_create_ticket "${t('pm.prompts.p4QueryOpenProject')}"`,
+        `/pm_create_ticket "${t('pm.prompts.p4QueryGithub')}"`
+      ]
     }
   ]
 
@@ -110,13 +120,27 @@ export function PMSection() {
 
                 <div className="pt-3 border-t border-border/40 text-xs flex flex-col gap-3">
                   <span className="text-[10px] uppercase font-extrabold text-muted-foreground tracking-wider block mb-1">{t('pm.examplePrompt')}</span>
-                  <div className="font-mono bg-muted/80 p-2 pl-3 rounded-lg flex items-center gap-3 text-accent border border-border/60 overflow-hidden relative group">
-                    <Command className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                    <span className="overflow-x-auto whitespace-nowrap scrollbar-hide py-1 mr-8">{tool.cmd}</span>
-                    <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <CopyButton text={tool.cmd} />
+                  {tool.cmd ? (
+                    <div className="font-mono bg-muted/80 p-2 pl-3 rounded-lg flex items-center gap-3 text-accent border border-border/60 overflow-hidden relative group">
+                      <Command className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                      <span className="overflow-x-auto whitespace-nowrap scrollbar-hide py-1 mr-8">{tool.cmd}</span>
+                      <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <CopyButton text={tool.cmd} />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="flex flex-col gap-2">
+                      {tool.cmds?.map((cmd, i) => (
+                        <div key={i} className="font-mono bg-muted/80 p-2 pl-3 rounded-lg flex items-center gap-3 text-accent border border-border/60 overflow-hidden relative group">
+                          <Command className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                          <span className="overflow-x-auto whitespace-nowrap scrollbar-hide py-1 mr-8">{cmd}</span>
+                          <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <CopyButton text={cmd} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

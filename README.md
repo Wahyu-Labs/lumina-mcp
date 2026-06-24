@@ -110,6 +110,10 @@ In your MCP client, you can use these prompts as slash commands:
 | `get_trello_card` | Fetch a Trello card — includes description, status, checklist, comment history |
 | `get_openproject_work_package` | Fetch an OpenProject work package — includes assignee, priority, and comments |
 | `get_github_issue` | Fetch a GitHub issue — includes body, comments, labels, milestones, and linked PRs |
+| `create_jira_ticket` | Create a new Jira issue with labels, priority, and attachments |
+| `create_trello_card` | Create a new Trello card in a specific list |
+| `create_openproject_work_package` | Create a new OpenProject work package with assignee and priority |
+| `create_github_issue` | Create a new GitHub issue with labels, milestone, and assignees |
 
 **PM Prompts:**
 
@@ -118,6 +122,7 @@ In your MCP client, you can use these prompts as slash commands:
 | `pm_summarize_ticket` | Summarize a raw Jira/Trello/OpenProject ticket as a Senior Product Manager |
 | `pm_brainstorm_plan` | Brainstorm technical approach and create a step-by-step implementation plan |
 | `pm_test_catalog` | Generate a comprehensive test catalog based on the ticket and technical plan |
+| `pm_create_ticket` | Digest raw feature requests and structure them into Big Tech-standard tickets |
 
 **Example Prompts:**
 In your MCP client, you can use these prompts as slash commands:

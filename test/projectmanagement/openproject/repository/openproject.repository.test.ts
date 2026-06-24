@@ -42,4 +42,48 @@ describe('OpenProjectRepository', () => {
       'Failed to fetch OpenProject work package 999: Unauthorized - Invalid token',
     );
   });
+  it('should create OpenProject work package successfully', async () => {
+    const mockResponse = { id: 456, subject: 'New WP' };
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: true,
+      json: async () => mockResponse,
+    } as Response);
+
+    const result = await repository.createWorkPackage(
+      '12',
+      'New WP',
+      'Task',
+      'Description',
+      'High',
+      'User1',
+      'test.domain.com',
+      'testapikey'
+    );
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://test.domain.com/api/v3/projects/12/work_packages',
+      expect.objectContaining({
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          Authorization: 'Basic YXBpa2V5OnRlc3RhcGlrZXk=', // Base64 of apikey:testapikey
+          'Content-Type': 'application/json',
+        },
+        body: expect.stringContaining('"subject":"New WP"'),
+      }),
+    );
+    expect(result).toEqual(mockResponse);
+  });
+
+  it('should throw an error if create fetch fails', async () => {
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: false,
+      statusText: 'Bad Request',
+      text: async () => 'Invalid project',
+    } as Response);
+
+    await expect(
+      repository.createWorkPackage('999', 'Subj', 'Task', undefined, undefined, undefined, 'domain.com', 'key')
+    ).rejects.toThrow('Failed to create OpenProject work package: Bad Request - Invalid project');
+  });
 });

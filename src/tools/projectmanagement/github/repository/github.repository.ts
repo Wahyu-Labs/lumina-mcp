@@ -79,6 +79,43 @@ export class GithubRepository {
 
     return await response.json() as unknown[];
   }
+
+  async createIssue(
+    owner: string,
+    repo: string,
+    title: string,
+    body: string | undefined,
+    labels: string[] | undefined,
+    assignees: string[] | undefined,
+    milestone: number | undefined,
+    githubToken: string | undefined,
+  ): Promise<unknown> {
+    const url = `https://api.github.com/repos/${owner}/${repo}/issues`;
+
+    const payload: Record<string, unknown> = { title };
+    if (body) payload.body = body;
+    if (labels && labels.length > 0) payload.labels = labels;
+    if (assignees && assignees.length > 0) payload.assignees = assignees;
+    if (milestone) payload.milestone = milestone;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        ...this.buildHeaders(githubToken),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `Failed to create GitHub issue in ${owner}/${repo}: ${response.statusText} - ${errorText}`,
+      );
+    }
+
+    return await response.json();
+  }
 }
 
 export const githubRepository = new GithubRepository();

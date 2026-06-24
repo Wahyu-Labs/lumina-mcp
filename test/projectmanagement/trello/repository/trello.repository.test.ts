@@ -42,4 +42,47 @@ describe('TrelloRepository', () => {
       'Failed to fetch Trello card xyz999: Unauthorized - Invalid token',
     );
   });
+  it('should create Trello card successfully', async () => {
+    const mockResponse = { id: '456', name: 'New Card' };
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: true,
+      json: async () => mockResponse,
+    } as Response);
+
+    const result = await repository.createCard(
+      'list123',
+      'New Card',
+      'Card Desc',
+      'top',
+      '2026-12-31',
+      'label1',
+      'member1',
+      'testkey',
+      'testtoken'
+    );
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('https://api.trello.com/1/cards?'),
+      expect.objectContaining({
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          Authorization: 'OAuth oauth_consumer_key="testkey", oauth_token="testtoken"',
+        },
+      }),
+    );
+    expect(result).toEqual(mockResponse);
+  });
+
+  it('should throw an error if create fetch fails', async () => {
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: false,
+      statusText: 'Bad Request',
+      text: async () => 'Invalid list',
+    } as Response);
+
+    await expect(
+      repository.createCard('INVALID', 'Name', undefined, undefined, undefined, undefined, undefined, 'key', 'token')
+    ).rejects.toThrow('Failed to create Trello card: Bad Request - Invalid list');
+  });
 });

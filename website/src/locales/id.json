@@ -70,7 +70,12 @@
     "prompts": {
       "summarize": "Ringkas tiket Jira, Trello, atau OpenProject mentah selayaknya Senior Product Manager.",
       "brainstorm": "Brainstorming pendekatan teknikal dan buat rencana berdasarkan ringkasan tiket.",
-      "test": "Hasilkan katalog pengujian komprehensif berdasarkan tiket dan rencana teknis."
+      "test": "Hasilkan katalog pengujian komprehensif berdasarkan tiket dan rencana teknis.",
+      "create": "Mencerna permintaan fitur mentah dan menyusunnya menjadi tiket berstandar Big Tech.",
+      "p4QueryJira": "Buat tiket bug untuk halaman login di Jira.",
+      "p4QueryTrello": "Buat card di daftar todo Trello tentang form registrasi.",
+      "p4QueryOpenProject": "Buat task di OpenProject untuk setup database.",
+      "p4QueryGithub": "Buat issue github tentang perbaikan memory leak."
     }
   },
   "orchestration": {
@@ -281,7 +286,12 @@
       "tools": {
         "t1Desc": "Mengambil deskripsi, pelapor, ringkasan, label, komentar, dan tautan epic untuk tiket Jira spesifik.",
         "t2Desc": "Mengunduh deskripsi, status, daftar periksa, dan riwayat komentar kartu Trello.",
-        "t3Desc": "Mengunduh konten work package lengkap termasuk assignee, prioritas, deskripsi, dan komentar status dari OpenProject."
+        "t3Desc": "Mengunduh konten work package lengkap termasuk assignee, prioritas, deskripsi, dan komentar status dari OpenProject.",
+        "t4Desc": "Mengambil issue GitHub dengan konteks lengkap termasuk komentar, label, milestone, dan PR tertaut.",
+        "t5Desc": "Membuat tiket Jira baru dengan label, prioritas, dan lampiran.",
+        "t6Desc": "Membuat kartu Trello baru di daftar spesifik.",
+        "t7Desc": "Membuat work package OpenProject baru dengan penerima tugas dan prioritas.",
+        "t8Desc": "Membuat issue GitHub baru dengan label, milestone, dan penerima tugas."
       },
       "promptsTitle": "PM Prompts",
       "promptsDesc": "Lumina MCP juga menyediakan prompt pra-konfigurasi untuk memicu workflow AI yang kompleks dengan cepat. Anda dapat menggunakan prompt ini secara langsung di chat AI client Anda.",
@@ -292,7 +302,12 @@
         "p2Desc": "Lakukan brainstorm untuk pendekatan teknis dan membuat plan berdasarkan ringkasan tiket.",
         "p2Query": "Download OpenProject work package #82.",
         "p3Desc": "Menghasilkan katalog test komprehensif berdasarkan tiket dan plan teknis.",
-        "p3Query": "Get checklist details from Trello card 64b19c."
+        "p3Query": "Get checklist details from Trello card 64b19c.",
+        "p4Desc": "Mencerna permintaan fitur mentah dan menyusunnya menjadi tiket berstandar Big Tech.",
+        "p4QueryJira": "Buat tiket bug untuk halaman login di Jira.",
+        "p4QueryTrello": "Buat card di daftar todo Trello tentang form registrasi.",
+        "p4QueryOpenProject": "Buat task di OpenProject untuk setup database.",
+        "p4QueryGithub": "Buat issue github tentang perbaikan memory leak."
       }
     },
     "versionControl": {

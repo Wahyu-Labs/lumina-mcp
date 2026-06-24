@@ -1,16 +1,18 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const { mockGetWorkPackage } = vi.hoisted(() => ({
+const { mockGetWorkPackage, mockCreateWorkPackage } = vi.hoisted(() => ({
   mockGetWorkPackage: vi.fn(),
+  mockCreateWorkPackage: vi.fn(),
 }));
 
 vi.mock('../../../../src/tools/projectmanagement/openproject/repository/openproject.repository.js', () => ({
   openProjectRepository: {
     getWorkPackage: mockGetWorkPackage,
+    createWorkPackage: mockCreateWorkPackage,
   },
 }));
 
-import { getOpenProjectWorkPackage } from '../../../../src/tools/projectmanagement/openproject/service/openproject.service.js';
+import { getOpenProjectWorkPackage, createOpenProjectWorkPackage } from '../../../../src/tools/projectmanagement/openproject/service/openproject.service.js';
 
 describe('OpenProjectService', () => {
   beforeEach(() => {
@@ -49,5 +51,33 @@ describe('OpenProjectService', () => {
     await expect(getOpenProjectWorkPackage('wp4', 'domain.com', undefined)).rejects.toThrow(
       'OpenProject apiKey is required. Provide it as an argument or set OPENPROJECT_API_KEY.',
     );
+  });
+  describe('createOpenProjectWorkPackage', () => {
+    it('should call repository.createWorkPackage when arguments are valid', async () => {
+      mockCreateWorkPackage.mockResolvedValueOnce({ id: 10 });
+      
+      const result = await createOpenProjectWorkPackage('12', 'Subj', 'Task', 'Desc', 'High', 'User1', undefined, 'domain.com', 'mykey');
+      
+      expect(mockCreateWorkPackage).toHaveBeenCalledWith('12', 'Subj', 'Task', 'Desc', 'High', 'User1', 'domain.com', 'mykey');
+      expect(result).toEqual({ id: 10 });
+    });
+
+    it('should fallback to env variables if domain/apiKey are omitted', async () => {
+      process.env.OPENPROJECT_DOMAIN = 'envdomain.com';
+      process.env.OPENPROJECT_API_KEY = 'envkey';
+      mockCreateWorkPackage.mockResolvedValueOnce({ id: 11 });
+      
+      await createOpenProjectWorkPackage('12', 'Subj', 'Task');
+      
+      expect(mockCreateWorkPackage).toHaveBeenCalledWith('12', 'Subj', 'Task', undefined, undefined, undefined, 'envdomain.com', 'envkey');
+    });
+
+    it('should throw error if projectId, subject, or type are missing', async () => {
+      process.env.OPENPROJECT_DOMAIN = 'envdomain.com';
+      process.env.OPENPROJECT_API_KEY = 'envkey';
+      await expect(createOpenProjectWorkPackage('', 'Subj', 'Task')).rejects.toThrow('OpenProject projectId, subject, and type are required to create a work package.');
+      await expect(createOpenProjectWorkPackage('12', '', 'Task')).rejects.toThrow('OpenProject projectId, subject, and type are required to create a work package.');
+      await expect(createOpenProjectWorkPackage('12', 'Subj', '')).rejects.toThrow('OpenProject projectId, subject, and type are required to create a work package.');
+    });
   });
 });
