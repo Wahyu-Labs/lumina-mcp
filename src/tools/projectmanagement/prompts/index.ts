@@ -105,7 +105,7 @@ Test catalog Id: [A unique catalog identifier, e.g., TC-1000]
 caseId: [A unique test case identifier, e.g., TC-1001]
 --------------------
 category: [Happy Path | Negative Path | Edge Case | Security | Performance | Accessibility | Responsiveness | Integration]
-prequites
+prerequisites
 - [prerequisite 1]
 - [prerequisite 2]
 step

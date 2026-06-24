@@ -49,7 +49,7 @@ export const PLANNING_PROMPT = `### Phase {{phase}}: Planning, Brainstorming & T
 4. **Test Catalog**: Use the \`pm_test_catalog\` prompt/tool to generate a test catalog based on the plan.
 5. **File Generation**: You MUST generate these documents as actual files in the workspace (e.g., in a \`docs/\` folder).
    - For "full-detail" token budget, generate 5 files: \`summary.md\`, \`brainstorm.md\`, \`plan.md\`, \`test-catalog.md\`, and \`test-catalog.txt\`.
-   - For "save-tokens" token budget, generate only 3 files: \`plan.md\`, \`test-catalog.md\`, and \`test-catalog.txt\`.
+   - For "save-tokens" token budget, generate only 4 files: summary.md, plan.md, test-catalog.md, and test-catalog.txt.
 6. **Human Review Loop**: Present the generated files to the user for review. If the user requests changes, iteratively refine and update the documents based on their feedback. You MUST NOT proceed to the next Phase until the user explicitly approves the final documents.
 {{tokenMode}}
 {{previousSummary}}

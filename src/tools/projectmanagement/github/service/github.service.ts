@@ -95,7 +95,7 @@ function mapComments(rawComments: unknown[]): GitHubIssueComment[] {
 
 function extractLinkedPullRequests(timelineEvents: unknown[]): GitHubLinkedPullRequest[] {
   const events = timelineEvents as RawTimelineEvent[];
-  return events
+  const prs = events
     .filter(
       (e) =>
         e.event === 'cross-referenced' &&
@@ -107,6 +107,13 @@ function extractLinkedPullRequests(timelineEvents: unknown[]): GitHubLinkedPullR
       state: e.source!.issue!.state,
       html_url: e.source!.issue!.html_url,
     }));
+
+  // Deduplicate by PR number
+  const uniquePrs = new Map<number, GitHubLinkedPullRequest>();
+  for (const pr of prs) {
+    uniquePrs.set(pr.number, pr);
+  }
+  return Array.from(uniquePrs.values());
 }
 
 export async function getGithubIssue(
@@ -140,6 +147,9 @@ export async function getGithubIssue(
   let comments: GitHubIssueComment[] = [];
   if (commentsResult.status === 'fulfilled') {
     comments = mapComments(commentsResult.value);
+    if (comments.length === 100) {
+      warnings.push('Comments are truncated. Only the first 100 comments are fetched. Consider implementing pagination.');
+    }
   } else {
     warnings.push(`Failed to fetch comments: ${commentsResult.reason instanceof Error ? commentsResult.reason.message : String(commentsResult.reason)}`);
   }

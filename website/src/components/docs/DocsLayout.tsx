@@ -170,7 +170,11 @@ export function DocsLayout() {
                 <div className="absolute top-full mt-1.5 left-0 bg-background border border-border/60 shadow-xl rounded-md overflow-hidden z-50 w-36 flex flex-col">
                   <button 
                     onClick={() => {
-                      setSearchParams({})
+                      setSearchParams((prev) => {
+                        const newParams = new URLSearchParams(prev)
+                        newParams.delete('v')
+                        return newParams
+                      })
                       setIsVersionMenuOpen(false)
                     }}
                     className={`text-left px-3 py-2 text-xs hover:bg-muted/50 transition-colors ${currentVersion === pkg.version ? 'font-bold text-accent bg-accent/5' : 'text-foreground'}`}
@@ -179,7 +183,11 @@ export function DocsLayout() {
                   </button>
                   <button 
                     onClick={() => {
-                      setSearchParams({ v: "1.1.3" })
+                      setSearchParams((prev) => {
+                        const newParams = new URLSearchParams(prev)
+                        newParams.set('v', '1.1.3')
+                        return newParams
+                      })
                       setIsVersionMenuOpen(false)
                     }}
                     className={`text-left px-3 py-2 text-xs hover:bg-muted/50 transition-colors border-t border-border/40 ${currentVersion === "1.1.3" ? 'font-bold text-accent bg-accent/5' : 'text-foreground'}`}
