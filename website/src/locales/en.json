@@ -9,7 +9,7 @@
     "github": "GitHub"
   },
   "hero": {
-    "versionBadge": "AI MCP Server & Workflows v1.0.3",
+    "versionBadge": "AI MCP Server & Workflows v1.2.0",
     "heading1": "Give Your AI Assistant",
     "heading2": "Real Developer Superpowers",
     "subtitle": "Provide your AI agents with direct access to your developer environment. Execute database queries, streamline Git workflows, track Jira boards, and orchestrate complex tasks safely.",
