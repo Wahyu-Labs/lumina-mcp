@@ -109,6 +109,7 @@ In your MCP client, you can use these prompts as slash commands:
 | `get_jira_ticket` | Fetch a Jira issue by ID/Key — includes title, description, labels, comments, epic |
 | `get_trello_card` | Fetch a Trello card — includes description, status, checklist, comment history |
 | `get_openproject_work_package` | Fetch an OpenProject work package — includes assignee, priority, and comments |
+| `get_github_issue` | Fetch a GitHub issue — includes body, comments, labels, milestones, and linked PRs |
 
 **PM Prompts:**
 

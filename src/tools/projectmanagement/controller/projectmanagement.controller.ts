@@ -2,10 +2,12 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { getJiraTicket } from '../jira/service/jira.service.js';
 import { getTrelloCard } from '../trello/service/trello.service.js';
 import { getOpenProjectWorkPackage } from '../openproject/service/openproject.service.js';
+import { getGithubIssue } from '../github/service/github.service.js';
 import {
   GetJiraTicketSchema,
   GetTrelloCardSchema,
   GetOpenProjectWorkPackageSchema,
+  GetGithubIssueSchema,
   ProjectManagementPromptSchema,
 } from '../dto/projectmanagement.dto.js';
 import {
@@ -38,6 +40,15 @@ Follow this strict fallback order:
 1. PRIMARY: Retry providing 'domain' and 'apiKey' parameters directly to 'get_openproject_work_package', or set OPENPROJECT_DOMAIN and OPENPROJECT_API_KEY environment variables in your MCP client config.
 2. SECONDARY: If you have an official OpenProject MCP server registered in your client environment, call the equivalent tool from it instead.
 3. TERTIARY: Ask the user to provide the work package contents manually (copy-paste into the conversation).
+Do NOT report failure to the user — always attempt the next fallback step.
+`;
+
+const GITHUB_FALLBACK_INSTRUCTIONS = `
+FALLBACK REQUIRED — Lumina MCP could not authenticate with GitHub.
+Follow this strict fallback order:
+1. PRIMARY: Retry providing 'githubToken' parameter directly to 'get_github_issue', or set GITHUB_TOKEN environment variable in your MCP client config.
+2. SECONDARY: If you have the official GitHub MCP server registered in your client environment, call the equivalent tool from it instead.
+3. TERTIARY: Ask the user to provide the issue contents manually (copy-paste into the conversation).
 Do NOT report failure to the user — always attempt the next fallback step.
 `;
 
@@ -142,12 +153,45 @@ export function registerProjectManagementController(server: McpServer) {
     },
   );
 
+  server.registerTool(
+    'get_github_issue',
+    {
+      description:
+        'Fetch a GitHub issue with enriched context by repository owner, name, and issue number. Returns structured data including issue details, comments, labels, assignees, milestone, and linked pull requests. Fetches comments and timeline events in parallel for performance. Credentials can be passed as parameters or auto-loaded from GITHUB_TOKEN or GITHUB_PERSONAL_ACCESS_TOKEN env vars. Falls back to official GitHub MCP if credentials are not available.',
+      inputSchema: GetGithubIssueSchema,
+    },
+    async ({ owner, repo, issueNumber, githubToken }) => {
+      try {
+        const issue = await getGithubIssue(owner, repo, issueNumber, githubToken);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(issue, null, 2),
+            },
+          ],
+        };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: `GitHub Tool Error: ${errorMessage}\n\n${GITHUB_FALLBACK_INSTRUCTIONS}`,
+            },
+          ],
+        };
+      }
+    },
+  );
+
   // Prompts
   server.registerPrompt(
     'pm_summarize_ticket',
     {
       title: 'Senior PM Summarize Ticket',
-      description: 'Summarize a raw Jira or Trello ticket as a Senior Product Manager.',
+      description: 'Summarize a raw Jira, Trello, OpenProject, or GitHub ticket/issue as a Senior Product Manager.',
       argsSchema: ProjectManagementPromptSchema,
     },
     async ({ command }) => {

@@ -261,6 +261,7 @@
       "badge": "Documentation",
       "title": "Project Management Integration",
       "subtitle": "Hubungkan agen AI Anda langsung ke tiket project management. Ambil spesifikasi dan konteks deskripsi dari <0>Jira, Trello, dan OpenProject</0>.",
+      "subtitleGithub": "Hubungkan agen AI Anda langsung ke tiket project management. Ambil spesifikasi dan konteks deskripsi dari <0>Jira, Trello, OpenProject, dan GitHub Issues</0>.",
       "setupTitle": "Setup & Connection Credentials",
       "setupDesc": "Berikan string koneksi sebagai environment variable ke server Lumina MCP.",
       "table": {
@@ -371,7 +372,8 @@
         "generalFeature": "Fitur Umum",
         "jiraIntegration": "Integrasi Jira",
         "trelloIntegration": "Integrasi Trello",
-        "opIntegration": "Integrasi OpenProject"
+        "opIntegration": "Integrasi OpenProject",
+        "githubIntegration": "Integrasi GitHub Issue"
       },
       "fallbackTitle": "Native Fallback Controller Strategy",
       "fallbackDesc": "Lumina MCP dibuat untuk bekerja secara mulus dengan plugin <0>Compound Engineering</0>. Namun, jika Anda menjalankan Lumina di lingkungan workspace di mana plugin tersebut belum diinstal (seperti standar VS Code, Cursor, atau Claude Desktop), kontroler secara mulus berpindah menggunakan <1>Native Fallback Prompts</1> untuk memandu agen.",

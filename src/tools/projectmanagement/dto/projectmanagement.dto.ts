@@ -19,6 +19,14 @@ export const GetOpenProjectWorkPackageSchema = {
   workPackageId: z.string().describe('OpenProject Work Package ID'),
 };
 
+export const GetGithubIssueSchema = {
+  owner: z.string().describe('GitHub repository owner (user or organization)'),
+  repo: z.string().describe('GitHub repository name'),
+  issueNumber: z.string().describe('GitHub issue number'),
+  githubToken: z.string().describe('GitHub Personal Access Token. Defaults to GITHUB_TOKEN or GITHUB_PERSONAL_ACCESS_TOKEN env var if not provided.').optional(),
+};
+
 export const ProjectManagementPromptSchema = {
   command: z.string().optional().describe('Additional instructions or context'),
 };
+

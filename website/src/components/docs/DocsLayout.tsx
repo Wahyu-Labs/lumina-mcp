@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, Outlet, useLocation } from "react-router-dom"
+import { Link, Outlet, useLocation, useSearchParams } from "react-router-dom"
 import { motion } from "framer-motion"
 import { Search, ChevronDown, Sun, Moon, Home, BookOpen, Menu, X } from "lucide-react"
 import pkg from "../../../../package.json"
@@ -49,6 +49,20 @@ export function DocsLayout() {
     "AI Orchestration": true
   })
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const currentVersion = searchParams.get("v") || pkg.version
+  const [isVersionMenuOpen, setIsVersionMenuOpen] = useState(false)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!(e.target as Element).closest('.version-dropdown-container')) {
+        setIsVersionMenuOpen(false)
+      }
+    }
+    document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [])
 
   useEffect(() => {
     setIsMobileMenuOpen(false)
@@ -114,6 +128,13 @@ export function DocsLayout() {
     }
   }).filter(section => section.items.length > 0)
 
+  const getPathWithVersion = (path: string) => {
+    if (currentVersion && currentVersion !== pkg.version) {
+      return `${path}?v=${currentVersion}`
+    }
+    return path
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors flex flex-col">
       
@@ -131,12 +152,50 @@ export function DocsLayout() {
             </Link>
 
             {/* Version Dropdown */}
-            <div className="hidden sm:flex items-center gap-2 bg-muted/30 border border-border/60 rounded-md px-2.5 py-1.5 transition-colors hover:bg-muted/50 cursor-pointer group">
-              <span className="text-xs font-semibold tracking-wide text-muted-foreground group-hover:text-foreground transition-colors">v{pkg.version}</span>
-              <span className="px-1.5 py-0.5 rounded-sm bg-accent/10 text-accent border border-accent/20 text-[9px] font-extrabold uppercase tracking-wider">
-                Latest
-              </span>
-              <ChevronDown className="h-3.5 w-3.5 text-muted-foreground ml-1" />
+            <div className="relative version-dropdown-container hidden sm:block">
+              <div 
+                onClick={() => setIsVersionMenuOpen(!isVersionMenuOpen)}
+                className="flex items-center gap-2 bg-muted/30 border border-border/60 rounded-md px-2.5 py-1.5 transition-colors hover:bg-muted/50 cursor-pointer group"
+              >
+                <span className="text-xs font-semibold tracking-wide text-muted-foreground group-hover:text-foreground transition-colors">v{currentVersion}</span>
+                {currentVersion === pkg.version && (
+                  <span className="px-1.5 py-0.5 rounded-sm bg-accent/10 text-accent border border-accent/20 text-[9px] font-extrabold uppercase tracking-wider">
+                    Latest
+                  </span>
+                )}
+                <ChevronDown className={`h-3.5 w-3.5 text-muted-foreground ml-1 transition-transform ${isVersionMenuOpen ? 'rotate-180' : ''}`} />
+              </div>
+              
+              {isVersionMenuOpen && (
+                <div className="absolute top-full mt-1.5 left-0 bg-background border border-border/60 shadow-xl rounded-md overflow-hidden z-50 w-36 flex flex-col">
+                  <button 
+                    onClick={() => {
+                      setSearchParams((prev) => {
+                        const newParams = new URLSearchParams(prev)
+                        newParams.delete('v')
+                        return newParams
+                      })
+                      setIsVersionMenuOpen(false)
+                    }}
+                    className={`text-left px-3 py-2 text-xs hover:bg-muted/50 transition-colors ${currentVersion === pkg.version ? 'font-bold text-accent bg-accent/5' : 'text-foreground'}`}
+                  >
+                    v{pkg.version} (Latest)
+                  </button>
+                  <button 
+                    onClick={() => {
+                      setSearchParams((prev) => {
+                        const newParams = new URLSearchParams(prev)
+                        newParams.set('v', '1.1.3')
+                        return newParams
+                      })
+                      setIsVersionMenuOpen(false)
+                    }}
+                    className={`text-left px-3 py-2 text-xs hover:bg-muted/50 transition-colors border-t border-border/40 ${currentVersion === "1.1.3" ? 'font-bold text-accent bg-accent/5' : 'text-foreground'}`}
+                  >
+                    v1.1.3
+                  </button>
+                </div>
+              )}
             </div>
 
             <LanguageSwitcher />
@@ -235,7 +294,7 @@ export function DocsLayout() {
                       return (
                         <li key={item.name}>
                           <Link
-                            to={item.path}
+                            to={getPathWithVersion(item.path)}
                             onClick={() => setIsMobileMenuOpen(false)}
                             className={`block py-1 px-2.5 text-xs rounded-md transition-all ${
                               isActive
@@ -299,7 +358,7 @@ export function DocsLayout() {
                       return (
                         <li key={item.name}>
                           <Link
-                            to={item.path}
+                            to={getPathWithVersion(item.path)}
                             className={`block py-1 px-2.5 text-xs rounded-md transition-all ${
                               isActive
                                 ? "bg-accent/10 text-accent font-bold"

@@ -261,6 +261,7 @@
       "badge": "Documentation",
       "title": "Project Management Integration",
       "subtitle": "Connect your AI agents directly to your project management tickets. Fetch specifications and description context from <0>Jira, Trello, and OpenProject</0>.",
+      "subtitleGithub": "Connect your AI agents directly to your project management tickets. Fetch specifications and description context from <0>Jira, Trello, OpenProject, and GitHub Issues</0>.",
       "setupTitle": "Setup & Connection Credentials",
       "setupDesc": "Provide connection strings as environment variables to the Lumina MCP server.",
       "table": {
@@ -371,7 +372,8 @@
         "generalFeature": "General Feature",
         "jiraIntegration": "Jira Integration",
         "trelloIntegration": "Trello Integration",
-        "opIntegration": "OpenProject Integration"
+        "opIntegration": "OpenProject Integration",
+        "githubIntegration": "GitHub Issue Integration"
       },
       "fallbackTitle": "Native Fallback Controller Strategy",
       "fallbackDesc": "Lumina MCP is built to work seamlessly with <0>Compound Engineering</0> plugins. However, if you run Lumina in workspace environments where these plugins aren't installed (e.g. standard VS Code, Cursor, or Claude Desktop), the controller seamlessly falls back to <1>Native Fallback Prompts</1> to guide the agent.",

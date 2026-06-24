@@ -17,11 +17,11 @@ You are operating in a token-aware mode. Follow these rules strictly to minimize
 export const SAVE_TOKENS_MODE_RULES = `
 ### Save-Tokens Mode Active
 You are in **save-tokens** mode. Apply these additional constraints:
-- Use **bullet-point format** for all explanations. No paragraphs.
+- Use **bullet-point format** for all conversational explanations. No paragraphs.
 - Do NOT echo or repeat code that you just wrote. Instead, reference the file path.
-- Keep all responses under 300 words per phase unless the user explicitly asks for more detail.
+- Keep all conversational responses under 300 words per phase.
 - Summarize tool outputs instead of pasting them verbatim.
-- When presenting plans or lists, use compact tables or short bullets instead of verbose descriptions.
+- **CRITICAL**: The generated artifact files (plan.md, test-catalog.md, test-catalog.txt) MUST STILL BE COMPREHENSIVE AND FULLY DETAILED. Only your conversational response to the user should be concise.
 `;
 
 export const SENIOR_SWE_ORCHESTRATION_PROMPT = `You are an AI acting as a Senior Software Engineer. You will execute an end-to-end software engineering workflow. The workflow consists of 5 or 6 distinct phases depending on whether tests are requested.
@@ -42,12 +42,15 @@ ${TOKEN_OPTIMIZATION_RULES}
 
 export const PLANNING_PROMPT = `### Phase {{phase}}: Planning, Brainstorming & Test Catalog
 1. **Fetch Context & Knowledge**: 
-   - If a ticket type (jira, trello, openproject) and ID are provided in the context, use the respective tool to fetch the ticket. If no ticket is provided, use the feature description from the context.
+   - If a ticket type (jira, trello, openproject, github) and ID are provided in the context, use the respective tool to fetch the ticket. If no ticket is provided, use the feature description from the context.
    - Search the codebase for related code, Agent skills (e.g., SKILL.md), and existing solutions/patterns relevant to the ticket or feature.
 2. **Summarize**: Use the \`pm_summarize_ticket\` prompt/tool to generate a summary of the ticket/feature context.
 3. **Brainstorm & Plan**: Use the \`pm_brainstorm_plan\` prompt/tool to create a technical approach and implementation plan.
 4. **Test Catalog**: Use the \`pm_test_catalog\` prompt/tool to generate a test catalog based on the plan.
-5. **Human Review Loop**: Present the generated Summary, Plan, and Test Catalog to the user for review. If the user requests changes, iteratively refine and update the documents based on their feedback. You MUST NOT proceed to the next Phase until the user explicitly approves the final documents.
+5. **File Generation**: You MUST generate these documents as actual files in the workspace (e.g., in a \`docs/\` folder).
+   - For "full-detail" token budget, generate 5 files: \`summary.md\`, \`brainstorm.md\`, \`plan.md\`, \`test-catalog.md\`, and \`test-catalog.txt\`.
+   - For "save-tokens" token budget, generate only 4 files: summary.md, plan.md, test-catalog.md, and test-catalog.txt.
+6. **Human Review Loop**: Present the generated files to the user for review. If the user requests changes, iteratively refine and update the documents based on their feedback. You MUST NOT proceed to the next Phase until the user explicitly approves the final documents.
 {{tokenMode}}
 {{previousSummary}}
 `;
