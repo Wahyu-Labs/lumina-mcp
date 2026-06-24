@@ -59,7 +59,7 @@ export async function createOpenProjectWorkPackage(
   if (attachmentPath) {
     try {
       await openProjectRepository.attachFileToWorkPackage(
-        (wp as any).id,
+        (wp as Record<string, unknown>).id as string,
         attachmentPath,
         finalDomain,
         finalApiKey,

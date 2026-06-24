@@ -92,7 +92,7 @@ export class GithubRepository {
   ): Promise<unknown> {
     const url = `https://api.github.com/repos/${owner}/${repo}/issues`;
 
-    const payload: any = { title };
+    const payload: Record<string, unknown> = { title };
     if (body) payload.body = body;
     if (labels && labels.length > 0) payload.labels = labels;
     if (assignees && assignees.length > 0) payload.assignees = assignees;

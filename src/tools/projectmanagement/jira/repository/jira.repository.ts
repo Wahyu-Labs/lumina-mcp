@@ -45,7 +45,7 @@ export class JiraRepository {
     const url = `https://${cleanDomain}.atlassian.net/rest/api/3/issue`;
     const credentials = Buffer.from(`${email}:${apiToken}`).toString('base64');
 
-    const fields: any = {
+    const fields: Record<string, unknown> = {
       project: { key: projectKey },
       summary: summary,
       issuetype: { name: issueType },

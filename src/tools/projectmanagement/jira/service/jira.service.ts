@@ -66,7 +66,7 @@ export async function createJiraTicket(
   if (attachmentPath) {
     try {
       await jiraRepository.attachFileToTicket(
-        (ticket as any).id || (ticket as any).key,
+        ((ticket as Record<string, unknown>).id || (ticket as Record<string, unknown>).key) as string,
         attachmentPath,
         finalDomain,
         finalEmail,
