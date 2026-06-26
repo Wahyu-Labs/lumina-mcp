@@ -27,7 +27,8 @@ const SECTIONS = [
     items: [
       { name: "Database Integration", path: "/docs/database", keywords: "database postgres mysql sql query list tables schema inspect explain audit explain" },
       { name: "Project Management", path: "/docs/project-management", keywords: "jira trello openproject tickets import task epic board kanban" },
-      { name: "Version Control", path: "/docs/version-control", keywords: "git commit pr github branch review comments resolve diff pull request" }
+      { name: "Version Control", path: "/docs/version-control", keywords: "git commit pr github branch review comments resolve diff pull request" },
+      { name: "Testing", path: "/docs/testing", keywords: "test testing unit test sdet happy path negative path edge cases code coverage mock" }
     ]
   },
   {

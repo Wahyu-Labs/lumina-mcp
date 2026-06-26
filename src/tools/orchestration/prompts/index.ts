@@ -63,7 +63,7 @@ export const EXECUTION_PROMPT = `### Phase {{phase}}: Code Execution & Compoundi
 `;
 
 export const TESTING_PROMPT = `### Phase {{phase}}: Unit Testing
-1. **Generate Tests**: Generate tests (unit, integration, or e2e) based on the test catalog from Phase 1 and the context.
+1. **Generate Tests**: Use the \`create-unit-test\` prompt/tool to generate comprehensive tests (unit, integration, or e2e) based on the test catalog from Phase 1 and the context.
 {{tokenMode}}
 {{previousSummary}}
 `;

@@ -7,6 +7,7 @@ import { DatabaseDocs } from './pages/docs/DatabaseDocs'
 import { ProjectManagementDocs } from './pages/docs/ProjectManagementDocs'
 import { VersionControlDocs } from './pages/docs/VersionControlDocs'
 import { OrchestrationDocs } from './pages/docs/OrchestrationDocs'
+import { TestingDocs } from './pages/docs/TestingDocs'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="project-management" element={<ProjectManagementDocs />} />
         <Route path="version-control" element={<VersionControlDocs />} />
         <Route path="orchestration" element={<OrchestrationDocs />} />
+        <Route path="testing" element={<TestingDocs />} />
       </Route>
     </Routes>
   )

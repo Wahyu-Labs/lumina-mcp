@@ -1,15 +1,16 @@
 import { motion } from 'framer-motion'
-import { Database, Code2, FolderKanban, BrainCircuit, GitBranch, Workflow, Layers } from 'lucide-react'
+import { Database, Code2, FolderKanban, BrainCircuit, GitBranch, Workflow, Layers, ShieldCheck } from 'lucide-react'
 
 // Position mapping in a 500x500 coordinate system (Center is 250, 250)
-// Radius is 200px
+// Radius is 200px (Heptagon)
 const nodes = [
   { id: 'git', label: 'Version Control', icon: GitBranch, color: 'text-red-500 dark:text-red-400', shadow: 'shadow-red-500/10', cx: 250, cy: 50, delay: 0.2 },
-  { id: 'code', label: 'Programming Language', icon: Code2, color: 'text-purple-500 dark:text-purple-400', shadow: 'shadow-purple-500/10', cx: 423, cy: 150, delay: 0.4 },
-  { id: 'compound', label: 'Compound Engineering', icon: Layers, color: 'text-emerald-500 dark:text-emerald-400', shadow: 'shadow-emerald-500/10', cx: 423, cy: 350, delay: 0.6 },
-  { id: 'orchestration', label: 'Orchestration', icon: Workflow, color: 'text-pink-500 dark:text-pink-400', shadow: 'shadow-pink-500/10', cx: 250, cy: 450, delay: 0.8 },
-  { id: 'pm', label: 'Project Management', icon: FolderKanban, color: 'text-orange-500 dark:text-orange-400', shadow: 'shadow-orange-500/10', cx: 77, cy: 350, delay: 1.0 },
-  { id: 'db', label: 'Database', icon: Database, color: 'text-blue-500 dark:text-blue-400', shadow: 'shadow-blue-500/10', cx: 77, cy: 150, delay: 1.2 },
+  { id: 'code', label: 'Programming Language', icon: Code2, color: 'text-purple-500 dark:text-purple-400', shadow: 'shadow-purple-500/10', cx: 406, cy: 125, delay: 0.4 },
+  { id: 'compound', label: 'Compound Engineering', icon: Layers, color: 'text-emerald-500 dark:text-emerald-400', shadow: 'shadow-emerald-500/10', cx: 445, cy: 295, delay: 0.6 },
+  { id: 'orchestration', label: 'Orchestration', icon: Workflow, color: 'text-pink-500 dark:text-pink-400', shadow: 'shadow-pink-500/10', cx: 337, cy: 430, delay: 0.8 },
+  { id: 'testing', label: 'Testing', icon: ShieldCheck, color: 'text-teal-500 dark:text-teal-400', shadow: 'shadow-teal-500/10', cx: 163, cy: 430, delay: 1.0 },
+  { id: 'pm', label: 'Project Management', icon: FolderKanban, color: 'text-orange-500 dark:text-orange-400', shadow: 'shadow-orange-500/10', cx: 55, cy: 295, delay: 1.2 },
+  { id: 'db', label: 'Database', icon: Database, color: 'text-blue-500 dark:text-blue-400', shadow: 'shadow-blue-500/10', cx: 94, cy: 125, delay: 1.4 },
 ]
 
 export function HeroVisual() {
@@ -75,27 +76,32 @@ export function HeroVisual() {
               <stop offset="0.5" stopColor="rgba(239, 68, 68, 1)" />
               <stop offset="1" stopColor="rgba(239, 68, 68, 0)" />
             </linearGradient>
-            <linearGradient id="gradient-code" x1="423" y1="150" x2="250" y2="250" gradientUnits="userSpaceOnUse">
+            <linearGradient id="gradient-code" x1="406" y1="125" x2="250" y2="250" gradientUnits="userSpaceOnUse">
               <stop stopColor="rgba(168, 85, 247, 0)" />
               <stop offset="0.5" stopColor="rgba(168, 85, 247, 1)" />
               <stop offset="1" stopColor="rgba(168, 85, 247, 0)" />
             </linearGradient>
-            <linearGradient id="gradient-compound" x1="423" y1="350" x2="250" y2="250" gradientUnits="userSpaceOnUse">
+            <linearGradient id="gradient-compound" x1="445" y1="295" x2="250" y2="250" gradientUnits="userSpaceOnUse">
               <stop stopColor="rgba(16, 185, 129, 0)" />
               <stop offset="0.5" stopColor="rgba(16, 185, 129, 1)" />
               <stop offset="1" stopColor="rgba(16, 185, 129, 0)" />
             </linearGradient>
-            <linearGradient id="gradient-orchestration" x1="250" y1="450" x2="250" y2="250" gradientUnits="userSpaceOnUse">
+            <linearGradient id="gradient-orchestration" x1="337" y1="430" x2="250" y2="250" gradientUnits="userSpaceOnUse">
               <stop stopColor="rgba(236, 72, 153, 0)" />
               <stop offset="0.5" stopColor="rgba(236, 72, 153, 1)" />
               <stop offset="1" stopColor="rgba(236, 72, 153, 0)" />
             </linearGradient>
-            <linearGradient id="gradient-pm" x1="77" y1="350" x2="250" y2="250" gradientUnits="userSpaceOnUse">
+            <linearGradient id="gradient-testing" x1="163" y1="430" x2="250" y2="250" gradientUnits="userSpaceOnUse">
+              <stop stopColor="rgba(20, 184, 166, 0)" />
+              <stop offset="0.5" stopColor="rgba(20, 184, 166, 1)" />
+              <stop offset="1" stopColor="rgba(20, 184, 166, 0)" />
+            </linearGradient>
+            <linearGradient id="gradient-pm" x1="55" y1="295" x2="250" y2="250" gradientUnits="userSpaceOnUse">
               <stop stopColor="rgba(249, 115, 22, 0)" />
               <stop offset="0.5" stopColor="rgba(249, 115, 22, 1)" />
               <stop offset="1" stopColor="rgba(249, 115, 22, 0)" />
             </linearGradient>
-            <linearGradient id="gradient-db" x1="77" y1="150" x2="250" y2="250" gradientUnits="userSpaceOnUse">
+            <linearGradient id="gradient-db" x1="94" y1="125" x2="250" y2="250" gradientUnits="userSpaceOnUse">
               <stop stopColor="rgba(59, 130, 246, 0)" />
               <stop offset="0.5" stopColor="rgba(59, 130, 246, 1)" />
               <stop offset="1" stopColor="rgba(59, 130, 246, 0)" />

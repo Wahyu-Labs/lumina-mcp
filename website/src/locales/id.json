@@ -5,11 +5,12 @@
     "git": "Git & PR",
     "pm": "Project Management",
     "orchestration": "Orchestration",
+    "testing": "Testing",
     "docs": "Dokumentasi",
     "github": "GitHub"
   },
   "hero": {
-    "versionBadge": "AI MCP Server & Workflows v1.2.0",
+    "versionBadge": "AI MCP Server & Workflows v1.3.0",
     "heading1": "Berdayakan AI Assistant Anda dengan",
     "heading2": "Superpower Developer",
     "subtitle": "Berikan agen AI Anda akses langsung dan aman ke environment development. Eksekusi query database, otomatisasi workflow Git, sinkronkan tiket Jira, dan jalankan task programming kompleks dengan mudah.",
@@ -76,6 +77,17 @@
       "p4QueryTrello": "Buat card di daftar todo Trello tentang form registrasi.",
       "p4QueryOpenProject": "Buat task di OpenProject untuk setup database.",
       "p4QueryGithub": "Buat issue github tentang perbaikan memory leak."
+    }
+  },
+  "testing": {
+    "title": "Pengujian Unit Otomatis",
+    "subtitle": "Hasilkan unit test berskala produksi yang tangguh untuk berbagai bahasa. AI secara cerdas melakukan mocking dependencies berdasarkan domain frontend, backend, atau seluler.",
+    "robustCoverage": "Standar QA Big Tech",
+    "robustCoverageDesc": "Lumina secara otomatis menangani cakupan test >80% termasuk Happy Path, Negative Path, Edge Cases, Security & Validation, Concurrency, dan Lifecycle komponen.",
+    "docs": "Dokumentasi",
+    "examplePrompt": "Contoh Prompt",
+    "prompts": {
+      "createUnitTest": "Buat unit test yang komprehensif untuk file yang di-tag atau konteks kode."
     }
   },
   "orchestration": {
@@ -400,6 +412,22 @@
         "f5Desc": "Menginstruksikan AI untuk membuat dan mengembangkan dokumentasi desain perangkat lunak dalam format markdown yang terletak dalam direktori <0>docs/solutions/</0> untuk menggabungkan pengetahuan yang berkelanjutan dalam workspace."
       }
     },
+    "testing": {
+      "badge": "Documentation",
+      "title": "Modul Pengujian",
+      "subtitle": "Buat unit test berskala produksi yang handal untuk bahasa pemrograman apapun.",
+      "setupTitle": "Cara Kerja",
+      "setupDesc": "Modul pengujian ini bekerja sepenuhnya secara lokal, memanfaatkan Large Language Model untuk menginterpretasikan konteks kode dan menghasilkan unit test yang komprehensif.",
+      "toolsTitle": "Exposed Testing Tools",
+      "toolsDesc": "Saat ini modul Testing hanya menggunakan instruksi prompt dan tidak menampilkan fungsi eksekusi tools langsung.",
+      "promptsTitle": "Testing Prompts",
+      "promptsDesc": "Gunakan prompt testing untuk memicu pembuatan test AI secara komprehensif.",
+      "prompts": {
+        "exampleUsage": "Contoh Penggunaan",
+        "p1Desc": "Mencakup >80% code coverage unit test yang mencakup happy path, negative path, kasus ekstrim dan batasan keamanan. Akan otomatis mengunci/mock pustaka dengan benar berdasar mode Frontend, Backend atau Mobile.",
+        "p1Query": "Buatkan unit test untuk kontroler user ini."
+      }
+    },
     "compound": {
       "badge": "Dukungan yang Disarankan",
       "title": "Compound Engineering",
@@ -474,6 +502,7 @@
       "Database Integration": "Integrasi Database",
       "Project Management": "Manajemen Proyek",
       "Version Control": "Version Control",
+      "Testing": "Modul Pengujian",
       "AI Orchestration": "AI Orchestration"
     }
   }

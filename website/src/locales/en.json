@@ -5,11 +5,12 @@
     "git": "Git & PR",
     "pm": "Project Management",
     "orchestration": "Orchestration",
+    "testing": "Testing",
     "docs": "Docs",
     "github": "GitHub"
   },
   "hero": {
-    "versionBadge": "AI MCP Server & Workflows v1.2.0",
+    "versionBadge": "AI MCP Server & Workflows v1.3.0",
     "heading1": "Give Your AI Assistant",
     "heading2": "Real Developer Superpowers",
     "subtitle": "Provide your AI agents with direct access to your developer environment. Execute database queries, streamline Git workflows, track Jira boards, and orchestrate complex tasks safely.",
@@ -76,6 +77,17 @@
       "p4QueryTrello": "Create a card in Trello todo list about registration form.",
       "p4QueryOpenProject": "Create a task in OpenProject for setting up database.",
       "p4QueryGithub": "Create a github issue about fixing the memory leak."
+    }
+  },
+  "testing": {
+    "title": "Automated Unit Testing",
+    "subtitle": "Generate robust, production-grade unit tests for any language. The AI intelligently mocks dependencies based on the frontend, backend, or mobile domain.",
+    "robustCoverage": "Big Tech QA Standards",
+    "robustCoverageDesc": "Lumina automatically handles >80% test coverage including Happy Path, Negative Path, Edge Cases, Security & Validation, Concurrency, and Lifecycle components.",
+    "docs": "Docs",
+    "examplePrompt": "Example Prompt",
+    "prompts": {
+      "createUnitTest": "Generate comprehensive unit tests for the tagged file or code context."
     }
   },
   "orchestration": {
@@ -400,6 +412,22 @@
         "f5Desc": "Instructs the AI to persist solved software patterns and technical designs in markdown format inside <0>docs/solutions/</0> directories for compounding workspace knowledge."
       }
     },
+    "testing": {
+      "badge": "Documentation",
+      "title": "Testing Module",
+      "subtitle": "Generate robust, production-grade unit tests for any language.",
+      "setupTitle": "How it Works",
+      "setupDesc": "The testing module works completely locally, leveraging the Large Language Model to interpret code context and generate comprehensive unit tests.",
+      "toolsTitle": "Exposed Testing Tools",
+      "toolsDesc": "Currently, the Testing module relies on prompt instructions and does not expose direct tool execution functions.",
+      "promptsTitle": "Testing Prompts",
+      "promptsDesc": "Use the testing prompt to trigger comprehensive AI code testing.",
+      "prompts": {
+        "exampleUsage": "Example Usage",
+        "p1Desc": "Generates >80% coverage unit tests including happy path, negative path, edge cases, and security boundaries. Automatically mocks appropriate libraries depending on Frontend, Backend, or Mobile context.",
+        "p1Query": "Create unit tests for the user controller."
+      }
+    },
     "compound": {
       "badge": "Recommended Support",
       "title": "Compound Engineering",
@@ -474,6 +502,7 @@
       "Database Integration": "Database Integration",
       "Project Management": "Project Management",
       "Version Control": "Version Control",
+      "Testing": "Testing Module",
       "AI Orchestration": "AI Orchestration"
     }
   }
