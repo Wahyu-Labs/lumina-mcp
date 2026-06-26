@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { CheckCircle2, Command, ShieldCheck, FileCode2, Code2, ArrowRight, Copy, Check } from "lucide-react"
+import { CheckCircle2, Command, ShieldCheck, FileCode2, ArrowRight, Copy, Check } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 
