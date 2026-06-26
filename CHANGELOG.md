@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.3.0] — 2026-06-27
+
+### Added
+- **Testing Module**: Added `testing` module with a highly robust `create-unit-test` prompt. 
+- **Big Tech QA Standards**: The `create-unit-test` prompt instructs the LLM to act as a Senior SDET / QA Automation Engineer, mandating >80% test coverage and encompassing Happy Path, Negative Path, Edge Cases & Boundaries, Security & Validation, Concurrency & Asynchrony, and State & Lifecycle.
+- **Cross-Domain Intelligence**: Explicit instructions for the AI to infer the execution domain (Frontend, Backend, or Mobile) and use appropriate domain-specific mocking strategies (e.g., DOM interactions for React, DB connections for Node.js/Go, and native modules for iOS/Android).
+
+---
+
 ## [1.2.0] — 2026-06-24
 
 ### Added

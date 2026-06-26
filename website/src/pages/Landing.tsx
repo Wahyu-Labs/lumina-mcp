@@ -6,6 +6,7 @@ import { DatabaseSection } from "../components/landing/DatabaseSection"
 import { GitSection } from "../components/landing/GitSection"
 import { PMSection } from "../components/landing/PMSection"
 import { OrchestrationSection } from "../components/landing/OrchestrationSection"
+import { TestingSection } from "../components/landing/TestingSection"
 import { CTA } from "../components/landing/CTA"
 import { Footer } from "../components/landing/Footer"
 
@@ -47,6 +48,9 @@ export default function Landing() {
 
         {/* Orchestration Section */}
         <OrchestrationSection />
+
+        {/* Testing Section */}
+        <TestingSection />
 
         {/* Installer CTA */}
         <CTA />

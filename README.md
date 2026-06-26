@@ -166,6 +166,26 @@ In your MCP client, you can use this prompt as a slash command:
 
 ---
 
+### Testing
+
+| Tool | Description |
+|------|-------------|
+| -    | No standalone tools (driven via prompts) |
+
+**Testing Prompt:**
+
+| Prompt | Description |
+|--------|-------------|
+| `create-unit-test` | Senior SDET prompt to generate high-quality unit tests with >80% coverage. Covers Happy Path, Negative Path, Edge Cases, Security, Concurrency, and State across Frontend, Backend, and Mobile domains. |
+
+**Example Prompts:**
+In your MCP client, you can use this prompt as a slash command:
+```bash
+/create-unit-test command="Write tests for src/auth/login.controller.ts"
+```
+
+---
+
 ### Security
 
 All database connections are **strictly read-only** with multiple enforcement layers:
@@ -221,6 +241,7 @@ Detailed guides for every tool, prompt, parameter, and usage example:
 | **[GitHub Source Control](documents/github-prompts.md)** | 7 Git/GitHub tools, 4 prompts, and fallback strategy |
 | **[Project Management Integration](documents/projectmanagement-prompts.md)** | 3 PM tools (Jira, Trello, OpenProject), 3 AI prompts |
 | **[AI Orchestration](documents/orchestration-prompts.md)** | 6-Phase Orchestration Engine, native fallback strategy |
+| **[Testing Module](documents/testing-prompts.md)** | Create unit tests with Big Tech QA standards |
 
 ---
 

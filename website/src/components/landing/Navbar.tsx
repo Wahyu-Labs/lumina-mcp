@@ -35,7 +35,7 @@ export function Navbar() {
         setActiveSection("home")
         return
       }
-      const sections = ["database", "git", "pm", "orchestration"]
+      const sections = ["database", "git", "pm", "orchestration", "testing"]
       let current = ""
       for (const section of sections) {
         const el = document.getElementById(section)
@@ -142,6 +142,13 @@ export function Navbar() {
           >
             {t('navbar.orchestration')}
           </a>
+          <a 
+            href="#testing" 
+            onClick={(e) => handleScrollToSection(e, "testing")}
+            className={`text-sm transition-colors ${activeSection === "testing" && !isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground hover:text-foreground"}`}
+          >
+            {t('navbar.testing', 'Testing')}
+          </a>
           
           <div className="h-4 w-px bg-border/60" />
 
@@ -231,6 +238,13 @@ export function Navbar() {
             className={`text-base transition-colors ${activeSection === "orchestration" && !isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground"}`}
           >
             {t('navbar.orchestration')}
+          </a>
+          <a 
+            href="#testing" 
+            onClick={(e) => handleScrollToSection(e, "testing")}
+            className={`text-base transition-colors ${activeSection === "testing" && !isDocsActive ? "text-accent font-bold" : "font-medium text-muted-foreground"}`}
+          >
+            {t('navbar.testing', 'Testing')}
           </a>
           
           <div className="h-px w-full bg-border/60" />
