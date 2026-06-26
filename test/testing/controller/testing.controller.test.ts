@@ -41,11 +41,8 @@ describe('Testing Controller', () => {
       expect(result.messages[0].content.text).toBe(expectedText);
     });
 
-    it('should handle undefined command gracefully by providing default text', async () => {
-      const result = await createUnitTestCallback({});
-      const expectedText = CREATE_UNIT_TEST_PROMPT.replace('{{context}}', 'No context provided. Please provide the source code to test.');
-
-      expect(result.messages[0].content.text).toBe(expectedText);
+    it('should throw an error if command is undefined', async () => {
+      await expect(createUnitTestCallback({})).rejects.toThrow('No context provided. Please provide the source code to test via the command argument.');
     });
   });
 });

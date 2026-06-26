@@ -12,9 +12,13 @@ export function registerTestingController(server: McpServer) {
       argsSchema: TestingPromptSchema,
     },
     async ({ command }) => {
+      if (!command) {
+        throw new Error('No context provided. Please provide the source code to test via the command argument.');
+      }
+      
       const promptText = CREATE_UNIT_TEST_PROMPT.replace(
         '{{context}}',
-        () => command || 'No context provided. Please provide the source code to test.',
+        () => command,
       );
       return {
         messages: [

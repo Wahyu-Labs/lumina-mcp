@@ -1,5 +1,5 @@
 import { useTranslation, Trans } from 'react-i18next'
-import { useSearchParams } from 'react-router-dom'
+
 
 export function TestingDocs() {
   const { t } = useTranslation()
