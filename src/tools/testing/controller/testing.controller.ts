@@ -34,7 +34,7 @@ export function registerTestingController(server: McpServer) {
     'create-e2e-test',
     {
       title: 'Senior SDET Create E2E Test',
-      description: 'Generate high-quality e2e tests covering happy path, negative path, and edge cases with >80% coverage for any programming language.',
+      description: 'Generate high-quality e2e tests covering happy path user journeys, negative path flows, edge cases, and UI stability for any programming language.',
       argsSchema: TestingPromptSchema,
     },
     async ({ command }) => {
