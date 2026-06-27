@@ -166,22 +166,24 @@ In your MCP client, you can use this prompt as a slash command:
 
 ---
 
-### Testing
+### Testing (Unit & E2E)
 
 | Tool | Description |
 |------|-------------|
 | -    | No standalone tools (driven via prompts) |
 
-**Testing Prompt:**
+**Testing Prompts:**
 
 | Prompt | Description |
 |--------|-------------|
 | `create-unit-test` | Senior SDET prompt to generate high-quality unit tests with >80% coverage. Covers Happy Path, Negative Path, Edge Cases, Security, Concurrency, and State across Frontend, Backend, and Mobile domains. |
+| `create-e2e-test` | Senior SDET prompt to generate comprehensive end-to-end (E2E) tests. Covers Happy Path user journeys, Negative Path flows, Edge Cases, UI Stability, and Accessibility across any programming language/framework. |
 
 **Example Prompts:**
-In your MCP client, you can use this prompt as a slash command:
+In your MCP client, you can use these prompts as slash commands:
 ```bash
 /create-unit-test command="Write tests for src/auth/login.controller.ts"
+/create-e2e-test command="Write e2e tests for the user registration flow."
 ```
 
 ---

@@ -33,6 +33,11 @@ export function TestingSection() {
       name: "/create-unit-test",
       desc: t('testing.prompts.createUnitTest'),
       cmd: '/create-unit-test "Write unit tests for the login controller."'
+    },
+    {
+      name: "/create-e2e-test",
+      desc: t('testing.prompts.createE2ETest'),
+      cmd: '/create-e2e-test "Write e2e tests for the user registration flow."'
     }
   ]
 

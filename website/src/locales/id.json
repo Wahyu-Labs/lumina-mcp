@@ -10,7 +10,7 @@
     "github": "GitHub"
   },
   "hero": {
-    "versionBadge": "AI MCP Server & Workflows v1.3.0",
+    "versionBadge": "AI MCP Server & Workflows v1.3.1",
     "heading1": "Berdayakan AI Assistant Anda dengan",
     "heading2": "Superpower Developer",
     "subtitle": "Berikan agen AI Anda akses langsung dan aman ke environment development. Eksekusi query database, otomatisasi workflow Git, sinkronkan tiket Jira, dan jalankan task programming kompleks dengan mudah.",
@@ -80,14 +80,15 @@
     }
   },
   "testing": {
-    "title": "Pengujian Unit Otomatis",
-    "subtitle": "Hasilkan unit test berskala produksi yang tangguh untuk berbagai bahasa. AI secara cerdas melakukan mocking dependencies berdasarkan domain frontend, backend, atau seluler.",
+    "title": "Pengujian Unit & E2E Otomatis",
+    "subtitle": "Hasilkan unit test dan E2E test berskala produksi yang tangguh untuk berbagai bahasa. AI secara cerdas melakukan mocking dependencies dan merancang alur pengujian berdasarkan domain aplikasi.",
     "robustCoverage": "Standar QA Big Tech",
     "robustCoverageDesc": "Lumina secara otomatis menangani cakupan test >80% termasuk Happy Path, Negative Path, Edge Cases, Security & Validation, Concurrency, dan Lifecycle komponen.",
     "docs": "Dokumentasi",
     "examplePrompt": "Contoh Prompt",
     "prompts": {
-      "createUnitTest": "Buat unit test yang komprehensif untuk file yang di-tag atau konteks kode."
+      "createUnitTest": "Buat unit test yang komprehensif untuk file yang di-tag atau konteks kode.",
+      "createE2ETest": "Buat E2E test yang komprehensif untuk alur aplikasi atau konteks kode."
     }
   },
   "orchestration": {
@@ -413,11 +414,11 @@
       }
     },
     "testing": {
-      "badge": "Documentation",
+      "badge": "Dokumentasi",
       "title": "Modul Pengujian",
-      "subtitle": "Buat unit test berskala produksi yang handal untuk bahasa pemrograman apapun.",
+      "subtitle": "Buat unit test dan E2E test berskala produksi yang handal untuk bahasa pemrograman apapun.",
       "setupTitle": "Cara Kerja",
-      "setupDesc": "Modul pengujian ini bekerja sepenuhnya secara lokal, memanfaatkan Large Language Model untuk menginterpretasikan konteks kode dan menghasilkan unit test yang komprehensif.",
+      "setupDesc": "Modul pengujian ini bekerja sepenuhnya secara lokal, memanfaatkan Large Language Model untuk menginterpretasikan konteks kode dan menghasilkan unit test serta E2E test yang komprehensif.",
       "toolsTitle": "Exposed Testing Tools",
       "toolsDesc": "Saat ini modul Testing hanya menggunakan instruksi prompt dan tidak menampilkan fungsi eksekusi tools langsung.",
       "promptsTitle": "Testing Prompts",
@@ -425,7 +426,9 @@
       "prompts": {
         "exampleUsage": "Contoh Penggunaan",
         "p1Desc": "Mencakup >80% code coverage unit test yang mencakup happy path, negative path, kasus ekstrim dan batasan keamanan. Akan otomatis mengunci/mock pustaka dengan benar berdasar mode Frontend, Backend atau Mobile.",
-        "p1Query": "Buatkan unit test untuk kontroler user ini."
+        "p1Query": "Buatkan unit test untuk kontroler user ini.",
+        "p2Desc": "Menghasilkan pengujian end-to-end (E2E) berskala produksi yang mencakup alur pengguna, happy path, negative path, dan stabilitas UI.",
+        "p2Query": "Buat e2e test untuk alur registrasi user."
       }
     },
     "compound": {

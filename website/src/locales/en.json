@@ -10,7 +10,7 @@
     "github": "GitHub"
   },
   "hero": {
-    "versionBadge": "AI MCP Server & Workflows v1.3.0",
+    "versionBadge": "AI MCP Server & Workflows v1.3.1",
     "heading1": "Give Your AI Assistant",
     "heading2": "Real Developer Superpowers",
     "subtitle": "Provide your AI agents with direct access to your developer environment. Execute database queries, streamline Git workflows, track Jira boards, and orchestrate complex tasks safely.",
@@ -80,14 +80,15 @@
     }
   },
   "testing": {
-    "title": "Automated Unit Testing",
-    "subtitle": "Generate robust, production-grade unit tests for any language. The AI intelligently mocks dependencies based on the frontend, backend, or mobile domain.",
+    "title": "Automated Unit & E2E Testing",
+    "subtitle": "Generate robust, production-grade unit and E2E tests for any language. The AI intelligently mocks dependencies and designs test flows based on the application domain.",
     "robustCoverage": "Big Tech QA Standards",
     "robustCoverageDesc": "Lumina automatically handles >80% test coverage including Happy Path, Negative Path, Edge Cases, Security & Validation, Concurrency, and Lifecycle components.",
     "docs": "Docs",
     "examplePrompt": "Example Prompt",
     "prompts": {
-      "createUnitTest": "Generate comprehensive unit tests for the tagged file or code context."
+      "createUnitTest": "Generate comprehensive unit tests for the tagged file or code context.",
+      "createE2ETest": "Generate comprehensive E2E tests for the application flow or code context."
     }
   },
   "orchestration": {
@@ -415,17 +416,19 @@
     "testing": {
       "badge": "Documentation",
       "title": "Testing Module",
-      "subtitle": "Generate robust, production-grade unit tests for any language.",
+      "subtitle": "Generate robust, production-grade unit and E2E tests for any language.",
       "setupTitle": "How it Works",
-      "setupDesc": "The testing module works completely locally, leveraging the Large Language Model to interpret code context and generate comprehensive unit tests.",
+      "setupDesc": "The testing module works completely locally, leveraging the Large Language Model to interpret code context and generate comprehensive unit and E2E tests.",
       "toolsTitle": "Exposed Testing Tools",
       "toolsDesc": "Currently, the Testing module relies on prompt instructions and does not expose direct tool execution functions.",
       "promptsTitle": "Testing Prompts",
-      "promptsDesc": "Use the testing prompt to trigger comprehensive AI code testing.",
+      "promptsDesc": "Use the testing prompts to trigger comprehensive AI code testing.",
       "prompts": {
         "exampleUsage": "Example Usage",
         "p1Desc": "Generates >80% coverage unit tests including happy path, negative path, edge cases, and security boundaries. Automatically mocks appropriate libraries depending on Frontend, Backend, or Mobile context.",
-        "p1Query": "Create unit tests for the user controller."
+        "p1Query": "Create unit tests for the user controller.",
+        "p2Desc": "Generates comprehensive, production-grade end-to-end (E2E) tests covering user flows, happy path, negative path, and UI stability.",
+        "p2Query": "Create e2e tests for the user registration flow."
       }
     },
     "compound": {

@@ -40,6 +40,18 @@ export function TestingDocs() {
           </div>
         </div>
 
+        {/* Prompt 2 */}
+        <div className="p-6 border border-border rounded-xl bg-card">
+          <h3 className="font-mono text-lg text-blue-500 m-0 mb-2">/create-e2e-test</h3>
+          <p className="text-xs md:text-sm text-muted-foreground mb-4">
+            {t('docs.testing.prompts.p2Desc', 'Generates comprehensive, production-grade end-to-end (E2E) tests covering user flows, happy path, negative path, and UI stability.')}
+          </p>
+          <span className="text-[10px] uppercase font-extrabold text-muted-foreground tracking-wider block mb-2">{t('docs.testing.prompts.exampleUsage')}</span>
+          <div className="bg-muted p-3 rounded-lg font-mono text-sm border border-border/50 text-foreground overflow-x-auto">
+            /create-e2e-test "Write e2e tests for the user registration flow."
+          </div>
+        </div>
+
       </div>
     </>
   )
