@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.3.1] — 2026-06-28
+
+### Added
+- **E2E Testing Prompt**: Added the `create-e2e-test` prompt to generate comprehensive, production-grade end-to-end (E2E) tests covering happy path user journeys, negative flows, edge cases, UI stability, and accessibility checks (ARIA, keyboard navigation, contrast).
+- **Unit Tests for Testing Controller**: Added a Vitest test suite under `test/testing/controller/testing.controller.test.ts` to verify the registration and behavior of the unit test and E2E test prompts.
+
+---
+
 ## [1.3.0] — 2026-06-27
 
 ### Added

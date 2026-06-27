@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { registerTestingController } from '../../../src/tools/testing/controller/testing.controller.js';
-import { CREATE_UNIT_TEST_PROMPT } from '../../../src/tools/testing/prompts/index.js';
+import { CREATE_UNIT_TEST_PROMPT, CREATE_E2E_TEST_PROMPT } from '../../../src/tools/testing/prompts/index.js';
 
 describe('Testing Controller', () => {
   let mockServer: {
@@ -24,6 +24,16 @@ describe('Testing Controller', () => {
     );
   });
 
+  it('should register create-e2e-test prompt', () => {
+    registerTestingController(mockServer as unknown as McpServer);
+
+    expect(mockServer.registerPrompt).toHaveBeenCalledWith(
+      'create-e2e-test',
+      expect.any(Object),
+      expect.any(Function),
+    );
+  });
+
   describe('create-unit-test prompt', () => {
     let createUnitTestCallback: (args: { command?: string }) => Promise<{ messages: { role: string; content: { text: string } }[] }>;
 
@@ -35,14 +45,50 @@ describe('Testing Controller', () => {
     it('should replace {{context}} with the provided command', async () => {
       const commandText = 'function sum(a, b) { return a + b; }';
       const result = await createUnitTestCallback({ command: commandText });
-      const expectedText = CREATE_UNIT_TEST_PROMPT.replace('{{context}}', commandText);
+      const expectedText = CREATE_UNIT_TEST_PROMPT.replace('{{context}}', () => commandText);
 
       expect(result.messages[0].role).toBe('user');
       expect(result.messages[0].content.text).toBe(expectedText);
     });
 
-    it('should throw an error if command is undefined', async () => {
-      await expect(createUnitTestCallback({})).rejects.toThrow('No context provided. Please provide the source code to test via the command argument.');
+    it('should handle undefined command gracefully', async () => {
+      const result = await createUnitTestCallback({});
+      const expectedText = CREATE_UNIT_TEST_PROMPT.replace(
+        '{{context}}',
+        () => 'Please paste the source code you want to test here.',
+      );
+
+      expect(result.messages[0].role).toBe('user');
+      expect(result.messages[0].content.text).toBe(expectedText);
+    });
+  });
+
+  describe('create-e2e-test prompt', () => {
+    let createE2ETestCallback: (args: { command?: string }) => Promise<{ messages: { role: string; content: { text: string } }[] }>;
+
+    beforeEach(() => {
+      registerTestingController(mockServer as unknown as McpServer);
+      createE2ETestCallback = mockServer.registerPrompt.mock.calls[1][2];
+    });
+
+    it('should replace {{context}} with the provided command', async () => {
+      const commandText = 'describe("E2E", () => {})';
+      const result = await createE2ETestCallback({ command: commandText });
+      const expectedText = CREATE_E2E_TEST_PROMPT.replace('{{context}}', () => commandText);
+
+      expect(result.messages[0].role).toBe('user');
+      expect(result.messages[0].content.text).toBe(expectedText);
+    });
+
+    it('should handle undefined command gracefully', async () => {
+      const result = await createE2ETestCallback({});
+      const expectedText = CREATE_E2E_TEST_PROMPT.replace(
+        '{{context}}',
+        () => 'Please paste the source code you want to test here.',
+      );
+
+      expect(result.messages[0].role).toBe('user');
+      expect(result.messages[0].content.text).toBe(expectedText);
     });
   });
 });
