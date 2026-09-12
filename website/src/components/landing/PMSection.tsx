@@ -56,6 +56,11 @@ export function PMSection() {
       name: "/dev_check_comment",
       desc: t('pm.prompts.devCheckComment'),
       cmd: '/dev_check_comment "Analyze discussions and review comments on Jira ticket PRJ-100."'
+    },
+    {
+      name: "/pm_testing_ticket",
+      desc: t('pm.prompts.testingTicket'),
+      cmd: '/pm_testing_ticket "ticket_url=https://github.com/owner/repo/issues/25 website_url=https://staging.example.com"'
     }
   ]
 

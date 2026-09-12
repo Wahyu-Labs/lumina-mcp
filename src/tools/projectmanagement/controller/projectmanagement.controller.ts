@@ -1,24 +1,45 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { getJiraTicket, createJiraTicket, getJiraTicketComments } from '../jira/service/jira.service.js';
-import { getTrelloCard, createTrelloCard } from '../trello/service/trello.service.js';
+import {
+  getJiraTicket,
+  createJiraTicket,
+  getJiraTicketComments,
+  addJiraComment,
+} from '../jira/service/jira.service.js';
+import {
+  getTrelloCard,
+  createTrelloCard,
+  addTrelloComment,
+  addTrelloAttachment,
+} from '../trello/service/trello.service.js';
 import {
   getOpenProjectWorkPackage,
   createOpenProjectWorkPackage,
   getOpenProjectWorkPackageComments,
+  addOpenProjectWorkPackageComment,
 } from '../openproject/service/openproject.service.js';
-import { getGithubIssue, createGithubIssue } from '../github/service/github.service.js';
+import {
+  getGithubIssue,
+  createGithubIssue,
+  addGithubIssueComment,
+} from '../github/service/github.service.js';
 import {
   GetJiraTicketSchema,
   GetJiraTicketCommentsSchema,
   CreateJiraTicketSchema,
+  AddJiraCommentSchema,
   GetTrelloCardSchema,
   CreateTrelloCardSchema,
+  AddTrelloCommentSchema,
+  AddTrelloAttachmentSchema,
   GetOpenProjectWorkPackageSchema,
   GetOpenProjectWorkPackageCommentsSchema,
   CreateOpenProjectWorkPackageSchema,
+  AddOpenProjectWorkPackageCommentSchema,
   GetGithubIssueSchema,
   CreateGithubIssueSchema,
+  AddGithubIssueCommentSchema,
   ProjectManagementPromptSchema,
+  PmTestingTicketPromptSchema,
 } from '../dto/projectmanagement.dto.js';
 import {
   PM_SUMMARIZE_TICKET_PROMPT,
@@ -26,6 +47,7 @@ import {
   PM_TEST_CATALOG_PROMPT,
   PM_CREATE_TICKET_PROMPT,
   PM_DEV_CHECK_COMMENT_PROMPT,
+  PM_TESTING_TICKET_PROMPT,
 } from '../prompts/index.js';
 
 const JIRA_FALLBACK_INSTRUCTIONS = `
@@ -471,6 +493,176 @@ export function registerProjectManagementController(server: McpServer) {
     },
   );
 
+  server.registerTool(
+    'add_jira_comment',
+    {
+      description:
+        'Add a comment to a Jira ticket/issue. Credentials can be passed as parameters or auto-loaded from JIRA_DOMAIN, JIRA_EMAIL, JIRA_API_TOKEN env vars.',
+      inputSchema: AddJiraCommentSchema,
+    },
+    async ({ issueIdOrKey, comment, domain, email, apiToken }) => {
+      try {
+        const result = await addJiraComment(issueIdOrKey, comment, domain, email, apiToken);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: `Jira Tool Error: ${errorMessage}\n\n${JIRA_FALLBACK_INSTRUCTIONS}`,
+            },
+          ],
+        };
+      }
+    },
+  );
+
+  server.registerTool(
+    'add_openproject_work_package_comment',
+    {
+      description:
+        'Add a comment to an OpenProject work package. Credentials can be passed as parameters or auto-loaded from OPENPROJECT_DOMAIN and OPENPROJECT_API_KEY env vars.',
+      inputSchema: AddOpenProjectWorkPackageCommentSchema,
+    },
+    async ({ workPackageId, comment, domain, apiKey }) => {
+      try {
+        const result = await addOpenProjectWorkPackageComment(
+          workPackageId,
+          comment,
+          domain,
+          apiKey,
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: `OpenProject Tool Error: ${errorMessage}\n\n${OPENPROJECT_FALLBACK_INSTRUCTIONS}`,
+            },
+          ],
+        };
+      }
+    },
+  );
+
+  server.registerTool(
+    'add_trello_comment',
+    {
+      description:
+        'Add a comment to a Trello card. Credentials can be passed as parameters or auto-loaded from TRELLO_API_KEY and TRELLO_API_TOKEN env vars.',
+      inputSchema: AddTrelloCommentSchema,
+    },
+    async ({ cardId, text, apiKey, apiToken }) => {
+      try {
+        const result = await addTrelloComment(cardId, text, apiKey, apiToken);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: `Trello Tool Error: ${errorMessage}\n\n${TRELLO_FALLBACK_INSTRUCTIONS}`,
+            },
+          ],
+        };
+      }
+    },
+  );
+
+  server.registerTool(
+    'add_trello_attachment',
+    {
+      description:
+        'Attach a file (e.g. a failure screenshot) to a Trello card. Credentials can be passed as parameters or auto-loaded from TRELLO_API_KEY and TRELLO_API_TOKEN env vars.',
+      inputSchema: AddTrelloAttachmentSchema,
+    },
+    async ({ cardId, filePath, apiKey, apiToken }) => {
+      try {
+        const result = await addTrelloAttachment(cardId, filePath, apiKey, apiToken);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: `Trello Tool Error: ${errorMessage}\n\n${TRELLO_FALLBACK_INSTRUCTIONS}`,
+            },
+          ],
+        };
+      }
+    },
+  );
+
+  server.registerTool(
+    'add_github_issue_comment',
+    {
+      description:
+        'Add a comment to a GitHub issue. Credentials can be passed as parameters or auto-loaded from GITHUB_TOKEN or GITHUB_PERSONAL_ACCESS_TOKEN env vars.',
+      inputSchema: AddGithubIssueCommentSchema,
+    },
+    async ({ owner, repo, issueNumber, body, githubToken }) => {
+      try {
+        const result = await addGithubIssueComment(owner, repo, issueNumber, body, githubToken);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: `GitHub Tool Error: ${errorMessage}\n\n${GITHUB_FALLBACK_INSTRUCTIONS}`,
+            },
+          ],
+        };
+      }
+    },
+  );
+
   // Prompts
   server.registerPrompt(
     'pm_summarize_ticket',
@@ -568,6 +760,35 @@ export function registerProjectManagementController(server: McpServer) {
         'Markdown (GitHub/OpenProject) / ADF (Jira) / Plain text (Trello) - Please determine from context or use Markdown as default',
       );
 
+      return {
+        messages: [
+          {
+            role: 'user' as const,
+            content: {
+              type: 'text' as const,
+              text: promptText,
+            },
+          },
+        ],
+      };
+    },
+  );
+
+  server.registerPrompt(
+    'pm_testing_ticket',
+    {
+      title: 'Automated Ticket-Driven Web Testing',
+      description:
+        'Fetch a Jira, OpenProject, Trello, or GitHub Issue ticket, derive test steps from its Acceptance Criteria / Test Cases, execute them against a target website using browser tooling, and post a PASS/FAILED result comment back to the ticket.',
+      argsSchema: PmTestingTicketPromptSchema,
+    },
+    async ({ command }) => {
+      const promptText = PM_TESTING_TICKET_PROMPT.replace(
+        '{{context}}',
+        () =>
+          command ||
+          'No context provided. Please specify ticket_url, website_url, and optionally username/password.',
+      );
       return {
         messages: [
           {

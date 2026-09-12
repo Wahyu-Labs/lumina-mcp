@@ -82,6 +82,34 @@ export async function createOpenProjectWorkPackage(
   return wp;
 }
 
+export async function addOpenProjectWorkPackageComment(
+  workPackageId: string,
+  comment: string,
+  domain?: string,
+  apiKey?: string,
+): Promise<unknown> {
+  const finalDomain = domain || process.env.OPENPROJECT_DOMAIN;
+  const finalApiKey = apiKey || process.env.OPENPROJECT_API_KEY;
+
+  if (!workPackageId || !comment) {
+    throw new Error('OpenProject workPackageId and comment are required to add a comment.');
+  }
+
+  if (!finalDomain) {
+    throw new Error(
+      'OpenProject domain is required. Provide it as an argument or set OPENPROJECT_DOMAIN.',
+    );
+  }
+
+  if (!finalApiKey) {
+    throw new Error(
+      'OpenProject apiKey is required. Provide it as an argument or set OPENPROJECT_API_KEY.',
+    );
+  }
+
+  return await openProjectRepository.addComment(workPackageId, comment, finalDomain, finalApiKey);
+}
+
 export async function getOpenProjectWorkPackageComments(
   workPackageId: string,
   domain?: string,
@@ -112,4 +140,3 @@ export async function getOpenProjectWorkPackageComments(
     pageSize,
   );
 }
-

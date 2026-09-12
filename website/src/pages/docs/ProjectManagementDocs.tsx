@@ -207,6 +207,63 @@ export function ProjectManagementDocs() {
           </p>
         </div>
 
+        {/* Tool 11 */}
+        <div className="p-5 border border-border rounded-xl bg-card">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <h3 className="font-mono text-base md:text-lg text-accent m-0">add_jira_comment</h3>
+            <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">Jira</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground m-0">
+            {t('docs.projectManagement.tools.t11Desc', 'Adds a comment to a Jira ticket — used by pm_testing_ticket to report PASS/FAILED results.')}
+          </p>
+        </div>
+
+        {/* Tool 12 */}
+        <div className="p-5 border border-border rounded-xl bg-card">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <h3 className="font-mono text-base md:text-lg text-accent m-0">add_openproject_work_package_comment</h3>
+            <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">OpenProject</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground m-0">
+            {t('docs.projectManagement.tools.t12Desc', 'Adds a comment to an OpenProject work package — used by pm_testing_ticket to report PASS/FAILED results.')}
+          </p>
+        </div>
+
+        {/* Tool 13 */}
+        <div className="p-5 border border-border rounded-xl bg-card">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <h3 className="font-mono text-base md:text-lg text-accent m-0">add_trello_comment</h3>
+            <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">Trello</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground m-0">
+            {t('docs.projectManagement.tools.t13Desc', 'Adds a comment to a Trello card — used by pm_testing_ticket to report PASS/FAILED results.')}
+          </p>
+        </div>
+
+        {/* Tool 14 */}
+        <div className="p-5 border border-border rounded-xl bg-card">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <h3 className="font-mono text-base md:text-lg text-accent m-0">add_trello_attachment</h3>
+            <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">Trello</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground m-0">
+            {t('docs.projectManagement.tools.t14Desc', 'Attaches a file, such as a failure screenshot, to a Trello card.')}
+          </p>
+        </div>
+
+        {/* Tool 15 */}
+        {showGithubIssue && (
+          <div className="p-5 border border-border rounded-xl bg-card">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+              <h3 className="font-mono text-base md:text-lg text-accent m-0">add_github_issue_comment</h3>
+              <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">GitHub</span>
+            </div>
+            <p className="text-xs md:text-sm text-muted-foreground m-0">
+              {t('docs.projectManagement.tools.t15Desc', 'Adds a comment to a GitHub issue — used by pm_testing_ticket to report PASS/FAILED results.')}
+            </p>
+          </div>
+        )}
+
       </div>
 
       <hr className="my-10 border-border" />
@@ -294,6 +351,21 @@ export function ProjectManagementDocs() {
           <span className="text-[10px] uppercase font-extrabold text-muted-foreground tracking-wider block mb-2">{t('docs.projectManagement.prompts.exampleUsage')}</span>
           <div className="bg-muted p-3 rounded-lg font-mono text-sm border border-border/50 text-foreground overflow-x-auto">
             /dev_check_comment "{t('docs.projectManagement.prompts.p5Query', 'Review comments and discussions on Jira ticket PRJ-100.')}"
+          </div>
+        </div>
+
+        {/* Prompt 6 */}
+        <div className="p-6 border border-border rounded-xl bg-card">
+          <h3 className="font-mono text-lg text-emerald-500 m-0 mb-2">/pm_testing_ticket</h3>
+          <p className="text-xs md:text-sm text-muted-foreground mb-4">
+            {t(
+              'docs.projectManagement.prompts.p6Desc',
+              'Fetch a Jira, OpenProject, Trello, or GitHub Issue ticket, derive test steps from its Acceptance Criteria/Test Cases, execute them against a target website using your browser automation tooling, and post a PASS/FAILED result (with a screenshot on failure) back to the ticket.',
+            )}
+          </p>
+          <span className="text-[10px] uppercase font-extrabold text-muted-foreground tracking-wider block mb-2">{t('docs.projectManagement.prompts.exampleUsage')}</span>
+          <div className="bg-muted p-3 rounded-lg font-mono text-sm border border-border/50 text-foreground overflow-x-auto">
+            /pm_testing_ticket "{t('docs.projectManagement.prompts.p6Query', 'ticket_url=https://github.com/owner/repo/issues/25 website_url=https://staging.example.com')}"
           </div>
         </div>
 

@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const { mockGetWorkPackage, mockCreateWorkPackage, mockGetWorkPackageComments } = vi.hoisted(
-  () => ({
+const { mockGetWorkPackage, mockCreateWorkPackage, mockGetWorkPackageComments, mockAddComment } =
+  vi.hoisted(() => ({
     mockGetWorkPackage: vi.fn(),
     mockCreateWorkPackage: vi.fn(),
     mockGetWorkPackageComments: vi.fn(),
-  }),
-);
+    mockAddComment: vi.fn(),
+  }));
 
 vi.mock(
   '../../../../src/tools/projectmanagement/openproject/repository/openproject.repository.js',
@@ -15,6 +15,7 @@ vi.mock(
       getWorkPackage: mockGetWorkPackage,
       createWorkPackage: mockCreateWorkPackage,
       getWorkPackageComments: mockGetWorkPackageComments,
+      addComment: mockAddComment,
     },
   }),
 );
@@ -23,6 +24,7 @@ import {
   getOpenProjectWorkPackage,
   createOpenProjectWorkPackage,
   getOpenProjectWorkPackageComments,
+  addOpenProjectWorkPackageComment,
 } from '../../../../src/tools/projectmanagement/openproject/service/openproject.service.js';
 
 describe('OpenProjectService', () => {
@@ -137,9 +139,61 @@ describe('OpenProjectService', () => {
     });
 
     it('should throw error if domain is missing', async () => {
+      await expect(getOpenProjectWorkPackageComments('wp1', undefined, 'mykey')).rejects.toThrow(
+        'OpenProject domain is required',
+      );
+    });
+  });
+
+  describe('addOpenProjectWorkPackageComment', () => {
+    it('should call repository.addComment when arguments are valid', async () => {
+      mockAddComment.mockResolvedValueOnce({ id: 1 });
+
+      const result = await addOpenProjectWorkPackageComment(
+        'wp1',
+        'PASS: verified',
+        'domain.com',
+        'mykey',
+      );
+
+      expect(mockAddComment).toHaveBeenCalledWith('wp1', 'PASS: verified', 'domain.com', 'mykey');
+      expect(result).toEqual({ id: 1 });
+    });
+
+    it('should fallback to env variables if domain/apiKey are omitted', async () => {
+      process.env.OPENPROJECT_DOMAIN = 'envdomain.com';
+      process.env.OPENPROJECT_API_KEY = 'envkey';
+      mockAddComment.mockResolvedValueOnce({ id: 2 });
+
+      await addOpenProjectWorkPackageComment('wp1', 'FAILED: step 2');
+
+      expect(mockAddComment).toHaveBeenCalledWith(
+        'wp1',
+        'FAILED: step 2',
+        'envdomain.com',
+        'envkey',
+      );
+    });
+
+    it('should throw error if workPackageId or comment is missing', async () => {
       await expect(
-        getOpenProjectWorkPackageComments('wp1', undefined, 'mykey'),
+        addOpenProjectWorkPackageComment('', 'text', 'domain.com', 'key'),
+      ).rejects.toThrow('OpenProject workPackageId and comment are required to add a comment.');
+      await expect(
+        addOpenProjectWorkPackageComment('wp1', '', 'domain.com', 'key'),
+      ).rejects.toThrow('OpenProject workPackageId and comment are required to add a comment.');
+    });
+
+    it('should throw error if domain is missing', async () => {
+      await expect(
+        addOpenProjectWorkPackageComment('wp1', 'text', undefined, 'mykey'),
       ).rejects.toThrow('OpenProject domain is required');
+    });
+
+    it('should throw error if apiKey is missing', async () => {
+      await expect(
+        addOpenProjectWorkPackageComment('wp1', 'text', 'domain.com', undefined),
+      ).rejects.toThrow('OpenProject apiKey is required');
     });
   });
 });
