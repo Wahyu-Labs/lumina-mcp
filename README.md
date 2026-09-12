@@ -134,6 +134,11 @@ In your MCP client, you can use these prompts as slash commands:
 | `create_trello_card` | Create a new Trello card in a specific list |
 | `create_openproject_work_package` | Create a new OpenProject work package with assignee and priority |
 | `create_github_issue` | Create a new GitHub issue with labels, milestone, and assignees |
+| `add_jira_comment` | Add a comment to a Jira ticket |
+| `add_openproject_work_package_comment` | Add a comment to an OpenProject work package |
+| `add_trello_comment` | Add a comment to a Trello card |
+| `add_trello_attachment` | Attach a file (e.g. a failure screenshot) to a Trello card |
+| `add_github_issue_comment` | Add a comment to a GitHub issue |
 
 **PM Prompts:**
 
@@ -143,6 +148,7 @@ In your MCP client, you can use these prompts as slash commands:
 | `pm_brainstorm_plan` | Brainstorm technical approach and create a step-by-step implementation plan |
 | `pm_test_catalog` | Generate a comprehensive test catalog based on the ticket and technical plan |
 | `pm_create_ticket` | Digest raw feature requests and structure them into Big Tech-standard tickets, including a QA-ready Test Cases section (happy path, edge cases, invalid input, permissions, and more) |
+| `pm_testing_ticket` | Fetch a Jira/OpenProject/Trello/GitHub Issue ticket, derive test steps from its Acceptance Criteria/Test Cases, execute them against a target website using your browser tooling, and post a PASS/FAILED result (with a screenshot on failure) back to the ticket |
 | `dev_check_comment` | Fetch and analyze comments, activity logs, and review feedback on tickets |
 
 **Example Prompts:**
@@ -151,6 +157,7 @@ In your MCP client, you can use these prompts as slash commands:
 /pm_summarize_ticket command="Fetch Jira ticket LUM-402 and summarize it."
 /pm_brainstorm_plan command="Download OpenProject work package #82 and create a technical plan."
 /pm_test_catalog command="Get Trello card 64b19c and generate a test catalog."
+/pm_testing_ticket command="ticket_url=https://github.com/owner/repo/issues/25 website_url=https://staging.example.com"
 ```
 
 ---
@@ -264,7 +271,7 @@ Detailed guides for every tool, prompt, parameter, and usage example:
 | **[MySQL Prompts & Tools](documents/mysql-prompts.md)** | 5 MySQL tools, 2 prompts, security features, and examples |
 | **[PostgreSQL Prompts & Tools](documents/postgresql-prompts.md)** | 5 PostgreSQL tools, 2 prompts, security features, and examples |
 | **[GitHub Source Control](documents/github-prompts.md)** | 7 Git/GitHub tools, 4 prompts, and fallback strategy |
-| **[Project Management Integration](documents/projectmanagement-prompts.md)** | 3 PM tools (Jira, Trello, OpenProject), 3 AI prompts |
+| **[Project Management Integration](documents/projectmanagement-prompts.md)** | PM tools (Jira, Trello, OpenProject, GitHub Issues) and AI prompts, including automated ticket-driven web testing |
 | **[AI Orchestration](documents/orchestration-prompts.md)** | 6-Phase Orchestration Engine, native fallback strategy |
 | **[Testing Module](documents/testing-prompts.md)** | Create unit tests with Big Tech QA standards |
 
