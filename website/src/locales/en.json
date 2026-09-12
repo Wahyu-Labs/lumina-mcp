@@ -10,7 +10,7 @@
     "github": "GitHub"
   },
   "hero": {
-    "versionBadge": "AI MCP Server & Workflows v1.4.1",
+    "versionBadge": "AI MCP Server & Workflows v1.5.0",
     "heading1": "Give Your AI Assistant",
     "heading2": "Real Developer Superpowers",
     "subtitle": "Provide your AI agents with direct access to your developer environment. Execute database queries, streamline Git workflows, track Jira boards, and orchestrate complex tasks safely.",
@@ -72,7 +72,7 @@
       "summarize": "Summarize a raw Jira, Trello, or OpenProject ticket as a Senior Product Manager.",
       "brainstorm": "Brainstorm technical approach and create a plan based on the ticket summary.",
       "test": "Generate comprehensive test catalog based on the ticket and technical plan.",
-      "create": "Digest raw feature requests and structure them into Big Tech-standard tickets.",
+      "create": "Digest raw feature requests and structure them into Big Tech-standard tickets, now with an auto-generated QA Test Cases section covering happy path, edge cases, invalid input, and permissions.",
       "devCheckComment": "Analyze comments, activity logs, and reviewer feedback on Jira, OpenProject, GitHub Issues, or Trello tickets as a Senior Software Developer.",
       "p4QueryJira": "Create a bug ticket for login page in Jira.",
       "p4QueryTrello": "Create a card in Trello todo list about registration form.",
@@ -319,7 +319,9 @@
         "p2Query": "Download OpenProject work package #82.",
         "p3Desc": "Generate comprehensive test catalog based on the ticket and technical plan.",
         "p3Query": "Get checklist details from Trello card 64b19c.",
-        "p4Desc": "Digest raw feature requests and structure them into Big Tech-standard tickets.",
+        "p4Desc": "Digest raw feature requests and structure them into Big Tech-standard tickets, now with an auto-generated QA Test Cases section covering happy path, boundary/edge values, invalid input, empty state, permission/auth, concurrency, and regression — plus accessibility and cross-browser checks for UI-facing tickets, and error/status-code and load checks for API-facing ones.",
+        "p4TestCasesTitle": "New: Auto-Generated QA Test Cases",
+        "p4TestCasesDesc": "Every generated ticket now includes a QA-ready Test Cases section derived directly from its Acceptance Criteria, so reviewers get a consistent, copy-paste-ready test plan regardless of who wrote the ticket.",
         "p4QueryJira": "Create a bug ticket for login page in Jira.",
         "p4QueryTrello": "Create a card in Trello todo list about registration form.",
         "p4QueryOpenProject": "Create a task in OpenProject for setting up database.",

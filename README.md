@@ -142,7 +142,7 @@ In your MCP client, you can use these prompts as slash commands:
 | `pm_summarize_ticket` | Summarize a raw Jira/Trello/OpenProject ticket as a Senior Product Manager |
 | `pm_brainstorm_plan` | Brainstorm technical approach and create a step-by-step implementation plan |
 | `pm_test_catalog` | Generate a comprehensive test catalog based on the ticket and technical plan |
-| `pm_create_ticket` | Digest raw feature requests and structure them into Big Tech-standard tickets |
+| `pm_create_ticket` | Digest raw feature requests and structure them into Big Tech-standard tickets, including a QA-ready Test Cases section (happy path, edge cases, invalid input, permissions, and more) |
 | `dev_check_comment` | Fetch and analyze comments, activity logs, and review feedback on tickets |
 
 **Example Prompts:**

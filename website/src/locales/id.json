@@ -10,7 +10,7 @@
     "github": "GitHub"
   },
   "hero": {
-    "versionBadge": "AI MCP Server & Workflows v1.4.1",
+    "versionBadge": "AI MCP Server & Workflows v1.5.0",
     "heading1": "Berdayakan AI Assistant Anda dengan",
     "heading2": "Superpower Developer",
     "subtitle": "Berikan agen AI Anda akses langsung dan aman ke environment development. Eksekusi query database, otomatisasi workflow Git, sinkronkan tiket Jira, dan jalankan task programming kompleks dengan mudah.",
@@ -72,7 +72,7 @@
       "summarize": "Ringkas tiket Jira, Trello, atau OpenProject mentah selayaknya Senior Product Manager.",
       "brainstorm": "Brainstorming pendekatan teknikal dan buat rencana berdasarkan ringkasan tiket.",
       "test": "Hasilkan katalog pengujian komprehensif berdasarkan tiket dan rencana teknis.",
-      "create": "Mencerna permintaan fitur mentah dan menyusunnya menjadi tiket berstandar Big Tech.",
+      "create": "Mencerna permintaan fitur mentah dan menyusunnya menjadi tiket berstandar Big Tech, kini dilengkapi bagian Test Cases QA otomatis yang mencakup happy path, edge case, input tidak valid, dan permission.",
       "devCheckComment": "Analisis komentar, log aktivitas, dan ulasan pada tiket Jira, OpenProject, GitHub Issues, atau Trello selayaknya Senior Software Developer.",
       "p4QueryJira": "Buat tiket bug untuk halaman login di Jira.",
       "p4QueryTrello": "Buat card di daftar todo Trello tentang form registrasi.",
@@ -319,7 +319,9 @@
         "p2Query": "Download OpenProject work package #82.",
         "p3Desc": "Menghasilkan katalog test komprehensif berdasarkan tiket dan plan teknis.",
         "p3Query": "Get checklist details from Trello card 64b19c.",
-        "p4Desc": "Mencerna permintaan fitur mentah dan menyusunnya menjadi tiket berstandar Big Tech.",
+        "p4Desc": "Mencerna permintaan fitur mentah dan menyusunnya menjadi tiket berstandar Big Tech, kini dilengkapi bagian Test Cases QA otomatis yang mencakup happy path, nilai batas/edge case, input tidak valid, empty state, permission/auth, concurrency, dan regresi — ditambah pengecekan aksesibilitas dan cross-browser untuk tiket UI, serta pengecekan error/status code dan load untuk tiket API.",
+        "p4TestCasesTitle": "Baru: Test Cases QA Otomatis",
+        "p4TestCasesDesc": "Setiap tiket yang dihasilkan kini menyertakan bagian Test Cases siap QA yang diturunkan langsung dari Acceptance Criteria-nya, sehingga reviewer mendapatkan test plan yang konsisten dan siap disalin, siapa pun yang menulis tiketnya.",
         "p4QueryJira": "Buat tiket bug untuk halaman login di Jira.",
         "p4QueryTrello": "Buat card di daftar todo Trello tentang form registrasi.",
         "p4QueryOpenProject": "Buat task di OpenProject untuk setup database.",

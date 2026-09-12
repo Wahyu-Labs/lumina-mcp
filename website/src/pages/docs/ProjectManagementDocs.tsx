@@ -260,6 +260,14 @@ export function ProjectManagementDocs() {
           <p className="text-xs md:text-sm text-muted-foreground mb-4">
             {t('docs.projectManagement.prompts.p4Desc', 'Digest raw feature requests and structure them into Big Tech-standard tickets.')}
           </p>
+          <div className="p-4 rounded-lg border border-emerald-500/20 bg-emerald-500/5 mb-4">
+            <h4 className="text-xs font-bold text-emerald-500 uppercase tracking-wider m-0">
+              {t('docs.projectManagement.prompts.p4TestCasesTitle', 'New: Auto-Generated QA Test Cases')}
+            </h4>
+            <p className="text-xs md:text-sm text-muted-foreground mt-1.5 mb-0">
+              {t('docs.projectManagement.prompts.p4TestCasesDesc', 'Every generated ticket now includes a QA-ready Test Cases section derived directly from its Acceptance Criteria, so reviewers get a consistent, copy-paste-ready test plan regardless of who wrote the ticket.')}
+            </p>
+          </div>
           <span className="text-[10px] uppercase font-extrabold text-muted-foreground tracking-wider block mb-2">{t('docs.projectManagement.prompts.exampleUsage')}</span>
           <div className="flex flex-col gap-2">
             <div className="bg-muted p-3 rounded-lg font-mono text-sm border border-border/50 text-foreground overflow-x-auto">
