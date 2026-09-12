@@ -29,13 +29,23 @@ Please structure the ticket as follows:
 4. **Summary**: A 2-3 sentence executive summary.
 5. **Problem Statement / User Impact**: What problem does this solve? Who is affected? What is the business impact?
 6. **Acceptance Criteria**: Clear, numbered, testable criteria (use Given/When/Then format if applicable).
-7. **Technical Approach** (optional): Recommended implementation approach or known constraints.
-8. **Out of Scope**: What is explicitly NOT included in this ticket to prevent scope creep.
-9. **Dependencies**: External dependencies, blockers, or related tickets.
-10. **Definition of Done**: A checklist (e.g., code complete, tests passing, docs updated, code reviewed).
-11. **Labels / Tags**: Suggested labels based on the context.
+7. **Test Cases**: Derived directly from the Acceptance Criteria above, a QA-ready checklist a reviewer could copy into a test plan as-is. Skip this section only for **Spike** tickets (investigative, not implementation-ready). For every other Type, walk through the standard QA category checklist below and include only the categories applicable to this ticket's Type and context — but ALWAYS include the baseline categories (happy path, boundary/edge case, invalid/malformed input, empty/null state, permission/auth) even when the raw context is sparse. Format each test case consistently, either as Given/When/Then or as Scenario / Steps / Expected Result:
+   - **Happy path**: the standard, expected flow with valid input.
+   - **Boundary / edge values**: min/max, zero, empty, single-item, very large inputs.
+   - **Invalid / malformed input**: wrong types, unexpected formats, oversized payloads.
+   - **Empty / null state**: missing, null, or undefined data.
+   - **Permission / auth**: authorized vs. unauthorized vs. unauthenticated user.
+   - **Concurrency / race conditions**: where relevant (concurrent writes, duplicate submissions, state races).
+   - **Regression**: adjacent existing functionality that could be impacted.
+   - **Cross-browser / cross-device & accessibility** (UI-facing tickets only): major browsers/viewports, keyboard navigation, screen-reader label presence.
+   - **Error responses / load & timeout behavior** (API/backend-facing tickets only): status codes for each failure mode, timeout/slow-dependency handling, basic load behavior.
+8. **Technical Approach** (optional): Recommended implementation approach or known constraints.
+9. **Out of Scope**: What is explicitly NOT included in this ticket to prevent scope creep.
+10. **Dependencies**: External dependencies, blockers, or related tickets.
+11. **Definition of Done**: A checklist (e.g., code complete, tests passing, docs updated, code reviewed).
+12. **Labels / Tags**: Suggested labels based on the context.
 
-ADAPT YOUR FORMATTING based on the target platform:
+ADAPT YOUR FORMATTING based on the target platform, including the **Test Cases** section:
 - If platform is Jira, use Jira markdown (ADF compatible structure).
 - If platform is GitHub or OpenProject, use standard GitHub Flavored Markdown.
 - If platform is Trello, use plain text with simple markdown.
