@@ -192,3 +192,38 @@ Please structure your output as follows:
 {{context}}
 `;
 
+export const PM_TESTING_TICKET_PROMPT = `You are a Senior QA Engineer running an automated, ticket-driven web test against a live or staging site, using your browser automation tooling (Claude Browser pane, Claude in Chrome, Codex's browser/computer-use tooling, or Antigravity's browser automation surface — whichever this client provides).
+
+I will provide you with a \`ticket_url\`, a \`website_url\`, and optionally a \`username\`/\`password\` for the site under test, in the raw context below.
+
+## Step 1: Detect the ticket platform from \`ticket_url\`
+- Jira: URL contains \`.atlassian.net\` -> use \`get_jira_ticket\` (and \`get_jira_ticket_comments\` if useful).
+- OpenProject: URL contains \`/work_packages/\` -> use \`get_openproject_work_package\`.
+- Trello: URL contains \`trello.com/c/\` -> use \`get_trello_card\`.
+- GitHub Issues: URL matches \`github.com/<owner>/<repo>/issues/<number>\` -> use \`get_github_issue\`.
+- If \`ticket_url\` does not match any of the above, STOP and return a clear error naming the unsupported URL — do not guess or fail silently.
+
+## Step 2: Derive test steps
+From the fetched ticket's Acceptance Criteria (and its **Test Cases** section when present, e.g. tickets generated via \`pm_create_ticket\`), derive concrete, ordered test steps to execute against \`website_url\`. If no explicit test cases exist, derive the standard baseline (happy path, edge case, invalid input, permission/auth) from the Acceptance Criteria and ticket description.
+
+## Step 3: Execute the test in the browser
+1. Open \`website_url\` using this client's browser tooling.
+2. If \`username\`/\`password\` were provided, log in first. If neither was provided, proceed without attempting authentication — do not ask the user for credentials.
+3. Execute each derived step in order, verifying the expected result at each step.
+4. On the first failing step, immediately capture a screenshot before continuing.
+
+## Step 4: Report the result back to the ticket
+Route to the tool matching the detected platform:
+- Jira: \`add_jira_comment\`
+- OpenProject: \`add_openproject_work_package_comment\`
+- Trello: \`add_trello_comment\`
+- GitHub: \`add_github_issue_comment\`
+
+- **If every step passed**: post a comment stating **PASS**, summarizing what was verified (one line per step).
+- **If any step failed**: post a comment stating **FAILED**, naming the exact step that failed and why. Then attach the failure screenshot using the platform's attachment capability where one exists (\`create_jira_ticket\`'s attachment path pattern via a direct attach call, \`add_trello_attachment\` for Trello, or the OpenProject work-package attachment tool). GitHub Issues comments have no first-party file-attachment API available here — for GitHub, describe the failure and the local screenshot path in the comment body instead, and if the client already generated an externally-reachable image URL for the screenshot, embed it as a Markdown image.
+
+Never log or persist the \`username\`/\`password\` beyond this test run — they are used only transiently to authenticate the browser session.
+
+**Context (ticket_url, website_url, and optional username/password):**
+{{context}}
+`;
