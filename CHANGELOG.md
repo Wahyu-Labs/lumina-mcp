@@ -5,20 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.6.0] — 2026-09-13
-
-### Added
-- **`pm_testing_ticket` — Automated Ticket-Driven Web Testing**: New prompt that fetches a Jira, OpenProject, Trello, or GitHub Issue ticket, derives test steps from its Acceptance Criteria (and its Test Cases section when present), executes them against a target website using the client's browser automation tooling, and posts a **PASS**/**FAILED** result back to the ticket — with a screenshot attached on failure where the platform supports it.
-- **Comment-write tools**: Added `add_jira_comment`, `add_openproject_work_package_comment`, and `add_trello_comment` / `add_trello_attachment`, and `add_github_issue_comment` in `src/tools/projectmanagement/*` to close the "missing comment/attachment tool" gap needed for `pm_testing_ticket` to report results back to each platform.
-- **Docs**: Updated `README.md` and `documents/projectmanagement-prompts.md` with the new tools and the `pm_testing_ticket` prompt; updated the website's Project Management section and `/docs/project-management` page (English and Indonesian).
-
----
-
 ## [1.5.0] — 2026-09-13
 
 ### Added
 - **Auto-Generated QA Test Cases in `pm_create_ticket`**: Extended the `PM_CREATE_TICKET_PROMPT` in `src/tools/projectmanagement/prompts/index.ts` to always generate a **Test Cases** section (derived from Acceptance Criteria) covering happy path, boundary/edge values, invalid/malformed input, empty/null state, permission/auth, concurrency, and regression, plus accessibility/cross-browser checks for UI-facing tickets and error/status-code/load checks for API-facing tickets. Skipped for `Spike` tickets. Formatted per target platform (Jira ADF-compatible markdown, GitHub/OpenProject GFM, Trello plain text).
-- **Website Documentation**: Updated the landing page's Project Management section and the `/docs/project-management` page (English and Indonesian) with a new callout describing the auto-generated QA Test Cases feature.
+- **`pm_testing_ticket` — Automated Ticket-Driven Web Testing**: New prompt that fetches a Jira, OpenProject, Trello, or GitHub Issue ticket, derives test steps from its Acceptance Criteria (and its Test Cases section when present), executes them against a target website using the client's browser automation tooling, and posts a **PASS**/**FAILED** result back to the ticket — with a screenshot attached on failure where the platform supports it.
+- **Comment-write tools**: Added `add_jira_comment`, `add_openproject_work_package_comment`, and `add_trello_comment` / `add_trello_attachment`, and `add_github_issue_comment` in `src/tools/projectmanagement/*` to close the "missing comment/attachment tool" gap needed for `pm_testing_ticket` to report results back to each platform.
+- **Website Documentation**: Updated the landing page's Project Management section and the `/docs/project-management` page (English and Indonesian) with the new QA Test Cases callout and the `pm_testing_ticket` prompt/tools.
 
 ---
 
