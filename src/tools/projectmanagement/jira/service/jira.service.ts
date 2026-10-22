@@ -31,7 +31,7 @@ export async function createJiraTicket(
   priority?: string,
   labels?: string[],
   assigneeAccountId?: string,
-  attachmentPath?: string,
+  attachmentPaths?: string[],
   domain?: string,
   email?: string,
   apiToken?: string,
@@ -67,8 +67,9 @@ export async function createJiraTicket(
     finalToken,
   );
 
-  if (attachmentPath) {
-    try {
+  if (attachmentPaths?.length) {
+    for (const attachmentPath of attachmentPaths) {
+      try {
       await jiraRepository.attachFileToTicket(
         ((ticket as Record<string, unknown>).id ||
           (ticket as Record<string, unknown>).key) as string,
@@ -77,8 +78,10 @@ export async function createJiraTicket(
         finalEmail,
         finalToken,
       );
-    } catch (e) {
-      console.error('Failed to attach file to Jira ticket:', e);
+      } catch (e) {
+        console.error('Failed to attach file to Jira ticket:', e);
+        throw e;
+      }
     }
   }
 
@@ -91,6 +94,7 @@ export async function addJiraComment(
   domain?: string,
   email?: string,
   apiToken?: string,
+  attachmentPaths?: string[],
 ): Promise<unknown> {
   const finalDomain = domain || process.env.JIRA_DOMAIN;
   const finalEmail = email || process.env.JIRA_EMAIL;
@@ -108,6 +112,12 @@ export async function addJiraComment(
     throw new Error(
       'Jira email and apiToken are required for authentication. Provide them as arguments or set JIRA_EMAIL and JIRA_API_TOKEN.',
     );
+  }
+
+  if (attachmentPaths?.length) {
+    for (const attachmentPath of attachmentPaths) {
+      await jiraRepository.attachFileToTicket(issueIdOrKey, attachmentPath, finalDomain, finalEmail, finalToken);
+    }
   }
 
   return await jiraRepository.addComment(

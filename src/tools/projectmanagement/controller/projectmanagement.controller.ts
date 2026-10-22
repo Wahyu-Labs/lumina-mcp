@@ -302,7 +302,7 @@ export function registerProjectManagementController(server: McpServer) {
     'create_jira_ticket',
     {
       description:
-        'Create a Jira ticket/issue. Compatible with Compound Engineering (ce-plan, ce-work, ce-code-review) tracker-defer system as a ticket creation sink. Credentials can be passed as parameters or auto-loaded from JIRA_DOMAIN, JIRA_EMAIL, JIRA_API_TOKEN env vars. Falls back to official Atlassian MCP if credentials are not available.',
+        'Create a Jira ticket/issue with optional multiple file or image attachments. Compatible with Compound Engineering (ce-plan, ce-work, ce-code-review) tracker-defer system as a ticket creation sink. Credentials can be passed as parameters or auto-loaded from JIRA_DOMAIN, JIRA_EMAIL, JIRA_API_TOKEN env vars. Falls back to official Atlassian MCP if credentials are not available.',
       inputSchema: CreateJiraTicketSchema,
     },
     async ({
@@ -313,7 +313,7 @@ export function registerProjectManagementController(server: McpServer) {
       priority,
       labels,
       assigneeAccountId,
-      attachmentPath,
+      attachmentPaths,
       domain,
       email,
       apiToken,
@@ -327,7 +327,7 @@ export function registerProjectManagementController(server: McpServer) {
           priority,
           labels,
           assigneeAccountId,
-          attachmentPath,
+          attachmentPaths,
           domain,
           email,
           apiToken,
@@ -359,10 +359,10 @@ export function registerProjectManagementController(server: McpServer) {
     'create_trello_card',
     {
       description:
-        'Create a Trello card. Compatible with Compound Engineering (ce-plan, ce-work, ce-code-review) tracker-defer system as a ticket creation sink. Credentials can be passed as parameters or auto-loaded from TRELLO_API_KEY and TRELLO_API_TOKEN env vars. Falls back to official Atlassian/Trello MCP if credentials are not available.',
+        'Create a Trello card with optional multiple file or image attachments. Compatible with Compound Engineering (ce-plan, ce-work, ce-code-review) tracker-defer system as a ticket creation sink. Credentials can be passed as parameters or auto-loaded from TRELLO_API_KEY and TRELLO_API_TOKEN env vars. Falls back to official Atlassian/Trello MCP if credentials are not available.',
       inputSchema: CreateTrelloCardSchema,
     },
-    async ({ idList, name, desc, pos, due, idLabels, idMembers, apiKey, apiToken }) => {
+    async ({ idList, name, desc, pos, due, idLabels, idMembers, attachmentPaths, apiKey, apiToken }) => {
       try {
         const card = await createTrelloCard(
           idList,
@@ -374,6 +374,7 @@ export function registerProjectManagementController(server: McpServer) {
           idMembers,
           apiKey,
           apiToken,
+          attachmentPaths,
         );
         return {
           content: [
@@ -402,7 +403,7 @@ export function registerProjectManagementController(server: McpServer) {
     'create_openproject_work_package',
     {
       description:
-        'Create an OpenProject work package. Compatible with Compound Engineering (ce-plan, ce-work, ce-code-review) tracker-defer system as a ticket creation sink. Credentials can be passed as parameters or auto-loaded from OPENPROJECT_DOMAIN and OPENPROJECT_API_KEY env vars. Falls back to official OpenProject MCP if credentials are not available.',
+        'Create an OpenProject work package with optional multiple attachments, including screenshots or AI-generated images saved as local files. Credentials can be passed as parameters or auto-loaded from OPENPROJECT_DOMAIN and OPENPROJECT_API_KEY env vars. Falls back to official OpenProject MCP if credentials are not available.',
       inputSchema: CreateOpenProjectWorkPackageSchema,
     },
     async ({
@@ -412,7 +413,7 @@ export function registerProjectManagementController(server: McpServer) {
       description,
       priority,
       assignee,
-      attachmentPath,
+      attachmentPaths,
       domain,
       apiKey,
     }) => {
@@ -424,7 +425,7 @@ export function registerProjectManagementController(server: McpServer) {
           description,
           priority,
           assignee,
-          attachmentPath,
+          attachmentPaths,
           domain,
           apiKey,
         );
@@ -497,12 +498,12 @@ export function registerProjectManagementController(server: McpServer) {
     'add_jira_comment',
     {
       description:
-        'Add a comment to a Jira ticket/issue. Credentials can be passed as parameters or auto-loaded from JIRA_DOMAIN, JIRA_EMAIL, JIRA_API_TOKEN env vars.',
+        'Add a comment to a Jira ticket/issue with optional multiple file or image attachments. Credentials can be passed as parameters or auto-loaded from JIRA_DOMAIN, JIRA_EMAIL, JIRA_API_TOKEN env vars.',
       inputSchema: AddJiraCommentSchema,
     },
-    async ({ issueIdOrKey, comment, domain, email, apiToken }) => {
+    async ({ issueIdOrKey, comment, attachmentPaths, domain, email, apiToken }) => {
       try {
-        const result = await addJiraComment(issueIdOrKey, comment, domain, email, apiToken);
+        const result = await addJiraComment(issueIdOrKey, comment, domain, email, apiToken, attachmentPaths);
         return {
           content: [
             {
@@ -530,16 +531,17 @@ export function registerProjectManagementController(server: McpServer) {
     'add_openproject_work_package_comment',
     {
       description:
-        'Add a comment to an OpenProject work package. Credentials can be passed as parameters or auto-loaded from OPENPROJECT_DOMAIN and OPENPROJECT_API_KEY env vars.',
+        'Add an English-language comment to an OpenProject work package, optionally uploading and attaching multiple screenshots from local file paths. Credentials can be passed as parameters or auto-loaded from OPENPROJECT_DOMAIN and OPENPROJECT_API_KEY env vars.',
       inputSchema: AddOpenProjectWorkPackageCommentSchema,
     },
-    async ({ workPackageId, comment, domain, apiKey }) => {
+    async ({ workPackageId, comment, screenshotPaths, domain, apiKey }) => {
       try {
         const result = await addOpenProjectWorkPackageComment(
           workPackageId,
           comment,
           domain,
           apiKey,
+          screenshotPaths,
         );
         return {
           content: [
@@ -568,12 +570,12 @@ export function registerProjectManagementController(server: McpServer) {
     'add_trello_comment',
     {
       description:
-        'Add a comment to a Trello card. Credentials can be passed as parameters or auto-loaded from TRELLO_API_KEY and TRELLO_API_TOKEN env vars.',
+        'Add a comment to a Trello card, optionally attaching multiple local files or images. Credentials can be passed as parameters or auto-loaded from TRELLO_API_KEY and TRELLO_API_TOKEN env vars.',
       inputSchema: AddTrelloCommentSchema,
     },
-    async ({ cardId, text, apiKey, apiToken }) => {
+    async ({ cardId, text, attachmentPaths, apiKey, apiToken }) => {
       try {
-        const result = await addTrelloComment(cardId, text, apiKey, apiToken);
+        const result = await addTrelloComment(cardId, text, apiKey, apiToken, attachmentPaths);
         return {
           content: [
             {

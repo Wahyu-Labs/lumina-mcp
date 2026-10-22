@@ -30,7 +30,7 @@ export async function createOpenProjectWorkPackage(
   description?: string,
   priority?: string,
   assignee?: string,
-  attachmentPath?: string,
+  attachmentPaths?: string[],
   domain?: string,
   apiKey?: string,
 ): Promise<unknown> {
@@ -66,16 +66,19 @@ export async function createOpenProjectWorkPackage(
     finalApiKey,
   );
 
-  if (attachmentPath) {
-    try {
+  if (attachmentPaths?.length) {
+    for (const attachmentPath of attachmentPaths) {
+      try {
       await openProjectRepository.attachFileToWorkPackage(
         (wp as Record<string, unknown>).id as string,
         attachmentPath,
         finalDomain,
         finalApiKey,
       );
-    } catch (e) {
-      console.error('Failed to attach file to OpenProject work package:', e);
+      } catch (e) {
+        console.error(`Failed to attach file ${attachmentPath} to OpenProject work package:`, e);
+        throw e;
+      }
     }
   }
 
@@ -87,6 +90,7 @@ export async function addOpenProjectWorkPackageComment(
   comment: string,
   domain?: string,
   apiKey?: string,
+  screenshotPaths?: string[],
 ): Promise<unknown> {
   const finalDomain = domain || process.env.OPENPROJECT_DOMAIN;
   const finalApiKey = apiKey || process.env.OPENPROJECT_API_KEY;
@@ -105,6 +109,17 @@ export async function addOpenProjectWorkPackageComment(
     throw new Error(
       'OpenProject apiKey is required. Provide it as an argument or set OPENPROJECT_API_KEY.',
     );
+  }
+
+  if (screenshotPaths?.length) {
+    for (const screenshotPath of screenshotPaths) {
+      await openProjectRepository.attachFileToWorkPackage(
+        workPackageId,
+        screenshotPath,
+        finalDomain,
+        finalApiKey,
+      );
+    }
   }
 
   return await openProjectRepository.addComment(workPackageId, comment, finalDomain, finalApiKey);

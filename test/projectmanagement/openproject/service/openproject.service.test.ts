@@ -1,11 +1,18 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const { mockGetWorkPackage, mockCreateWorkPackage, mockGetWorkPackageComments, mockAddComment } =
+const {
+  mockGetWorkPackage,
+  mockCreateWorkPackage,
+  mockGetWorkPackageComments,
+  mockAddComment,
+  mockAttachFile,
+} =
   vi.hoisted(() => ({
     mockGetWorkPackage: vi.fn(),
     mockCreateWorkPackage: vi.fn(),
     mockGetWorkPackageComments: vi.fn(),
     mockAddComment: vi.fn(),
+    mockAttachFile: vi.fn(),
   }));
 
 vi.mock(
@@ -14,6 +21,7 @@ vi.mock(
     openProjectRepository: {
       getWorkPackage: mockGetWorkPackage,
       createWorkPackage: mockCreateWorkPackage,
+      attachFileToWorkPackage: mockAttachFile,
       getWorkPackageComments: mockGetWorkPackageComments,
       addComment: mockAddComment,
     },
@@ -111,6 +119,57 @@ describe('OpenProjectService', () => {
         'envdomain.com',
         'envkey',
       );
+    });
+
+    it('should attach every provided file to the created work package', async () => {
+      mockCreateWorkPackage.mockResolvedValueOnce({ id: 11 });
+
+      const result = await createOpenProjectWorkPackage(
+        '12',
+        'Subj',
+        'Task',
+        undefined,
+        undefined,
+        undefined,
+        ['/tmp/screenshot-1.png', '/tmp/ai-image.png'],
+        'domain.com',
+        'mykey',
+      );
+
+      expect(mockAttachFile).toHaveBeenNthCalledWith(
+        1,
+        11,
+        '/tmp/screenshot-1.png',
+        'domain.com',
+        'mykey',
+      );
+      expect(mockAttachFile).toHaveBeenNthCalledWith(
+        2,
+        11,
+        '/tmp/ai-image.png',
+        'domain.com',
+        'mykey',
+      );
+      expect(result).toEqual({ id: 11 });
+    });
+
+    it('should reject when an attachment upload fails', async () => {
+      mockCreateWorkPackage.mockResolvedValueOnce({ id: 12 });
+      mockAttachFile.mockRejectedValueOnce(new Error('Upload failed'));
+
+      await expect(
+        createOpenProjectWorkPackage(
+          '12',
+          'Subj',
+          'Task',
+          undefined,
+          undefined,
+          undefined,
+          ['/tmp/screenshot.png'],
+          'domain.com',
+          'mykey',
+        ),
+      ).rejects.toThrow('Upload failed');
     });
 
     it('should throw error if projectId, subject, or type are missing', async () => {

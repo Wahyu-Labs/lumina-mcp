@@ -92,7 +92,7 @@ export const CreateJiraTicketSchema = {
   priority: z.string().describe('Issue priority (e.g., High, Medium, Low)').optional(),
   labels: z.array(z.string()).describe('Array of labels').optional(),
   assigneeAccountId: z.string().describe('Assignee account ID').optional(),
-  attachmentPath: z.string().describe('Absolute path to a file to attach to the ticket').optional(),
+  attachmentPaths: z.array(z.string().min(1)).describe('Absolute paths to files or AI-generated images to attach to the ticket').optional(),
 };
 
 export const CreateTrelloCardSchema = {
@@ -111,6 +111,7 @@ export const CreateTrelloCardSchema = {
   due: z.string().describe('Due date (ISO 8601)').optional(),
   idLabels: z.string().describe('Comma-separated label IDs').optional(),
   idMembers: z.string().describe('Comma-separated member IDs').optional(),
+  attachmentPaths: z.array(z.string().min(1)).describe('Absolute paths to files, screenshots, or AI-generated images to attach to the card').optional(),
 };
 
 export const CreateOpenProjectWorkPackageSchema = {
@@ -130,9 +131,9 @@ export const CreateOpenProjectWorkPackageSchema = {
   description: z.string().describe('Work package description').optional(),
   priority: z.string().describe('Work package priority (e.g., High, Normal, Low)').optional(),
   assignee: z.string().describe('Assignee user href or ID').optional(),
-  attachmentPath: z
-    .string()
-    .describe('Absolute path to a file to attach to the work package')
+  attachmentPaths: z
+    .array(z.string().min(1))
+    .describe('Absolute paths to files or AI-generated images to attach to the work package')
     .optional(),
 };
 
@@ -197,6 +198,7 @@ export const AddJiraCommentSchema = {
     .optional(),
   issueIdOrKey: z.string().min(1).describe('Jira Issue ID or Key (e.g., PRJ-1234)'),
   comment: z.string().min(1).describe('Comment text to add to the ticket'),
+  attachmentPaths: z.array(z.string().min(1)).optional().describe('Optional absolute paths to files or images to attach to the Jira issue'),
 };
 
 export const AddOpenProjectWorkPackageCommentSchema = {
@@ -211,7 +213,14 @@ export const AddOpenProjectWorkPackageCommentSchema = {
     .describe('OpenProject API Key. Defaults to OPENPROJECT_API_KEY env var if not provided.')
     .optional(),
   workPackageId: z.string().min(1).describe('OpenProject Work Package ID'),
-  comment: z.string().min(1).describe('Comment text to add to the work package'),
+  comment: z
+    .string()
+    .min(1)
+    .describe('Comment text to add to the work package. Always write the comment in English.'),
+  screenshotPaths: z
+    .array(z.string().min(1))
+    .optional()
+    .describe('Optional absolute paths to screenshot images to upload and attach to the work package'),
 };
 
 export const AddTrelloCommentSchema = {
@@ -225,6 +234,7 @@ export const AddTrelloCommentSchema = {
     .optional(),
   cardId: z.string().min(1).describe('Trello Card ID or shortlink'),
   text: z.string().min(1).describe('Comment text to add to the card'),
+  attachmentPaths: z.array(z.string().min(1)).optional().describe('Optional absolute paths to files or images to attach to the Trello card'),
 };
 
 export const AddTrelloAttachmentSchema = {

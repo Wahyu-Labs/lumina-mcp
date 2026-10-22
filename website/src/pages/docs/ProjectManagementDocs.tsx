@@ -21,6 +21,17 @@ export function ProjectManagementDocs() {
         </p>
       </div>
 
+      <section className="rounded-xl border border-accent/30 bg-accent/5 p-5 my-8">
+        <h2 className="mt-0">{t('docs.projectManagement.release151Title')}</h2>
+        <p className="text-sm text-muted-foreground">{t('docs.projectManagement.release151Intro')}</p>
+        <ul className="text-sm text-foreground/80 mb-0">
+          <li>{t('docs.projectManagement.release151Creation')}</li>
+          <li>{t('docs.projectManagement.release151Comments')}</li>
+          <li>{t('docs.projectManagement.release151AiImages')}</li>
+          <li>{t('docs.projectManagement.release151English')}</li>
+        </ul>
+      </section>
+
       <h2>{t('docs.projectManagement.setupTitle')}</h2>
       <p>
         {t('docs.projectManagement.setupDesc')}
