@@ -4,7 +4,6 @@ export async function getTrelloCard(
   cardId: string,
   apiKey?: string,
   apiToken?: string,
-  attachmentPaths?: string[],
 ): Promise<unknown> {
   const finalKey = apiKey || process.env.TRELLO_API_KEY;
   const finalToken = apiToken || process.env.TRELLO_API_TOKEN;
