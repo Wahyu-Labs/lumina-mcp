@@ -10,7 +10,7 @@
     "github": "GitHub"
   },
   "hero": {
-    "versionBadge": "AI MCP Server & Workflows v1.5.3",
+    "versionBadge": "AI MCP Server & Workflows v1.5.4",
     "heading1": "Berdayakan AI Assistant Anda dengan",
     "heading2": "Superpower Developer",
     "subtitle": "Berikan agen AI Anda akses langsung dan aman ke environment development. Eksekusi query database, otomatisasi workflow Git, sinkronkan tiket Jira, dan jalankan task programming kompleks dengan mudah.",
@@ -282,7 +282,7 @@
       "title": "Project Management Integration",
       "subtitle": "Hubungkan agen AI Anda langsung ke tiket project management. Ambil spesifikasi dan konteks deskripsi dari <0>Jira, Trello, dan OpenProject</0>.",
       "subtitleGithub": "Hubungkan agen AI Anda langsung ke tiket project management. Ambil spesifikasi dan konteks deskripsi dari <0>Jira, Trello, OpenProject, dan GitHub Issues</0>.",
-      "release151Title": "Perubahan di v1.5.3",
+      "release151Title": "Perubahan di v1.5.4",
       "release151Intro": "Tool tiket dan komentar kini mendukung beberapa lampiran file lokal.",
       "release151Creation": "Buat tiket Jira, kartu Trello, dan work package OpenProject dengan beberapa lampiran.",
       "release151Comments": "Tambahkan beberapa lampiran saat berkomentar pada tiket Jira, kartu Trello, atau work package OpenProject.",
