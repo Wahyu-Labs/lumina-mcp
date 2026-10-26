@@ -100,6 +100,48 @@ export class JiraRepository {
     return await response.json();
   }
 
+  async updateTicketDescription(
+    issueIdOrKey: string,
+    description: string,
+    domain: string,
+    email: string,
+    apiToken: string,
+  ): Promise<unknown> {
+    const cleanDomain = domain
+      .replace(/^https?:\/\//, '')
+      .replace(/\.atlassian\.net\/?$/, '')
+      .replace(/\/$/, '');
+    const url = `https://${cleanDomain}.atlassian.net/rest/api/3/issue/${issueIdOrKey}`;
+    const credentials = Buffer.from(`${email}:${apiToken}`).toString('base64');
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Basic ${credentials}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fields: {
+          description: {
+            type: 'doc',
+            version: 1,
+            content: [{ type: 'paragraph', content: [{ type: 'text', text: description }] }],
+          },
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `Failed to update Jira ticket ${issueIdOrKey}: ${response.statusText} - ${errorText}`,
+      );
+    }
+
+    if (response.status === 204) return { success: true, issueIdOrKey };
+    return await response.json();
+  }
+
   async attachFileToTicket(
     issueKey: string,
     filePath: string,

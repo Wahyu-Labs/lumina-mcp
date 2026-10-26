@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.5] — 2026-10-26
+
+### Added
+- **Ticket Description Updates**: Added `update_jira_ticket_description`, `update_trello_card_description`, and `update_openproject_work_package_description` tools to replace descriptions on existing Jira issues, Trello cards, and OpenProject work packages.
+- **Unit Test Coverage**: Added repository, service, and controller tests for the description update tools.
+- **Documentation**: Updated the website and README to document the new tools.
+
+### Changed
+- Updated the Lumina MCP and website package versions to 1.5.5.
+- Updated the website version badges and Project Management release notes to show v1.5.5.
+
 ## [1.5.4] — 2026-10-23
 
 ### Changed

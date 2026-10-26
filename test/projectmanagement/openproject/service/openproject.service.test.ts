@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 const {
   mockGetWorkPackage,
   mockCreateWorkPackage,
+  mockUpdateWorkPackageDescription,
   mockGetWorkPackageComments,
   mockAddComment,
   mockAttachFile,
@@ -10,6 +11,7 @@ const {
   vi.hoisted(() => ({
     mockGetWorkPackage: vi.fn(),
     mockCreateWorkPackage: vi.fn(),
+    mockUpdateWorkPackageDescription: vi.fn(),
     mockGetWorkPackageComments: vi.fn(),
     mockAddComment: vi.fn(),
     mockAttachFile: vi.fn(),
@@ -21,6 +23,7 @@ vi.mock(
     openProjectRepository: {
       getWorkPackage: mockGetWorkPackage,
       createWorkPackage: mockCreateWorkPackage,
+      updateWorkPackageDescription: mockUpdateWorkPackageDescription,
       attachFileToWorkPackage: mockAttachFile,
       getWorkPackageComments: mockGetWorkPackageComments,
       addComment: mockAddComment,
@@ -31,6 +34,7 @@ vi.mock(
 import {
   getOpenProjectWorkPackage,
   createOpenProjectWorkPackage,
+  updateOpenProjectWorkPackageDescription,
   getOpenProjectWorkPackageComments,
   addOpenProjectWorkPackageComment,
 } from '../../../../src/tools/projectmanagement/openproject/service/openproject.service.js';
@@ -183,6 +187,42 @@ describe('OpenProjectService', () => {
       );
       await expect(createOpenProjectWorkPackage('12', 'Subj', '')).rejects.toThrow(
         'OpenProject projectId, subject, and type are required to create a work package.',
+      );
+    });
+  });
+
+  describe('updateOpenProjectWorkPackageDescription', () => {
+    it('should call repository with valid arguments', async () => {
+      mockUpdateWorkPackageDescription.mockResolvedValueOnce({ id: 10 });
+
+      const result = await updateOpenProjectWorkPackageDescription(
+        'wp1',
+        'Updated description',
+        'domain.com',
+        'mykey',
+      );
+
+      expect(mockUpdateWorkPackageDescription).toHaveBeenCalledWith(
+        'wp1',
+        'Updated description',
+        'domain.com',
+        'mykey',
+      );
+      expect(result).toEqual({ id: 10 });
+    });
+
+    it('should use environment credentials when arguments are omitted', async () => {
+      process.env.OPENPROJECT_DOMAIN = 'envdomain.com';
+      process.env.OPENPROJECT_API_KEY = 'envkey';
+      mockUpdateWorkPackageDescription.mockResolvedValueOnce({ id: 11 });
+
+      await updateOpenProjectWorkPackageDescription('wp2', 'Updated description');
+
+      expect(mockUpdateWorkPackageDescription).toHaveBeenCalledWith(
+        'wp2',
+        'Updated description',
+        'envdomain.com',
+        'envkey',
       );
     });
   });

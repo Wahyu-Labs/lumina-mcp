@@ -1,8 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const { mockGetCard, mockCreateCard, mockAddComment, mockAttachFileToCard } = vi.hoisted(() => ({
+const {
+  mockGetCard,
+  mockCreateCard,
+  mockUpdateCardDescription,
+  mockAddComment,
+  mockAttachFileToCard,
+} = vi.hoisted(() => ({
   mockGetCard: vi.fn(),
   mockCreateCard: vi.fn(),
+  mockUpdateCardDescription: vi.fn(),
   mockAddComment: vi.fn(),
   mockAttachFileToCard: vi.fn(),
 }));
@@ -11,6 +18,7 @@ vi.mock('../../../../src/tools/projectmanagement/trello/repository/trello.reposi
   trelloRepository: {
     getCard: mockGetCard,
     createCard: mockCreateCard,
+    updateCardDescription: mockUpdateCardDescription,
     addComment: mockAddComment,
     attachFileToCard: mockAttachFileToCard,
   },
@@ -19,6 +27,7 @@ vi.mock('../../../../src/tools/projectmanagement/trello/repository/trello.reposi
 import {
   getTrelloCard,
   createTrelloCard,
+  updateTrelloCardDescription,
   addTrelloComment,
   addTrelloAttachment,
 } from '../../../../src/tools/projectmanagement/trello/service/trello.service.js';
@@ -113,6 +122,42 @@ describe('TrelloService', () => {
       );
       await expect(createTrelloCard('list', '')).rejects.toThrow(
         'Trello idList and name are required to create a card.',
+      );
+    });
+  });
+
+  describe('updateTrelloCardDescription', () => {
+    it('should call repository with valid arguments', async () => {
+      mockUpdateCardDescription.mockResolvedValueOnce({ id: 'card1' });
+
+      const result = await updateTrelloCardDescription(
+        'card1',
+        'Updated description',
+        'mykey',
+        'mytoken',
+      );
+
+      expect(mockUpdateCardDescription).toHaveBeenCalledWith(
+        'card1',
+        'Updated description',
+        'mykey',
+        'mytoken',
+      );
+      expect(result).toEqual({ id: 'card1' });
+    });
+
+    it('should use environment credentials when arguments are omitted', async () => {
+      process.env.TRELLO_API_KEY = 'envkey';
+      process.env.TRELLO_API_TOKEN = 'envtoken';
+      mockUpdateCardDescription.mockResolvedValueOnce({ id: 'card2' });
+
+      await updateTrelloCardDescription('card2', 'Updated description');
+
+      expect(mockUpdateCardDescription).toHaveBeenCalledWith(
+        'card2',
+        'Updated description',
+        'envkey',
+        'envtoken',
       );
     });
   });

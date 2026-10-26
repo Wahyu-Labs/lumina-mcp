@@ -133,6 +133,9 @@ In your MCP client, you can use these prompts as slash commands:
 | `create_jira_ticket` | Create a new Jira issue with labels, priority, and attachments |
 | `create_trello_card` | Create a new Trello card in a specific list |
 | `create_openproject_work_package` | Create a new OpenProject work package with assignee and priority |
+| `update_jira_ticket_description` | Replace the description of an existing Jira issue |
+| `update_trello_card_description` | Replace the description of an existing Trello card |
+| `update_openproject_work_package_description` | Replace the description of an existing OpenProject work package |
 | `create_github_issue` | Create a new GitHub issue with labels, milestone, and assignees |
 | `add_jira_comment` | Add a comment to a Jira ticket |
 | `add_openproject_work_package_comment` | Add a comment to an OpenProject work package |

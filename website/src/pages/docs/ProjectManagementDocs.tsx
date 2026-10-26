@@ -22,13 +22,13 @@ export function ProjectManagementDocs() {
       </div>
 
       <section className="rounded-xl border border-accent/30 bg-accent/5 p-5 my-8">
-        <h2 className="mt-0">{t('docs.projectManagement.release151Title')}</h2>
-        <p className="text-sm text-muted-foreground">{t('docs.projectManagement.release151Intro')}</p>
+        <h2 className="mt-0">{t('docs.projectManagement.release155Title')}</h2>
+        <p className="text-sm text-muted-foreground">{t('docs.projectManagement.release155Intro')}</p>
         <ul className="text-sm text-foreground/80 mb-0">
-          <li>{t('docs.projectManagement.release151Creation')}</li>
-          <li>{t('docs.projectManagement.release151Comments')}</li>
-          <li>{t('docs.projectManagement.release151AiImages')}</li>
-          <li>{t('docs.projectManagement.release151English')}</li>
+          <li>{t('docs.projectManagement.release155Description')}</li>
+          <li>{t('docs.projectManagement.release155Attachments')}</li>
+          <li>{t('docs.projectManagement.release155AiImages')}</li>
+          <li>{t('docs.projectManagement.release155English')}</li>
         </ul>
       </section>
 
@@ -180,6 +180,37 @@ export function ProjectManagementDocs() {
           </div>
           <p className="text-xs md:text-sm text-muted-foreground m-0">
             {t('docs.projectManagement.tools.t7Desc', 'Creates a new OpenProject work package with assignee and priority.')}
+          </p>
+        </div>
+
+        {/* Description update tools */}
+        <div className="p-5 border border-border rounded-xl bg-card">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <h3 className="font-mono text-base md:text-lg text-accent m-0">update_jira_ticket_description</h3>
+            <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">Jira</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground m-0">
+            {t('docs.projectManagement.tools.t16Desc')}
+          </p>
+        </div>
+
+        <div className="p-5 border border-border rounded-xl bg-card">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <h3 className="font-mono text-base md:text-lg text-accent m-0">update_trello_card_description</h3>
+            <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">Trello</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground m-0">
+            {t('docs.projectManagement.tools.t17Desc')}
+          </p>
+        </div>
+
+        <div className="p-5 border border-border rounded-xl bg-card">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <h3 className="font-mono text-base md:text-lg text-accent m-0">update_openproject_work_package_description</h3>
+            <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-muted border border-border self-start sm:self-auto">OpenProject</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground m-0">
+            {t('docs.projectManagement.tools.t18Desc')}
           </p>
         </div>
 

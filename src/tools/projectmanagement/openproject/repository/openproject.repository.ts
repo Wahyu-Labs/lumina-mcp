@@ -87,6 +87,45 @@ export class OpenProjectRepository {
     return await response.json();
   }
 
+  async updateWorkPackageDescription(
+    workPackageId: string,
+    description: string,
+    domain: string,
+    apiKey: string,
+  ): Promise<unknown> {
+    const workPackage = (await this.getWorkPackage(workPackageId, domain, apiKey)) as {
+      lockVersion?: number;
+    };
+    if (typeof workPackage.lockVersion !== 'number') {
+      throw new Error(`OpenProject work package ${workPackageId} did not include a lockVersion.`);
+    }
+
+    const cleanDomain = domain.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    const url = `https://${cleanDomain}/api/v3/work_packages/${workPackageId}`;
+    const authHeader = 'Basic ' + Buffer.from(`apikey:${apiKey}`).toString('base64');
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: authHeader,
+      },
+      body: JSON.stringify({
+        lockVersion: workPackage.lockVersion,
+        description: { format: 'markdown', raw: description },
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `Failed to update OpenProject work package ${workPackageId}: ${response.statusText} - ${errorText}`,
+      );
+    }
+
+    return await response.json();
+  }
+
   async attachFileToWorkPackage(
     workPackageId: string,
     filePath: string,

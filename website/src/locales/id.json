@@ -10,7 +10,7 @@
     "github": "GitHub"
   },
   "hero": {
-    "versionBadge": "AI MCP Server & Workflows v1.5.4",
+    "versionBadge": "AI MCP Server & Workflows v1.5.5",
     "heading1": "Berdayakan AI Assistant Anda dengan",
     "heading2": "Superpower Developer",
     "subtitle": "Berikan agen AI Anda akses langsung dan aman ke environment development. Eksekusi query database, otomatisasi workflow Git, sinkronkan tiket Jira, dan jalankan task programming kompleks dengan mudah.",
@@ -282,12 +282,12 @@
       "title": "Project Management Integration",
       "subtitle": "Hubungkan agen AI Anda langsung ke tiket project management. Ambil spesifikasi dan konteks deskripsi dari <0>Jira, Trello, dan OpenProject</0>.",
       "subtitleGithub": "Hubungkan agen AI Anda langsung ke tiket project management. Ambil spesifikasi dan konteks deskripsi dari <0>Jira, Trello, OpenProject, dan GitHub Issues</0>.",
-      "release151Title": "Perubahan di v1.5.4",
-      "release151Intro": "Tool tiket dan komentar kini mendukung beberapa lampiran file lokal.",
-      "release151Creation": "Buat tiket Jira, kartu Trello, dan work package OpenProject dengan beberapa lampiran.",
-      "release151Comments": "Tambahkan beberapa lampiran saat berkomentar pada tiket Jira, kartu Trello, atau work package OpenProject.",
-      "release151AiImages": "Lampirkan gambar hasil AI setelah disimpan sebagai file yang dapat diakses server Lumina MCP.",
-      "release151English": "Instruksi komentar OpenProject kini meminta AI menulis komentar dalam bahasa Inggris.",
+      "release155Title": "Perubahan di v1.5.5",
+      "release155Intro": "Sekarang Anda dapat memperbarui deskripsi tiket yang sudah ada melalui klien AI.",
+      "release155Description": "Perbarui deskripsi tiket Jira, kartu Trello, dan work package OpenProject.",
+      "release155Attachments": "Buat tiket dan tambahkan komentar dengan beberapa lampiran file lokal.",
+      "release155AiImages": "Lampirkan gambar hasil AI setelah disimpan sebagai file yang dapat diakses server Lumina MCP.",
+      "release155English": "Instruksi komentar OpenProject meminta klien AI menulis komentar dalam bahasa Inggris.",
       "setupTitle": "Setup & Connection Credentials",
       "setupDesc": "Berikan string koneksi sebagai environment variable ke server Lumina MCP.",
       "table": {
@@ -319,7 +319,10 @@
         "t12Desc": "Menambahkan komentar berbahasa Inggris ke work package OpenProject dengan opsi beberapa screenshot.",
         "t13Desc": "Menambahkan komentar ke card Trello dengan opsi beberapa lampiran file atau gambar.",
         "t14Desc": "Melampirkan file, misalnya screenshot kegagalan, ke card Trello.",
-        "t15Desc": "Menambahkan komentar ke GitHub issue — digunakan pm_testing_ticket untuk melaporkan hasil PASS/FAILED."
+        "t15Desc": "Menambahkan komentar ke GitHub issue — digunakan pm_testing_ticket untuk melaporkan hasil PASS/FAILED.",
+        "t16Desc": "Mengganti deskripsi Jira issue yang sudah ada.",
+        "t17Desc": "Mengganti deskripsi kartu Trello yang sudah ada.",
+        "t18Desc": "Mengganti deskripsi work package OpenProject yang sudah ada."
       },
       "promptsTitle": "PM Prompts",
       "promptsDesc": "Lumina MCP juga menyediakan prompt pra-konfigurasi untuk memicu workflow AI yang kompleks dengan cepat. Anda dapat menggunakan prompt ini secara langsung di chat AI client Anda.",

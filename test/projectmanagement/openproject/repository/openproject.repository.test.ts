@@ -96,6 +96,43 @@ describe('OpenProjectRepository', () => {
     ).rejects.toThrow('Failed to create OpenProject work package: Bad Request - Invalid project');
   });
 
+  it('should replace an OpenProject work package description using its lock version', async () => {
+    vi.mocked(global.fetch)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ id: 1234, lockVersion: 7 }),
+      } as Response)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ id: 1234, description: { raw: 'Updated description' } }),
+      } as Response);
+
+    const result = await repository.updateWorkPackageDescription(
+      '1234',
+      'Updated description',
+      'test.domain.com',
+      'testapikey',
+    );
+
+    expect(global.fetch).toHaveBeenNthCalledWith(
+      2,
+      'https://test.domain.com/api/v3/work_packages/1234',
+      expect.objectContaining({
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: 'Basic YXBpa2V5OnRlc3RhcGlrZXk=',
+        },
+        body: JSON.stringify({
+          lockVersion: 7,
+          description: { format: 'markdown', raw: 'Updated description' },
+        }),
+      }),
+    );
+    expect(result).toEqual({ id: 1234, description: { raw: 'Updated description' } });
+  });
+
   it('should fetch OpenProject work package comments successfully', async () => {
     const mockResponse = { _embedded: { elements: [{ id: 1, comment: { raw: 'Test comment' } }] } };
     vi.mocked(global.fetch).mockResolvedValue({

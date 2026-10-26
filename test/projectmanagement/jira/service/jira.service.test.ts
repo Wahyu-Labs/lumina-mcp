@@ -1,18 +1,24 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const { mockGetTicket, mockCreateTicket, mockGetTicketComments, mockAddComment } = vi.hoisted(
-  () => ({
+const {
+  mockGetTicket,
+  mockCreateTicket,
+  mockUpdateTicketDescription,
+  mockGetTicketComments,
+  mockAddComment,
+} = vi.hoisted(() => ({
     mockGetTicket: vi.fn(),
     mockCreateTicket: vi.fn(),
+    mockUpdateTicketDescription: vi.fn(),
     mockGetTicketComments: vi.fn(),
     mockAddComment: vi.fn(),
-  }),
-);
+  }));
 
 vi.mock('../../../../src/tools/projectmanagement/jira/repository/jira.repository.js', () => ({
   jiraRepository: {
     getTicket: mockGetTicket,
     createTicket: mockCreateTicket,
+    updateTicketDescription: mockUpdateTicketDescription,
     getTicketComments: mockGetTicketComments,
     addComment: mockAddComment,
   },
@@ -21,6 +27,7 @@ vi.mock('../../../../src/tools/projectmanagement/jira/repository/jira.repository
 import {
   getJiraTicket,
   createJiraTicket,
+  updateJiraTicketDescription,
   getJiraTicketComments,
   addJiraComment,
 } from '../../../../src/tools/projectmanagement/jira/service/jira.service.js';
@@ -132,6 +139,46 @@ describe('JiraService', () => {
       );
       await expect(createJiraTicket('PRJ', 'Title', '')).rejects.toThrow(
         'Jira projectKey, summary, and issueType are required to create a ticket.',
+      );
+    });
+  });
+
+  describe('updateJiraTicketDescription', () => {
+    it('should call repository.updateTicketDescription when arguments are valid', async () => {
+      mockUpdateTicketDescription.mockResolvedValueOnce({ success: true });
+
+      const result = await updateJiraTicketDescription(
+        'PRJ-123',
+        'Updated description',
+        'mydomain',
+        'myemail',
+        'mytoken',
+      );
+
+      expect(mockUpdateTicketDescription).toHaveBeenCalledWith(
+        'PRJ-123',
+        'Updated description',
+        'mydomain',
+        'myemail',
+        'mytoken',
+      );
+      expect(result).toEqual({ success: true });
+    });
+
+    it('should use environment credentials when arguments are omitted', async () => {
+      process.env.JIRA_DOMAIN = 'envdomain';
+      process.env.JIRA_EMAIL = 'envemail';
+      process.env.JIRA_API_TOKEN = 'envtoken';
+      mockUpdateTicketDescription.mockResolvedValueOnce({ success: true });
+
+      await updateJiraTicketDescription('PRJ-123', 'Updated description');
+
+      expect(mockUpdateTicketDescription).toHaveBeenCalledWith(
+        'PRJ-123',
+        'Updated description',
+        'envdomain',
+        'envemail',
+        'envtoken',
       );
     });
   });

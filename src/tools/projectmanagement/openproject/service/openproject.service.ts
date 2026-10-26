@@ -23,6 +23,33 @@ export async function getOpenProjectWorkPackage(
   return await openProjectRepository.getWorkPackage(workPackageId, finalDomain, finalApiKey);
 }
 
+export async function updateOpenProjectWorkPackageDescription(
+  workPackageId: string,
+  description: string,
+  domain?: string,
+  apiKey?: string,
+): Promise<unknown> {
+  const finalDomain = domain || process.env.OPENPROJECT_DOMAIN;
+  const finalApiKey = apiKey || process.env.OPENPROJECT_API_KEY;
+
+  if (!workPackageId || description === undefined) {
+    throw new Error('OpenProject workPackageId and description are required to update a work package.');
+  }
+  if (!finalDomain) {
+    throw new Error('OpenProject domain is required. Provide it as an argument or set OPENPROJECT_DOMAIN.');
+  }
+  if (!finalApiKey) {
+    throw new Error('OpenProject apiKey is required. Provide it as an argument or set OPENPROJECT_API_KEY.');
+  }
+
+  return await openProjectRepository.updateWorkPackageDescription(
+    workPackageId,
+    description,
+    finalDomain,
+    finalApiKey,
+  );
+}
+
 export async function createOpenProjectWorkPackage(
   projectId: string,
   subject: string,

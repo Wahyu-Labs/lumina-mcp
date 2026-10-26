@@ -24,6 +24,21 @@ describe('Project Management Controller', () => {
       expect.any(Function),
     );
     expect(mockServer.registerTool).toHaveBeenCalledWith(
+      'update_jira_ticket_description',
+      expect.any(Object),
+      expect.any(Function),
+    );
+    expect(mockServer.registerTool).toHaveBeenCalledWith(
+      'update_trello_card_description',
+      expect.any(Object),
+      expect.any(Function),
+    );
+    expect(mockServer.registerTool).toHaveBeenCalledWith(
+      'update_openproject_work_package_description',
+      expect.any(Object),
+      expect.any(Function),
+    );
+    expect(mockServer.registerTool).toHaveBeenCalledWith(
       'get_openproject_work_package_comments',
       expect.any(Object),
       expect.any(Function),

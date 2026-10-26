@@ -17,6 +17,27 @@ export async function getTrelloCard(
   return await trelloRepository.getCard(cardId, finalKey, finalToken);
 }
 
+export async function updateTrelloCardDescription(
+  cardId: string,
+  description: string,
+  apiKey?: string,
+  apiToken?: string,
+): Promise<unknown> {
+  const finalKey = apiKey || process.env.TRELLO_API_KEY;
+  const finalToken = apiToken || process.env.TRELLO_API_TOKEN;
+
+  if (!cardId || description === undefined) {
+    throw new Error('Trello cardId and description are required to update a card.');
+  }
+  if (!finalKey || !finalToken) {
+    throw new Error(
+      'Trello apiKey and apiToken are required. Provide them as arguments or set TRELLO_API_KEY and TRELLO_API_TOKEN.',
+    );
+  }
+
+  return await trelloRepository.updateCardDescription(cardId, description, finalKey, finalToken);
+}
+
 export async function createTrelloCard(
   idList: string,
   name: string,

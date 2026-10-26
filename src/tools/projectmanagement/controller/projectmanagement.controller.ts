@@ -2,18 +2,21 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import {
   getJiraTicket,
   createJiraTicket,
+  updateJiraTicketDescription,
   getJiraTicketComments,
   addJiraComment,
 } from '../jira/service/jira.service.js';
 import {
   getTrelloCard,
   createTrelloCard,
+  updateTrelloCardDescription,
   addTrelloComment,
   addTrelloAttachment,
 } from '../trello/service/trello.service.js';
 import {
   getOpenProjectWorkPackage,
   createOpenProjectWorkPackage,
+  updateOpenProjectWorkPackageDescription,
   getOpenProjectWorkPackageComments,
   addOpenProjectWorkPackageComment,
 } from '../openproject/service/openproject.service.js';
@@ -26,14 +29,17 @@ import {
   GetJiraTicketSchema,
   GetJiraTicketCommentsSchema,
   CreateJiraTicketSchema,
+  UpdateJiraTicketDescriptionSchema,
   AddJiraCommentSchema,
   GetTrelloCardSchema,
   CreateTrelloCardSchema,
+  UpdateTrelloCardDescriptionSchema,
   AddTrelloCommentSchema,
   AddTrelloAttachmentSchema,
   GetOpenProjectWorkPackageSchema,
   GetOpenProjectWorkPackageCommentsSchema,
   CreateOpenProjectWorkPackageSchema,
+  UpdateOpenProjectWorkPackageDescriptionSchema,
   AddOpenProjectWorkPackageCommentSchema,
   GetGithubIssueSchema,
   CreateGithubIssueSchema,
@@ -356,6 +362,33 @@ export function registerProjectManagementController(server: McpServer) {
   );
 
   server.registerTool(
+    'update_jira_ticket_description',
+    {
+      description:
+        'Replace the description of an existing Jira ticket. Credentials can be passed as parameters or loaded from JIRA_DOMAIN, JIRA_EMAIL, and JIRA_API_TOKEN.',
+      inputSchema: UpdateJiraTicketDescriptionSchema,
+    },
+    async ({ issueIdOrKey, description, domain, email, apiToken }) => {
+      try {
+        const ticket = await updateJiraTicketDescription(
+          issueIdOrKey,
+          description,
+          domain,
+          email,
+          apiToken,
+        );
+        return { content: [{ type: 'text', text: JSON.stringify(ticket, null, 2) }] };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          isError: true,
+          content: [{ type: 'text', text: `Jira Tool Error: ${errorMessage}\n\n${JIRA_FALLBACK_INSTRUCTIONS}` }],
+        };
+      }
+    },
+  );
+
+  server.registerTool(
     'create_trello_card',
     {
       description:
@@ -394,6 +427,27 @@ export function registerProjectManagementController(server: McpServer) {
               text: `Trello Tool Error: ${errorMessage}\n\n${TRELLO_FALLBACK_INSTRUCTIONS}`,
             },
           ],
+        };
+      }
+    },
+  );
+
+  server.registerTool(
+    'update_trello_card_description',
+    {
+      description:
+        'Replace the description of an existing Trello card. Credentials can be passed as parameters or loaded from TRELLO_API_KEY and TRELLO_API_TOKEN.',
+      inputSchema: UpdateTrelloCardDescriptionSchema,
+    },
+    async ({ cardId, description, apiKey, apiToken }) => {
+      try {
+        const card = await updateTrelloCardDescription(cardId, description, apiKey, apiToken);
+        return { content: [{ type: 'text', text: JSON.stringify(card, null, 2) }] };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          isError: true,
+          content: [{ type: 'text', text: `Trello Tool Error: ${errorMessage}\n\n${TRELLO_FALLBACK_INSTRUCTIONS}` }],
         };
       }
     },
@@ -447,6 +501,32 @@ export function registerProjectManagementController(server: McpServer) {
               text: `OpenProject Tool Error: ${errorMessage}\n\n${OPENPROJECT_FALLBACK_INSTRUCTIONS}`,
             },
           ],
+        };
+      }
+    },
+  );
+
+  server.registerTool(
+    'update_openproject_work_package_description',
+    {
+      description:
+        'Replace the description of an existing OpenProject work package. Credentials can be passed as parameters or loaded from OPENPROJECT_DOMAIN and OPENPROJECT_API_KEY.',
+      inputSchema: UpdateOpenProjectWorkPackageDescriptionSchema,
+    },
+    async ({ workPackageId, description, domain, apiKey }) => {
+      try {
+        const workPackage = await updateOpenProjectWorkPackageDescription(
+          workPackageId,
+          description,
+          domain,
+          apiKey,
+        );
+        return { content: [{ type: 'text', text: JSON.stringify(workPackage, null, 2) }] };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return {
+          isError: true,
+          content: [{ type: 'text', text: `OpenProject Tool Error: ${errorMessage}\n\n${OPENPROJECT_FALLBACK_INSTRUCTIONS}` }],
         };
       }
     },

@@ -100,6 +100,27 @@ describe('TrelloRepository', () => {
     ).rejects.toThrow('Failed to create Trello card: Bad Request - Invalid list');
   });
 
+  it('should replace a Trello card description successfully', async () => {
+    const mockResponse = { id: 'abc1234', desc: 'Updated description' };
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: true,
+      json: async () => mockResponse,
+    } as Response);
+
+    const result = await repository.updateCardDescription(
+      'abc1234',
+      'Updated description',
+      'testkey',
+      'testtoken',
+    );
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://api.trello.com/1/cards/abc1234?key=testkey&token=testtoken&desc=Updated+description',
+      expect.objectContaining({ method: 'PUT', headers: { Accept: 'application/json' } }),
+    );
+    expect(result).toEqual(mockResponse);
+  });
+
   it('should add a comment to a Trello card successfully', async () => {
     const mockResponse = { id: 'act1', data: { text: 'PASS: verified' } };
     vi.mocked(global.fetch).mockResolvedValue({

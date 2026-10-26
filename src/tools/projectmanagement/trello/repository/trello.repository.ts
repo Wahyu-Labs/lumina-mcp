@@ -59,6 +59,32 @@ export class TrelloRepository {
     return await response.json();
   }
 
+  async updateCardDescription(
+    cardId: string,
+    description: string,
+    apiKey: string,
+    apiToken: string,
+  ): Promise<unknown> {
+    const url = new URL(`https://api.trello.com/1/cards/${cardId}`);
+    url.searchParams.append('key', apiKey);
+    url.searchParams.append('token', apiToken);
+    url.searchParams.append('desc', description);
+
+    const response = await fetch(url.toString(), {
+      method: 'PUT',
+      headers: { Accept: 'application/json' },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `Failed to update Trello card ${cardId}: ${response.statusText} - ${errorText}`,
+      );
+    }
+
+    return await response.json();
+  }
+
   async addComment(
     cardId: string,
     text: string,

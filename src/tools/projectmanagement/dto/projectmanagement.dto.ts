@@ -95,6 +95,14 @@ export const CreateJiraTicketSchema = {
   attachmentPaths: z.array(z.string().min(1)).describe('Absolute paths to files or AI-generated images to attach to the ticket').optional(),
 };
 
+export const UpdateJiraTicketDescriptionSchema = {
+  domain: z.string().optional().describe('Jira domain prefix; defaults to JIRA_DOMAIN.'),
+  email: z.string().optional().describe('Jira email; defaults to JIRA_EMAIL.'),
+  apiToken: z.string().optional().describe('Jira API token; defaults to JIRA_API_TOKEN.'),
+  issueIdOrKey: z.string().min(1).describe('Jira issue ID or key (e.g. PRJ-1234)'),
+  description: z.string().describe('New Jira issue description in plain text'),
+};
+
 export const CreateTrelloCardSchema = {
   apiKey: z
     .string()
@@ -112,6 +120,13 @@ export const CreateTrelloCardSchema = {
   idLabels: z.string().describe('Comma-separated label IDs').optional(),
   idMembers: z.string().describe('Comma-separated member IDs').optional(),
   attachmentPaths: z.array(z.string().min(1)).describe('Absolute paths to files, screenshots, or AI-generated images to attach to the card').optional(),
+};
+
+export const UpdateTrelloCardDescriptionSchema = {
+  apiKey: z.string().optional().describe('Trello API key; defaults to TRELLO_API_KEY.'),
+  apiToken: z.string().optional().describe('Trello API token; defaults to TRELLO_API_TOKEN.'),
+  cardId: z.string().min(1).describe('Trello card ID or shortlink'),
+  description: z.string().describe('New Trello card description'),
 };
 
 export const CreateOpenProjectWorkPackageSchema = {
@@ -135,6 +150,13 @@ export const CreateOpenProjectWorkPackageSchema = {
     .array(z.string().min(1))
     .describe('Absolute paths to files or AI-generated images to attach to the work package')
     .optional(),
+};
+
+export const UpdateOpenProjectWorkPackageDescriptionSchema = {
+  domain: z.string().optional().describe('OpenProject domain; defaults to OPENPROJECT_DOMAIN.'),
+  apiKey: z.string().optional().describe('OpenProject API key; defaults to OPENPROJECT_API_KEY.'),
+  workPackageId: z.string().min(1).describe('OpenProject work package ID'),
+  description: z.string().describe('New work package description in Markdown'),
 };
 
 export const CreateGithubIssueSchema = {

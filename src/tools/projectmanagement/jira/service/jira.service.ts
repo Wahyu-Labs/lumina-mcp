@@ -23,6 +23,36 @@ export async function getJiraTicket(
   return await jiraRepository.getTicket(issueIdOrKey, finalDomain, finalEmail, finalToken);
 }
 
+export async function updateJiraTicketDescription(
+  issueIdOrKey: string,
+  description: string,
+  domain?: string,
+  email?: string,
+  apiToken?: string,
+): Promise<unknown> {
+  const finalDomain = domain || process.env.JIRA_DOMAIN;
+  const finalEmail = email || process.env.JIRA_EMAIL;
+  const finalToken = apiToken || process.env.JIRA_API_TOKEN;
+
+  if (!issueIdOrKey || description === undefined) {
+    throw new Error('Jira issueIdOrKey and description are required to update a ticket.');
+  }
+  if (!finalDomain) {
+    throw new Error('Jira domain is required. Provide it as an argument or set JIRA_DOMAIN.');
+  }
+  if (!finalEmail || !finalToken) {
+    throw new Error('Jira email and apiToken are required for authentication.');
+  }
+
+  return await jiraRepository.updateTicketDescription(
+    issueIdOrKey,
+    description,
+    finalDomain,
+    finalEmail,
+    finalToken,
+  );
+}
+
 export async function createJiraTicket(
   projectKey: string,
   summary: string,

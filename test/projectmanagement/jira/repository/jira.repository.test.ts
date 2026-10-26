@@ -100,6 +100,43 @@ describe('JiraRepository', () => {
     ).rejects.toThrow('Failed to create Jira ticket: Bad Request - Invalid project');
   });
 
+  it('should replace a Jira ticket description successfully', async () => {
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: true,
+      status: 204,
+    } as Response);
+
+    const result = await repository.updateTicketDescription(
+      'PRJ-123',
+      'Updated description',
+      'testdomain',
+      'test@test.com',
+      'token123',
+    );
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://testdomain.atlassian.net/rest/api/3/issue/PRJ-123',
+      expect.objectContaining({
+        method: 'PUT',
+        headers: {
+          Authorization: `Basic ${Buffer.from('test@test.com:token123').toString('base64')}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fields: {
+            description: {
+              type: 'doc',
+              version: 1,
+              content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Updated description' }] }],
+            },
+          },
+        }),
+      }),
+    );
+    expect(result).toEqual({ success: true, issueIdOrKey: 'PRJ-123' });
+  });
+
   it('should fetch Jira ticket comments successfully', async () => {
     const mockResponse = { comments: [{ id: 'c1', body: 'Looks good' }], total: 1 };
     vi.mocked(global.fetch).mockResolvedValue({
