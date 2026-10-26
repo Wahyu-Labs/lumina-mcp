@@ -11,7 +11,7 @@ import { applyPromptArgsPatch } from './utils/prompt-args.utils.js';
 
 export const server = new McpServer({
   name: 'lumina-mcp',
-  version: '1.0.0',
+  version: '1.5.6',
 });
 
 // Register feature controllers (tools + prompts)

@@ -1,6 +1,6 @@
 {
   "name": "lumina-mcp",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "description": "Unified MCP toolkit for engineering workflows, database connections, and source control",
   "keywords": [
     "mcp",
@@ -56,6 +56,7 @@
     "dotenv": "^16.4.5",
     "mysql2": "^3.11.0",
     "pg": "^8.12.0",
+    "xlsx": "^0.18.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {

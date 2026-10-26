@@ -60,6 +60,18 @@ export const ProjectManagementPromptSchema = {
   command: z.string().optional().describe('Additional instructions or context'),
 };
 
+export const CreateProjectDeveloperReportSchema = {
+  platform: z.enum(['jira', 'trello', 'openproject']).describe('Project tracker to read.'),
+  projectId: z.string().min(1).describe('Jira project key, Trello board ID, or OpenProject project ID.'),
+  developerName: z.string().optional().describe('Optional exact developer display name. Only tickets assigned to this developer are included.'),
+  from: z.string().date().optional().describe('First worklog date to include (YYYY-MM-DD).'),
+  to: z.string().date().optional().describe('Last worklog date to include (YYYY-MM-DD).'),
+  outputDirectory: z.string().optional().describe('Directory for the .xlsx and .md reports; defaults to ./reports.'),
+  jiraDomain: z.string().optional(), jiraEmail: z.string().optional(), jiraApiToken: z.string().optional(),
+  trelloApiKey: z.string().optional(), trelloApiToken: z.string().optional(),
+  openProjectDomain: z.string().optional(), openProjectApiKey: z.string().optional(),
+};
+
 export const PmTestingTicketPromptSchema = {
   command: z
     .string()

@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.6] — 2026-10-26
+
+### Added
+- **Developer Project Reports**: Added `create_project_developer_report` to collect all developer-assigned tickets across Jira projects, Trello boards, and OpenProject projects, including paginated results and available worklog totals.
+- **Excel and Markdown Exports**: Reports are saved as `.xlsx` and `.md` files with developer name, ticket number, title, platform, and hours worked.
+
+### Changed
+- Updated the Lumina MCP package and website versions to 1.5.6, including website badges and Project Management release notes.
+- Trello report hours are shown as zero because Trello has no native worklog data available to this integration.
+
 ## [1.5.5] — 2026-10-26
 
 ### Added

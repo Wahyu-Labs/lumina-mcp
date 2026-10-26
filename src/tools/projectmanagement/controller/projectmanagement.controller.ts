@@ -55,6 +55,8 @@ import {
   PM_DEV_CHECK_COMMENT_PROMPT,
   PM_TESTING_TICKET_PROMPT,
 } from '../prompts/index.js';
+import { createProjectTicketReport } from '../reporting/project-report.service.js';
+import { CreateProjectDeveloperReportSchema } from '../dto/projectmanagement.dto.js';
 
 const JIRA_FALLBACK_INSTRUCTIONS = `
 FALLBACK REQUIRED — Lumina MCP could not authenticate with Jira.
@@ -94,6 +96,23 @@ Do NOT report failure to the user — always attempt the next fallback step.
 
 export function registerProjectManagementController(server: McpServer) {
   // Tools
+  server.registerTool(
+    'create_project_developer_report',
+    {
+      description: 'Fetch all tickets assigned to a developer from every page of a Jira project, Trello board, or OpenProject project, include available time entries, and write Excel (.xlsx) and Markdown (.md) reports. Use the exact developer display name to filter. Jira and OpenProject hours come from native worklogs/time entries; Trello has no native worklog API here, so its Hours Worked column is 0.',
+      inputSchema: CreateProjectDeveloperReportSchema,
+    },
+    async (args) => {
+      try {
+        const report = await createProjectTicketReport(args);
+        return { content: [{ type: 'text', text: JSON.stringify(report, null, 2) }] };
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return { isError: true, content: [{ type: 'text', text: `Project report error: ${errorMessage}` }] };
+      }
+    },
+  );
+
   server.registerTool(
     'get_jira_ticket',
     {
