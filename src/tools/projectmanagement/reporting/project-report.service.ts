@@ -26,19 +26,93 @@ type ReportOptions = {
   openProjectApiKey?: string;
 };
 
-async function requestJson(url: string, headers: Record<string, string>): Promise<any> {
-  const response = await fetch(url, { headers: { Accept: 'application/json', ...headers } });
-  if (!response.ok) throw new Error(`Request failed (${response.status}): ${await response.text()}`);
-  return response.json();
+interface OpenProjectPage<T> {
+  _embedded?: {
+    elements?: T[];
+  };
+  _links?: {
+    nextByOffset?: {
+      href?: string;
+    };
+  };
 }
 
-async function fetchAllOpenProjectPages(url: string, headers: Record<string, string>): Promise<any[]> {
-  const results: any[] = [];
+interface JiraIssue {
+  key: string;
+  fields: {
+    summary?: string;
+    assignee?: {
+      displayName?: string;
+    } | null;
+  };
+}
+
+interface JiraSearchResponse {
+  issues?: JiraIssue[];
+  total?: number;
+}
+
+interface JiraWorklog {
+  author?: {
+    displayName?: string;
+  };
+  started?: string;
+  timeSpentSeconds?: number;
+}
+
+interface JiraWorklogResponse {
+  worklogs?: JiraWorklog[];
+  total?: number;
+}
+
+interface TrelloMember {
+  fullName?: string;
+  username?: string;
+}
+
+interface TrelloCard {
+  id: string;
+  idShort?: number;
+  name?: string;
+  members?: TrelloMember[];
+}
+
+interface OpenProjectWorkPackage {
+  id: string | number;
+  subject?: string;
+  _links?: {
+    assignee?: {
+      title?: string;
+    };
+  };
+}
+
+interface OpenProjectTimeEntry {
+  spentOn?: string;
+  hours?: string | number;
+  _links?: {
+    workPackage?: {
+      href?: string;
+    };
+    user?: {
+      title?: string;
+    };
+  };
+}
+
+async function requestJson<T = unknown>(url: string, headers: Record<string, string>): Promise<T> {
+  const response = await fetch(url, { headers: { Accept: 'application/json', ...headers } });
+  if (!response.ok) throw new Error(`Request failed (${response.status}): ${await response.text()}`);
+  return (await response.json()) as T;
+}
+
+async function fetchAllOpenProjectPages<T = unknown>(url: string, headers: Record<string, string>): Promise<T[]> {
+  const results: T[] = [];
   let nextUrl: string | undefined = url;
   while (nextUrl) {
-    const page = await requestJson(nextUrl, headers);
+    const page: OpenProjectPage<T> = await requestJson<OpenProjectPage<T>>(nextUrl, headers);
     results.push(...(page._embedded?.elements || []));
-    const next = page._links?.nextByOffset?.href;
+    const next: string | undefined = page._links?.nextByOffset?.href;
     nextUrl = next ? new URL(next, url).toString() : undefined;
   }
   return results;
@@ -63,7 +137,7 @@ async function fetchJira(options: ReportOptions): Promise<ProjectTicketReportRow
   const auth = `Basic ${Buffer.from(`${email}:${token}`).toString('base64')}`;
   const jql = `project = "${options.projectId.replace(/"/g, '\\"')}"`;
   const baseUrl = `https://${cleanDomain}.atlassian.net/rest/api/3/search`;
-  const issues: any[] = [];
+  const issues: JiraIssue[] = [];
   let startAt = 0;
   let total = Number.POSITIVE_INFINITY;
   while (startAt < total) {
@@ -72,29 +146,31 @@ async function fetchJira(options: ReportOptions): Promise<ProjectTicketReportRow
     searchUrl.searchParams.set('startAt', String(startAt));
     searchUrl.searchParams.set('maxResults', '100');
     searchUrl.searchParams.set('fields', 'summary,assignee');
-    const data = await requestJson(searchUrl.toString(), { Authorization: auth });
-    issues.push(...(data.issues || []));
+    const data = await requestJson<JiraSearchResponse>(searchUrl.toString(), { Authorization: auth });
+    const pageIssues = data.issues || [];
+    issues.push(...pageIssues);
     total = Number(data.total || 0);
-    if (!(data.issues || []).length) break;
-    startAt += data.issues.length;
+    if (!pageIssues.length) break;
+    startAt += pageIssues.length;
   }
   const rows: ProjectTicketReportRow[] = [];
   for (const issue of issues) {
     const assignee = issue.fields.assignee?.displayName || 'Unassigned';
     if (!isDeveloperMatch(assignee, options)) continue;
     const worklogUrl = new URL(`https://${cleanDomain}.atlassian.net/rest/api/3/issue/${encodeURIComponent(issue.key)}/worklog`);
-    const logs: any[] = [];
+    const logs: JiraWorklog[] = [];
     let logStartAt = 0;
     let logTotal = Number.POSITIVE_INFINITY;
     while (logStartAt < logTotal) {
       const pageUrl = new URL(worklogUrl);
       pageUrl.searchParams.set('startAt', String(logStartAt));
       pageUrl.searchParams.set('maxResults', '100');
-      const page = await requestJson(pageUrl.toString(), { Authorization: auth });
-      logs.push(...(page.worklogs || []));
+      const page = await requestJson<JiraWorklogResponse>(pageUrl.toString(), { Authorization: auth });
+      const pageWorklogs = page.worklogs || [];
+      logs.push(...pageWorklogs);
       logTotal = Number(page.total || 0);
-      if (!(page.worklogs || []).length) break;
-      logStartAt += page.worklogs.length;
+      if (!pageWorklogs.length) break;
+      logStartAt += pageWorklogs.length;
     }
     let seconds = 0;
     for (const log of logs) {
@@ -116,9 +192,9 @@ async function fetchTrello(options: ReportOptions): Promise<ProjectTicketReportR
   url.searchParams.set('member_fields', 'fullName,username');
   url.searchParams.set('key', key);
   url.searchParams.set('token', token);
-  const cards = await requestJson(url.toString(), {});
-  return (cards || []).flatMap((card: any) => {
-    const members = (card.members || []).map((member: any) => member.fullName || member.username).filter(Boolean);
+  const cards = await requestJson<TrelloCard[]>(url.toString(), {});
+  return (cards || []).flatMap((card: TrelloCard) => {
+    const members = (card.members || []).map((member: TrelloMember) => member.fullName || member.username).filter((name): name is string => Boolean(name));
     const matched = members.filter((name: string) => isDeveloperMatch(name, options));
     return (options.developerName ? matched : (members.length ? members : ['Unassigned'])).map((name: string) => ({
       developerName: name, ticketNumber: String(card.idShort ?? card.id), title: card.name || '', hours: 0, platform: 'Trello',
@@ -136,7 +212,10 @@ async function fetchOpenProject(options: ReportOptions): Promise<ProjectTicketRe
   const headers = { Authorization: auth };
   const wpUrl = `https://${cleanDomain}/api/v3/projects/${project}/work_packages?pageSize=100`;
   const timeUrl = `https://${cleanDomain}/api/v3/time_entries?pageSize=100&filters=${encodeURIComponent(JSON.stringify([{ project: { operator: '=', values: [options.projectId] } }]))}`;
-  const [workPackages, timeEntries] = await Promise.all([fetchAllOpenProjectPages(wpUrl, headers), fetchAllOpenProjectPages(timeUrl, headers)]);
+  const [workPackages, timeEntries] = await Promise.all([
+    fetchAllOpenProjectPages<OpenProjectWorkPackage>(wpUrl, headers),
+    fetchAllOpenProjectPages<OpenProjectTimeEntry>(timeUrl, headers),
+  ]);
   const entriesById = new Map<string, number>();
   for (const entry of timeEntries) {
     const date = entry.spentOn;
@@ -146,10 +225,15 @@ async function fetchOpenProject(options: ReportOptions): Promise<ProjectTicketRe
     const hours = Number.parseFloat(String(entry.hours || '0')) || 0;
     entriesById.set(wpId, (entriesById.get(wpId) || 0) + hours);
   }
-  return workPackages.filter((wp: any) => isDeveloperMatch(wp._links?.assignee?.title, options)).map((wp: any) => ({
-    developerName: wp._links?.assignee?.title || 'Unassigned',
-    ticketNumber: String(wp.id), title: wp.subject || '', hours: entriesById.get(String(wp.id)) || 0, platform: 'OpenProject',
-  }));
+  return workPackages
+    .filter((wp: OpenProjectWorkPackage) => isDeveloperMatch(wp._links?.assignee?.title, options))
+    .map((wp: OpenProjectWorkPackage) => ({
+      developerName: wp._links?.assignee?.title || 'Unassigned',
+      ticketNumber: String(wp.id),
+      title: wp.subject || '',
+      hours: entriesById.get(String(wp.id)) || 0,
+      platform: 'OpenProject',
+    }));
 }
 
 export async function createProjectTicketReport(options: ReportOptions) {
