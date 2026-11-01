@@ -91,6 +91,9 @@ interface OpenProjectTimeEntry {
   spentOn?: string;
   hours?: string | number;
   _links?: {
+    entity?: {
+      href?: string;
+    };
     workPackage?: {
       href?: string;
     };
@@ -98,6 +101,19 @@ interface OpenProjectTimeEntry {
       title?: string;
     };
   };
+}
+
+function parseOpenProjectHours(value: string | number | undefined): number {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+  if (!value) return 0;
+  const input = value.trim();
+  const numeric = Number(input);
+  if (Number.isFinite(numeric)) return numeric;
+
+  // OpenProject returns durations as ISO 8601 strings, for example PT5H30M.
+  const match = input.match(/^P(?:(\d+(?:\.\d+)?)D)?(?:T(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?)?$/i);
+  if (!match) return 0;
+  return (Number(match[1] || 0) * 24) + Number(match[2] || 0) + Number(match[3] || 0) / 60 + Number(match[4] || 0) / 3600;
 }
 
 async function requestJson<T = unknown>(url: string, headers: Record<string, string>): Promise<T> {
@@ -219,10 +235,15 @@ async function fetchOpenProject(options: ReportOptions): Promise<ProjectTicketRe
   const entriesById = new Map<string, number>();
   for (const entry of timeEntries) {
     const date = entry.spentOn;
-    const wpId = String(entry._links?.workPackage?.href || '').split('/').pop() || '';
+    // OpenProject exposes the logged work package as `entity` in the
+    // time-entry representation. Keep `workPackage` as a fallback for older
+    // or alternate responses.
+    const entityHref = entry._links?.entity?.href || entry._links?.workPackage?.href;
+    const wpId = entityHref ? new URL(entityHref, `https://${cleanDomain}`).pathname.split('/').pop() || '' : '';
+    if (!wpId) continue;
     const person = entry._links?.user?.title || 'Unknown';
     if (!dateMatches(date, options.from, options.to) || !isDeveloperMatch(person, options)) continue;
-    const hours = Number.parseFloat(String(entry.hours || '0')) || 0;
+    const hours = parseOpenProjectHours(entry.hours);
     entriesById.set(wpId, (entriesById.get(wpId) || 0) + hours);
   }
   return workPackages
@@ -245,9 +266,29 @@ export async function createProjectTicketReport(options: ReportOptions) {
   const excelPath = path.join(outputDirectory, `${baseName}.xlsx`);
   const markdownPath = path.join(outputDirectory, `${baseName}.md`);
   const workbook = XLSX.utils.book_new();
-  const sheet = XLSX.utils.json_to_sheet(rows.map(({ developerName, ticketNumber, title, hours, platform }) => ({ 'Developer Name': developerName, 'Ticket Number': ticketNumber, Title: title, 'Hours Worked': hours, Platform: platform })));
+  const developers = [...new Set(rows.map((row) => row.developerName))].sort((a, b) => a.localeCompare(b));
+  const tickets = new Map<string, { title: string; ticketNumber: string; hoursByDeveloper: Map<string, number> }>();
+  for (const row of rows) {
+    const key = `${row.ticketNumber}\u0000${row.title}`;
+    const ticket = tickets.get(key) || { title: row.title, ticketNumber: row.ticketNumber, hoursByDeveloper: new Map<string, number>() };
+    ticket.hoursByDeveloper.set(row.developerName, (ticket.hoursByDeveloper.get(row.developerName) || 0) + row.hours);
+    tickets.set(key, ticket);
+  }
+  const headers = ['Ticket', 'Ticket Number', ...developers];
+  const sheet = XLSX.utils.aoa_to_sheet([
+    headers,
+    ...[...tickets.values()].map((ticket) => [ticket.title, ticket.ticketNumber, ...developers.map((developer) => ticket.hoursByDeveloper.get(developer) || 0)]),
+  ]);
+  sheet['!cols'] = [{ wch: 48 }, { wch: 18 }, ...developers.map(() => ({ wch: 22 }))];
+  // SheetJS cell styles are preserved by the workbook writer when cellStyles is enabled.
+  for (let rowIndex = 1; rowIndex <= tickets.size; rowIndex += 1) {
+    for (let columnIndex = 2; columnIndex < headers.length; columnIndex += 1) {
+      const cell = sheet[XLSX.utils.encode_cell({ r: rowIndex, c: columnIndex })];
+      if (cell && Number(cell.v) === 0) cell.s = { fill: { patternType: 'solid', fgColor: { rgb: 'FFFF00' } } };
+    }
+  }
   XLSX.utils.book_append_sheet(workbook, sheet, 'Developer Work');
-  XLSX.writeFile(workbook, excelPath);
+  XLSX.writeFile(workbook, excelPath, { cellStyles: true });
   const totalHours = rows.reduce((sum, row) => sum + row.hours, 0);
   const markdown = [
     `# Developer Work Report`, '',

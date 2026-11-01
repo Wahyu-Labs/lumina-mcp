@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated the Lumina MCP package and website versions to 1.5.7.
 
+## [1.5.8] — 2026-11-01
+
+### Fixed
+- **OpenProject Spent Time**: Parse OpenProject ISO 8601 time-entry durations so logged hours are included in developer reports.
+- **Developer Report Excel Layout**: Show tickets and ticket numbers as rows, developers as columns, and highlight zero-hour cells in yellow.
+
+### Changed
+- Updated the Lumina MCP package and website versions to 1.5.8.
+
 ## [1.5.6] — 2026-10-26
 
 ### Added
