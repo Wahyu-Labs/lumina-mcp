@@ -13,10 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.8] — 2026-11-01
 
 ### Fixed
-- **OpenProject Spent Time**: Parse OpenProject ISO 8601 time-entry durations so logged hours are included in developer reports.
-- **Developer Report Excel Layout**: Show tickets and ticket numbers as rows, developers as columns, and highlight zero-hour cells in yellow.
+- **OpenProject Spent Time in Developer Reports**: Corrected the handling of OpenProject time-entry data so a worklog linked to a work package is associated with the matching ticket. The report now reads the logged user's name, applies the requested date range and developer filter, and includes that entry in the ticket's total.
+- **OpenProject Duration Conversion**: Convert ISO 8601 durations such as `PT5H30M` into decimal hours before summing them. This prevents valid OpenProject spent time from being reported as `0` when the API returns a duration string instead of a numeric hour value.
+
+- **Excel Report Layout**: Restructured the `create_project_developer_report` workbook so each ticket occupies a row, with its title under **Ticket** and its identifier under **Ticket Number**. Each developer is now a separate column, and the cells show that developer's hours for the ticket.
+- **Zero-Hour Highlighting**: Apply a yellow background to developer hour cells whose value is zero, making tickets without logged time easy to spot in the Excel report.
 
 ### Changed
+- Kept Markdown report rows in the existing developer, ticket, title, and hours format; the pivoted developer columns apply to the Excel workbook.
 - Updated the Lumina MCP package and website versions to 1.5.8.
 
 ## [1.5.6] — 2026-10-26
