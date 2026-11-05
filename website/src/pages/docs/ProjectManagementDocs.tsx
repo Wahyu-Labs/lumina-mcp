@@ -22,12 +22,12 @@ export function ProjectManagementDocs() {
       </div>
 
       <section className="rounded-xl border border-accent/30 bg-accent/5 p-5 my-8">
-        <h2 className="mt-0">{t('docs.projectManagement.release158Title')}</h2>
-        <p className="text-sm text-muted-foreground">{t('docs.projectManagement.release158Intro')}</p>
+        <h2 className="mt-0">{t('docs.projectManagement.release159Title')}</h2>
+        <p className="text-sm text-muted-foreground">{t('docs.projectManagement.release159Intro')}</p>
         <ul className="text-sm text-foreground/80 mb-0">
-          <li>{t('docs.projectManagement.release158Tickets')}</li>
-          <li>{t('docs.projectManagement.release158Exports')}</li>
-          <li>{t('docs.projectManagement.release158Time')}</li>
+          <li>{t('docs.projectManagement.release159Tickets')}</li>
+          <li>{t('docs.projectManagement.release159Exports')}</li>
+          <li>{t('docs.projectManagement.release159Time')}</li>
         </ul>
       </section>
 

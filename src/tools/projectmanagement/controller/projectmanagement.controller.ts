@@ -99,7 +99,7 @@ export function registerProjectManagementController(server: McpServer) {
   server.registerTool(
     'create_project_developer_report',
     {
-      description: 'Fetch all tickets assigned to a developer from every page of a Jira project, Trello board, or OpenProject project, include available time entries, and write Excel (.xlsx) and Markdown (.md) reports. Use the exact developer display name to filter. Jira and OpenProject hours come from native worklogs/time entries; Trello has no native worklog API here, so its Hours Worked column is 0.',
+      description: 'Fetch up to 500 tickets from a Jira project, Trello board, or OpenProject project, include available time entries, and write Excel (.xlsx) and Markdown (.md) reports in a ticket-created-date-by-developer matrix with cumulative H:MM durations. Tickets created on the same date are grouped together. Yellow highlights unassigned ticket names and assigned developer cells with no matching time entry. Date range filters apply to worklogs; the report Date column always uses ticket creation dates. Use the exact developer display name to filter. Jira and OpenProject hours come from native worklogs/time entries; Trello has no native worklog API here, so its durations are 0:00.',
       inputSchema: CreateProjectDeveloperReportSchema,
     },
     async (args) => {

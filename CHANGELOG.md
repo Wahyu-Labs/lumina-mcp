@@ -5,10 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.5.7] — 2026-10-27
+## [1.5.9] — 2026-11-05
+
+### Added
+- **Ticket Creation Dates in Time Reports**: Show each ticket's creation date in the Date column and group tickets created on the same date, matching the requested Excel layout.
+- **Missing Time Entry Highlights**: Highlight unassigned ticket names and assigned developers' empty time cells in yellow so the report can be filled in.
+- **Multi-Platform Time Tracking Layout**: Report up to 500 tickets from Jira, Trello, and OpenProject with per-developer durations and totals in cumulative `H:MM` format.
 
 ### Changed
-- Updated the Lumina MCP package and website versions to 1.5.7.
+- Jira and OpenProject reports use native worklogs for time while showing the ticket creation date. Trello cards derive their creation date from the card ID; Trello time remains `0:00` because the integration has no native worklog source.
+- Use a style-capable XLSX writer so Excel cell fills, borders, and duration formatting are preserved in exported workbooks.
+- Updated Lumina MCP and website package versions, release badges, and Project Management release notes to 1.5.9.
 
 ## [1.5.8] — 2026-11-01
 
@@ -22,6 +29,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Kept Markdown report rows in the existing developer, ticket, title, and hours format; the pivoted developer columns apply to the Excel workbook.
 - Updated the Lumina MCP package and website versions to 1.5.8.
+
+## [1.5.7] — 2026-10-27
+
+### Changed
+- Updated the Lumina MCP package and website versions to 1.5.7.
 
 ## [1.5.6] — 2026-10-26
 
