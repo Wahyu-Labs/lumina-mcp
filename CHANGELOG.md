@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] — 2026-11-05
+
+### Fixed
+- **Excel Report Export**: Load `xlsx-js-style` through its CommonJS default export so `XLSX.utils.aoa_to_sheet` is available when Lumina runs as an ES module. This fixes Excel report generation failures for Jira, Trello, and OpenProject.
+
+### Changed
+- Updated the Lumina MCP and website versions, website badges, and Project Management release notes to 1.6.0.
+
 ## [1.5.9] — 2026-11-05
 
 ### Added

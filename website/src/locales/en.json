@@ -10,7 +10,7 @@
     "github": "GitHub"
   },
   "hero": {
-    "versionBadge": "AI MCP Server & Workflows v1.5.9",
+    "versionBadge": "AI MCP Server & Workflows v1.6.0",
     "heading1": "Give Your AI Assistant",
     "heading2": "Real Developer Superpowers",
     "subtitle": "Provide your AI agents with direct access to your developer environment. Execute database queries, streamline Git workflows, track Jira boards, and orchestrate complex tasks safely.",
@@ -282,11 +282,10 @@
       "title": "Project Management Integration",
       "subtitle": "Connect your AI agents directly to your project management tickets. Fetch specifications and description context from <0>Jira, Trello, and OpenProject</0>.",
       "subtitleGithub": "Connect your AI agents directly to your project management tickets. Fetch specifications and description context from <0>Jira, Trello, OpenProject, and GitHub Issues</0>.",
-      "release159Title": "What's new in v1.5.9",
-      "release159Intro": "Time tracking reports now match the requested ticket-by-date Excel layout.",
-      "release159Tickets": "Reports include up to 500 Jira, Trello, or OpenProject tickets, grouped by ticket creation date.",
-      "release159Exports": "Developer columns show native Jira/OpenProject worklog time in cumulative H:MM format, with totals.",
-      "release159Time": "Unassigned tickets and assigned developers' empty time cells are highlighted in yellow.",
+      "release160Title": "What's new in v1.6.0",
+      "release160Intro": "Excel report exports now work reliably when Lumina runs as an ES module.",
+      "release160Excel": "Fixed the XLSX library import that caused exports to fail before the workbook was created.",
+      "release160Reports": "The fix applies to developer time reports from Jira, Trello, and OpenProject.",
       "setupTitle": "Setup & Connection Credentials",
       "setupDesc": "Provide connection strings as environment variables to the Lumina MCP server.",
       "table": {

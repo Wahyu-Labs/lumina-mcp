@@ -10,7 +10,7 @@
     "github": "GitHub"
   },
   "hero": {
-    "versionBadge": "AI MCP Server & Workflows v1.5.9",
+    "versionBadge": "AI MCP Server & Workflows v1.6.0",
     "heading1": "Berdayakan AI Assistant Anda dengan",
     "heading2": "Superpower Developer",
     "subtitle": "Berikan agen AI Anda akses langsung dan aman ke environment development. Eksekusi query database, otomatisasi workflow Git, sinkronkan tiket Jira, dan jalankan task programming kompleks dengan mudah.",
@@ -282,11 +282,10 @@
       "title": "Project Management Integration",
       "subtitle": "Hubungkan agen AI Anda langsung ke tiket project management. Ambil spesifikasi dan konteks deskripsi dari <0>Jira, Trello, dan OpenProject</0>.",
       "subtitleGithub": "Hubungkan agen AI Anda langsung ke tiket project management. Ambil spesifikasi dan konteks deskripsi dari <0>Jira, Trello, OpenProject, dan GitHub Issues</0>.",
-      "release159Title": "Perubahan di v1.5.9",
-      "release159Intro": "Laporan time tracking kini mengikuti format Excel tiket dan tanggal seperti contoh.",
-      "release159Tickets": "Laporan memuat maksimal 500 tiket Jira, Trello, atau OpenProject, dikelompokkan berdasarkan tanggal tiket dibuat.",
-      "release159Exports": "Kolom developer menampilkan worklog asli Jira/OpenProject dalam format kumulatif H:MM beserta totalnya.",
-      "release159Time": "Tiket tanpa assignee dan sel waktu kosong untuk developer yang ditugaskan diberi warna kuning.",
+      "release160Title": "Perubahan di v1.6.0",
+      "release160Intro": "Ekspor laporan Excel kini berjalan dengan benar saat Lumina dijalankan sebagai ES module.",
+      "release160Excel": "Memperbaiki impor library XLSX yang sebelumnya menyebabkan ekspor gagal sebelum workbook dibuat.",
+      "release160Reports": "Perbaikan ini berlaku untuk laporan waktu developer dari Jira, Trello, dan OpenProject.",
       "setupTitle": "Setup & Connection Credentials",
       "setupDesc": "Berikan string koneksi sebagai environment variable ke server Lumina MCP.",
       "table": {
